@@ -79,7 +79,7 @@ ARR_SKILLS = [
     "multi-agent-supervisor-pattern",
 ]
 
-SHARED_SKILLS = ["mcp-connections", "professional-writing", "cross-check-before-answer"]
+SHARED_SKILLS = ["professional-writing", "cross-check-before-answer"]
 
 SKIP_DIR_NAMES = {
     ".git",
@@ -530,12 +530,7 @@ def main() -> None:
             if p.name.lower() in {
                 "cross-check-before-answer.mdc",
                 "professional-writing.mdc",
-                "mcp-connections.mdc",
-                "jira-api-access.mdc",
                 "documents-output-folder.mdc",
-                "prefer-mcp-for-data-platforms.mdc",
-                "shell-credentials.mdc",
-                "inbox-action-items.mdc",
             }:
                 copy_file(p, ROOT / "shared" / "rules" / p.name, True)
 
