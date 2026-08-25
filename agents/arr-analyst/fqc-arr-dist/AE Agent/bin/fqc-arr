@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# fqc-arr -- launcher for the Finance ARR Quarter Close (FQC-ARR) supervisor.
+#
+# Layout after the Jun-2026 relocation:
+#   * Agent home  (this folder, $AE_AGENT_HOME)
+#       agents/arr_quarter_close/       -> all Python code
+#       agents/arr_quarter_close/data/  -> lessons store + slack directory
+#       runs/learning/                  -> twice-daily audit reports
+#       runs/thinking/                  -> live thinking logs (also written here)
+#   * dbt project (separate, $FQC_ARR_PROJECT_DIR)
+#       models/, macros/, dbt_project.yml, ...
+#
+# Why split:
+#   The agent stays alive across re-clones of the dbt project (eda-dbt-em).
+#   Lessons accumulated over months don't get wiped just because someone
+#   `rm -rf eda-dbt-em && git clone ...`.
+#
+# Precedence for --project-dir (the DBT project, NOT the agent home):
+#   1. Explicit CLI flag (--project-dir /path/to/dbt)
+#   2. $FQC_ARR_PROJECT_DIR env var (recommended: set in ~/.zshrc)
+#   3. Caller's CWD if it looks like a dbt project (has dbt_project.yml)
+#   4. Hard fallback: ~/Documents/Cursor/eda-dbt-em
+#
+# Install once (one of):
+#   - export PATH="$HOME/Documents/Cursor/AE Agent/bin:$PATH"     # add to ~/.zshrc
+#   - ln -s "$HOME/Documents/Cursor/AE Agent/bin/fqc-arr" /usr/local/bin/fqc-arr
+#
+# Then anywhere on the box:
+#   fqc-arr --ticket EDAEM-3725 --mode ticket --dry-run
+#   fqc-arr --as-was-date 2026-02-11 --target qa
+#   fqc-arr --learn                   # twice-daily continuous-learning pass
+#   fqc-arr --show-lessons             # inspect the lessons store
+
+set -euo pipefail
+
+# Absolute path to the directory containing this script (handles symlinks).
+SCRIPT_PATH="$(cd "$(dirname "$(readlink "$0" 2>/dev/null || echo "$0")")" 2>/dev/null && pwd)" || \
+  SCRIPT_PATH="$(cd "$(dirname "$0")" && pwd)"
+
+# The agent HOME (parent of bin/) is where the Python code lives.
+AE_AGENT_HOME="$(cd "$SCRIPT_PATH/.." && pwd)"
+export AE_AGENT_HOME
+
+# Use the user's preferred python; falls back to system python3.
+PYTHON_BIN="${FQC_ARR_PYTHON:-python3}"
+
+# Ensure the agent home is importable (agents.arr_quarter_close.cli).
+# Don't cd - keep the caller's CWD so relative --project-dir / --thinking-log
+# paths resolve correctly.
+export PYTHONPATH="$AE_AGENT_HOME${PYTHONPATH:+:$PYTHONPATH}"
+
+# By default keep lessons + runs inside the agent home so re-cloning the
+# dbt project does not wipe accumulated state. The lessons module honours
+# FQC_ARR_LESSONS_DIR; we set it here unconditionally unless the caller
+# overrode it in the environment.
+if [[ -z "${FQC_ARR_LESSONS_DIR:-}" ]]; then
+  export FQC_ARR_LESSONS_DIR="$AE_AGENT_HOME/agents/arr_quarter_close/data/lessons"
+fi
+
+# --- Resolve the dbt project dir --------------------------------------------
+HAS_PROJECT_DIR=0
+for arg in "$@"; do
+  if [[ "$arg" == "--project-dir" || "$arg" == --project-dir=* ]]; then
+    HAS_PROJECT_DIR=1
+    break
+  fi
+done
+
+if [[ $HAS_PROJECT_DIR -eq 1 ]]; then
+  exec "$PYTHON_BIN" -m agents.arr_quarter_close.cli "$@"
+fi
+
+# No explicit --project-dir; pick the best default in this order.
+DBT_PROJECT=""
+if [[ -n "${FQC_ARR_PROJECT_DIR:-}" && -f "${FQC_ARR_PROJECT_DIR}/dbt_project.yml" ]]; then
+  DBT_PROJECT="${FQC_ARR_PROJECT_DIR}"
+elif [[ -f "$(pwd)/dbt_project.yml" ]]; then
+  DBT_PROJECT="$(pwd)"
+elif [[ -f "$HOME/Documents/Cursor/eda-dbt-em/dbt_project.yml" ]]; then
+  DBT_PROJECT="$HOME/Documents/Cursor/eda-dbt-em"
+else
+  # Final fallback: use the agent home itself. The reflect / show-lessons
+  # / learn paths never touch the dbt project, so this is harmless for
+  # those subcommands.
+  DBT_PROJECT="$AE_AGENT_HOME"
+fi
+
+exec "$PYTHON_BIN" -m agents.arr_quarter_close.cli --project-dir "$DBT_PROJECT" "$@"

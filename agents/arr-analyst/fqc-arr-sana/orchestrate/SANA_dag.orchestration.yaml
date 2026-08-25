@@ -1,0 +1,118 @@
+# FQC-ARR DAG as a Workday Orchestrate flow (Option B)
+# Each step is an Agent Action backed by a role AgentSkill / MCP tool.
+# The supervisor owns the DAG; roles never call each other. Writes are gated.
+# Reconcile step/field names against the GA Orchestrate schema before Phase 3.
+
+orchestration:
+  name: fqc-arr-quarter-close
+  version: "2.0-sana"
+  description: >
+    Drive an EDAEM ARR analytics-engineering ticket from intake to QA-validated
+    deployment across a 10-role DAG, pausing for human approval before every write.
+  mode: synchronous
+  owner: analytics-engineering
+
+  inputs:
+    ticket_key:   { type: string, required: true, pattern: "^EDAEM-[0-9]+$" }
+    auth_mode:    { type: string, enum: [smart_gates, full_auto], default: smart_gates }
+    skip_roles:   { type: array,  items: string, required: false }
+    slack_channel:{ type: string, required: false }
+
+  # Typed state carried forward between steps (never free-form text).
+  state:
+    ticket:         payload.ticket
+    requirements:   payload.requirements
+    validation:     payload.validation
+    clarification:  payload.clarification
+    implementation: payload.implementation
+    test_report:    payload.test_report
+    pr:             payload.pr
+    ci_report:      payload.ci_report
+    cd_report:      payload.cd_report
+    handoff:        payload.handoff
+
+  # Halt policy: any step returning status=fail stops the flow and dispatches debugger.
+  on_fail:
+    action: dispatch
+    agent: debugger
+    then: halt
+
+  steps:
+    - id: jira-intake
+      agent_action: jira-intake
+      reads: [ticket_key]
+      writes: [ticket]
+      gate: none
+
+    - id: requirements-analyzer
+      agent_action: requirements-analyzer
+      reads: [ticket]
+      writes: [requirements]
+      gate: none
+
+    - id: code-data-validator
+      agent_action: code-data-validator
+      reads: [requirements]
+      writes: [validation]
+      gate: none
+
+    - id: clarifier
+      agent_action: clarifier
+      reads: [requirements, validation]
+      writes: [clarification]
+      gate: human_approval          # GATE 1 — fqc-jira.add_comment (destructiveHint)
+      skippable_when: "no open questions"
+
+    - id: implementer
+      agent_action: implementer
+      reads: [requirements, validation]
+      writes: [implementation]
+      gate: none                    # feature-branch edits only; create_branch is low-risk
+      llm: host                     # host LLM applies edits from emitted prompt
+
+    - id: test-runner
+      agent_action: test-runner
+      reads: [implementation, validation]
+      writes: [test_report]
+      gate: none
+      target: dev
+
+    - id: pr-author
+      agent_action: pr-author
+      reads: [implementation, test_report]
+      writes: [pr]
+      gate: human_approval          # GATE 2 — fqc-github.push_branch + create_pr
+
+    - id: ci-monitor
+      agent_action: ci-monitor
+      reads: [pr, validation]
+      writes: [ci_report]
+      gate: none
+
+    - id: cd-monitor
+      agent_action: cd-monitor
+      reads: [pr, validation]
+      writes: [cd_report]
+      gate: none
+      target: qa
+
+    - id: qa-handoff
+      agent_action: qa-handoff
+      reads: [validation, ci_report, cd_report, pr]
+      writes: [handoff]
+      gate: human_approval          # GATE 3 — fqc-jira.add_comment + add_attachment
+
+  # On-demand agents dispatched outside the linear flow.
+  on_demand:
+    - agent: debugger
+      trigger: "any step status=fail OR 'task: debug <model>'"
+      gate: human_approval          # only if it posts a Jira Bug/Debug note
+    - agent: quarter-close-runner
+      trigger: "'task: quarter-close [date]'"
+      gate: human_approval          # GATE 4 — any prod dbt run is always gated
+
+  outputs:
+    overall_status: { type: string, enum: [ok, warn, fail] }
+    per_role:       { type: array }
+    pause_points:   { type: array }
+    side_tasks:     { type: array }

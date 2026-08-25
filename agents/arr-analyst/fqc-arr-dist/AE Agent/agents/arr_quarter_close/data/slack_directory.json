@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "updated_at": null,
+  "_comment": "Team-distribution template. Personal/cached user IDs removed. The agent resolves 'myself' from the live `slk auth` session; it caches any user IDs it resolves at runtime back into this file. Optionally seed your own stakeholders below (handle -> Slack user id).",
+  "channels": {},
+  "users": {}
+}

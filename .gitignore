@@ -18,6 +18,10 @@ venv/
 .coverage
 htmlcov/
 
+# Node / logs
+node_modules/
+*.log
+
 # IDE / OS
 .idea/
 .vscode/

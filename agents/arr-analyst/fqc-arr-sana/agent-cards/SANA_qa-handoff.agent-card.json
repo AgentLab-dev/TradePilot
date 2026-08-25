@@ -1,0 +1,73 @@
+{
+  "protocolVersion": "1.0",
+  "name": "qa-handoff",
+  "description": "Write-capable (gated) role agent. Posts a QA-readiness summary (dev+qa tie-out, PR link, checklist) to Jira and attaches the run report, after approval. Final write gate.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/qa-handoff"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": true
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "qa_handoff",
+      "name": "Qa Handoff",
+      "description": "Write-capable (gated) role agent. Posts a QA-readiness summary (dev+qa tie-out, PR link, checklist) to Jira and attaches the run report, after approval. Final write gate.",
+      "tags": [
+        "jira",
+        "qa",
+        "gated",
+        "hitl"
+      ],
+      "examples": [
+        "hand EDAEM-3772 to QA"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 10,
+    "write_capable": true,
+    "requires_approval": true,
+    "gated_tools": [
+      "fqc-jira.add_comment",
+      "fqc-jira.add_attachment"
+    ],
+    "mcp_dependencies": [
+      "fqc-jira",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.handoff"
+  }
+}

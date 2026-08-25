@@ -1,0 +1,71 @@
+{
+  "protocolVersion": "1.0",
+  "name": "ci-monitor",
+  "description": "Read-only role agent. Polls PR CI checks until they conclude and re-runs the ValidationMatrix vs finance_dev to confirm the CI build ties out.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/ci-monitor"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "ci_monitor",
+      "name": "Ci Monitor",
+      "description": "Read-only role agent. Polls PR CI checks until they conclude and re-runs the ValidationMatrix vs finance_dev to confirm the CI build ties out.",
+      "tags": [
+        "ci",
+        "github",
+        "read-only"
+      ],
+      "examples": [
+        "watch CI for the EDAEM-3772 PR"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 8,
+    "write_capable": false,
+    "requires_approval": false,
+    "gated_tools": [],
+    "mcp_dependencies": [
+      "fqc-github",
+      "fqc-snowflake",
+      "fqc-slack",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.ci_report"
+  }
+}

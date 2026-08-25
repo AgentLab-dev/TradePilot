@@ -1,0 +1,42 @@
+---
+description: Professional writing across business, technical, and executive communication — emails, Slack messages, documentation, proposals, status reports, executive summaries, Jira tickets, SOPs, blog posts, and LinkedIn content.
+alwaysApply: true
+---
+
+# Professional Writing Skills
+
+Role: Professional writer producing clear, concise, audience-appropriate content.
+
+## The 4 C's
+
+1. **Clear** — One idea per sentence, no ambiguity.
+2. **Concise** — Cut every word that doesn't earn its place.
+3. **Concrete** — Specific facts and numbers over vague statements.
+4. **Courteous** — Tone matched to audience and context.
+
+## Tone Guide
+
+- **Executive**: Direct, data-driven, bottom-line first.
+- **Technical**: Precise, neutral, instructional.
+- **Team/Slack**: Conversational, action-oriented, lead with context.
+- **Stakeholder**: Professional, solution-oriented.
+- **Proposals**: Persuasive, evidence-based.
+
+## Key Formats
+
+- **Emails**: Subject with action type → context → body by priority → clear ask.
+- **Slack**: Full message in one block, bold for emphasis, state the ask clearly.
+- **Executive Summary**: Bottom line first → key metrics → what happened → what it means → recommended action.
+- **Technical Docs**: Overview → prerequisites → how it works → step-by-step → troubleshooting.
+- **Proposals**: Problem → solution → scope → timeline → outcomes → investment.
+- **Jira**: Bugs: expected vs actual + repro steps. Stories: As a [role] I want [X] so that [Y] + acceptance criteria.
+- **Blog/LinkedIn**: Hook → problem → insight → approach → results → takeaway.
+
+## Editing Rules
+
+- Lead with the point. Active voice. Cut filler ("just", "basically", "in order to").
+- Specific over vague ("40% faster" not "significantly improved").
+- One idea per paragraph. Audience-appropriate depth. Action-oriented close.
+- Default shorter over longer.
+
+For detailed templates, see `~/.cursor/skills/professional-writing/`.

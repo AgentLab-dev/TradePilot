@@ -1,0 +1,202 @@
+#!/usr/bin/env bash
+# ae-do-ticket
+# -----------------------------------------------------------------------------
+# One-command, hands-off "do a Jira ticket end-to-end".
+#
+# Chains:
+#   1. fqc-arr  --auto  --no-clarifier-interactive  --slack-channel <s>
+#        - full_auto auth mode (no smart_gates pauses on writes)
+#        - terminal clarifier disabled (no stdin blocking)
+#        - clarifier questions are posted to the Slack thread and the agent
+#          waits up to --clarifier-slack-timeout (default 30 min) for an
+#          `ans:` reply; if none arrives it posts the questions to Jira and
+#          continues (it does not pause). Reply in-thread with e.g.
+#          `ans: 1) USD_HIST 2) 2026-05-11 3) account grain` to resume with
+#          the answers absorbed. Add --fqc-extra "--no-clarifier-slack" to
+#          skip the Slack wait entirely.
+#        - per-role Slack heartbeats to the configured target
+#   2. ae-ship-pr  --ticket <T>  --slack <s>
+#        - fresh-clones qa, cherry-picks the feature branch with path remap
+#        - pushes, opens PR, posts Jira comment with PR link, sends Slack DM
+#
+# Step 2 runs only if step 1 produced commits on a feature branch matching
+# the ticket key. If fqc-arr exits non-zero or never creates the branch
+# (e.g. ticket needs human clarifier answers, no implementation needed,
+# already-merged change), the script still sends a Slack DM summarizing why
+# it stopped early so the user is never left guessing.
+#
+# Usage:
+#   ae-do-ticket --ticket EDAEM-XXXX [--slack myself|<id>|<channel>] \
+#                [--source-repo <path>] [--gh-pr-base <branch>] \
+#                [--fqc-extra "<extra fqc-arr args>"] [--dry-run]
+#
+# Examples:
+#   ae-do-ticket --ticket EDAEM-3300
+#   ae-do-ticket --ticket EDAEM-3300 --slack myself
+#   ae-do-ticket --ticket EDAEM-3300 --fqc-extra "--model gpt-5.5-medium"
+#   ae-do-ticket --ticket https://workdaybt.atlassian.net/browse/EDAEM-3300
+#
+# Exit codes:
+#   0  Both stages completed and PR opened.
+#   1  Bad arguments.
+#   2  fqc-arr failed and no branch was created.
+#   3  fqc-arr completed but produced no shippable branch (e.g. waiting on
+#      clarifier reply, no code change required). Slack notified.
+#   4  ae-ship-pr failed. Slack notified.
+# -----------------------------------------------------------------------------
+set -euo pipefail
+
+# Re-source credentials safely (zsh syntax in ~/.zshrc can break bash).
+if [[ -z "${JIRA_API_TOKEN=[REDACTED] ]]; then
+  if command -v zsh >/dev/null 2>&1; then
+    eval "$(zsh -c 'source ~/.zshrc >/dev/null 2>&1; \
+      for v in JIRA_API_TOKEN JIRA_EMAIL JIRA_BASE_URL; do
+        val="${(P)v}"; [[ -n "$val" ]] && printf "export %s=%q\n" "$v" "$val";
+      done' 2>/dev/null)" || true
+  fi
+fi
+
+SLACK_DIRECTORY="$HOME/Library/Application Support/AE Agent/agents/arr_quarter_close/data/slack_directory.json"
+TICKET=""
+SLACK_TARGET="myself"
+SOURCE_REPO="$HOME/Documents/Cursor/eda-dbt-em"
+GH_PR_BASE="qa"
+FQC_EXTRA=""
+DRY_RUN=0
+
+usage() { sed -n '2,40p' "$0"; exit "${1:-1}"; }
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --ticket)       TICKET="$2"; shift 2 ;;
+    --slack)        SLACK_TARGET="$2"; shift 2 ;;
+    --slack-channel) SLACK_TARGET="$2"; shift 2 ;;
+    --source-repo)  SOURCE_REPO="$2"; shift 2 ;;
+    --gh-pr-base)   GH_PR_BASE="$2"; shift 2 ;;
+    --fqc-extra)    FQC_EXTRA="$2"; shift 2 ;;
+    --dry-run)      DRY_RUN=1; shift ;;
+    -h|--help)      usage 0 ;;
+    *) echo "Unknown arg: $1" >&2; usage 1 ;;
+  esac
+done
+
+[[ -z "$TICKET" ]] && { echo "ERROR: --ticket is required" >&2; usage 1; }
+TICKET="${TICKET#https://workdaybt.atlassian.net/browse/}"
+TICKET="$(echo "$TICKET" | tr '[:lower:]' '[:upper:]')"
+TICKET_LC="$(echo "$TICKET" | tr '[:upper:]' '[:lower:]')"
+
+# Resolve slack target via slack_directory.json (same source fqc-arr uses).
+resolve_slack_target() {
+  local raw="$1"
+  if [[ "$raw" == "myself" ]]; then
+    local resolved=""
+    if command -v slk >/dev/null 2>&1; then
+      resolved=$(slk auth 2>/dev/null | awk -F': ' '/User ID:/{print $2; exit}' | tr -d '[:space:]')
+    fi
+    if [[ -z "$resolved" && -f "$SLACK_DIRECTORY" ]]; then
+      resolved=$(python3 -c "import json,sys;d=json.load(open(sys.argv[1]));u=d.get('users',{});m=[k for k,v in u.items() if v.get('source')=='seed'];print(m[0] if m else '')" "$SLACK_DIRECTORY" 2>/dev/null || true)
+    fi
+    [[ -n "$resolved" ]] && echo "$resolved" || echo "$raw"
+  else
+    echo "$raw"
+  fi
+}
+SLACK_RESOLVED=$(resolve_slack_target "$SLACK_TARGET")
+
+# Pretty banner so it's easy to grep this run later.
+TS=$(date -u +%Y%m%d_%H%M%SZ)
+echo "=================================================="
+echo " ae-do-ticket  $TICKET   ($TS UTC)"
+echo "--------------------------------------------------"
+echo " slack target : $SLACK_TARGET  ($SLACK_RESOLVED)"
+echo " source repo  : $SOURCE_REPO"
+echo " PR base      : $GH_PR_BASE"
+echo " fqc extra    : ${FQC_EXTRA:-<none>}"
+echo " dry-run      : $DRY_RUN"
+echo "=================================================="
+echo ""
+
+notify_slack() {
+  local msg="$1"
+  if command -v slk >/dev/null 2>&1 && [[ -n "$SLACK_RESOLVED" ]]; then
+    slk send "$SLACK_RESOLVED" "$msg" >/dev/null 2>&1 || \
+      echo "WARN: slk send failed for final notification" >&2
+  fi
+}
+
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  echo "[dry-run] Would invoke:"
+  echo "    fqc-arr --ticket $TICKET --auto --no-clarifier-interactive \\"
+  echo "            --slack-channel $SLACK_RESOLVED $FQC_EXTRA"
+  echo "    ae-ship-pr --ticket $TICKET --slack $SLACK_RESOLVED \\"
+  echo "               --source-repo $SOURCE_REPO"
+  exit 0
+fi
+
+# --- Stage 1: fqc-arr ---------------------------------------------------------
+echo ">>> Stage 1/2 : fqc-arr (full_auto, no clarifier pause)"
+FQC_LOG="/tmp/ae-do-ticket.${TICKET}.${TS}.fqc.log"
+FQC_EXIT=0
+# shellcheck disable=SC2086
+fqc-arr --ticket "$TICKET" --auto --no-clarifier-interactive \
+        --slack-channel "$SLACK_RESOLVED" $FQC_EXTRA 2>&1 | tee "$FQC_LOG" || FQC_EXIT=$?
+
+echo ""
+echo "fqc-arr exit: $FQC_EXIT  (log: $FQC_LOG)"
+
+# --- Detect: did fqc-arr produce a shippable branch? --------------------------
+BRANCH=$(git -C "$SOURCE_REPO" branch --list "*${TICKET_LC}*" --format='%(refname:short)' 2>/dev/null | head -1)
+if [[ -z "$BRANCH" ]]; then
+  BRANCH=$(git -C "$SOURCE_REPO" branch --list "*${TICKET}*" --format='%(refname:short)' 2>/dev/null | head -1)
+fi
+
+if [[ -z "$BRANCH" ]]; then
+  echo ""
+  echo "No local branch matching '$TICKET' was created."
+  notify_slack ":warning: *${TICKET}* — fqc-arr exited (code ${FQC_EXIT}) without producing a feature branch.\nLikely waiting on a clarifier reply, or no code change required. Log: \`${FQC_LOG}\`\nCheck Jira: <https://workdaybt.atlassian.net/browse/${TICKET}|${TICKET}>"
+  exit $(( FQC_EXIT == 0 ? 3 : 2 ))
+fi
+
+# Check there are commits on the branch ahead of origin/qa
+git -C "$SOURCE_REPO" fetch origin "$GH_PR_BASE" --depth=200 --quiet || true
+MERGE_BASE=$(git -C "$SOURCE_REPO" merge-base "$BRANCH" "origin/$GH_PR_BASE" 2>/dev/null || echo "")
+if [[ -n "$MERGE_BASE" ]]; then
+  AHEAD=$(git -C "$SOURCE_REPO" rev-list --count "${MERGE_BASE}..${BRANCH}" 2>/dev/null || echo 0)
+else
+  AHEAD=$(git -C "$SOURCE_REPO" rev-list --count "$BRANCH" 2>/dev/null || echo 0)
+fi
+if [[ "$AHEAD" -eq 0 ]]; then
+  echo "Branch '$BRANCH' has no commits ahead of origin/$GH_PR_BASE. Nothing to ship."
+  notify_slack ":information_source: *${TICKET}* — branch \`${BRANCH}\` exists but has 0 commits ahead of \`${GH_PR_BASE}\`. Nothing to ship."
+  exit 3
+fi
+echo "Branch '$BRANCH' has $AHEAD commit(s) to ship."
+
+# --- Stage 2: ae-ship-pr ------------------------------------------------------
+echo ""
+echo ">>> Stage 2/2 : ae-ship-pr (fresh clone + push + PR + Jira + Slack)"
+SHIP_LOG="/tmp/ae-do-ticket.${TICKET}.${TS}.ship.log"
+SHIP_EXIT=0
+ae-ship-pr --ticket "$TICKET" --slack "$SLACK_RESOLVED" \
+           --source-repo "$SOURCE_REPO" --source-branch "$BRANCH" 2>&1 | tee "$SHIP_LOG" || SHIP_EXIT=$?
+
+echo ""
+echo "ae-ship-pr exit: $SHIP_EXIT  (log: $SHIP_LOG)"
+
+if [[ "$SHIP_EXIT" -ne 0 ]]; then
+  notify_slack ":x: *${TICKET}* — ae-ship-pr failed (exit ${SHIP_EXIT}). fqc-arr stage was OK. See \`${SHIP_LOG}\`."
+  exit 4
+fi
+
+# ae-ship-pr already posts its own final Slack DM with PR link.
+# We still send a closing summary so the user sees a single "done" message.
+PR_URL=$(grep -oE 'https://github.com/[^[:space:]]+/pull/[0-9]+' "$SHIP_LOG" | tail -1)
+notify_slack ":tada: *${TICKET}* — done end-to-end.\nPR: ${PR_URL:-<see ship log>}\nLogs: \`${FQC_LOG}\` , \`${SHIP_LOG}\`"
+
+echo ""
+echo "=================================================="
+echo " DONE  $TICKET"
+echo "  PR:   ${PR_URL:-<see ship log>}"
+echo "  Logs: $FQC_LOG"
+echo "        $SHIP_LOG"
+echo "=================================================="

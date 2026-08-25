@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+        FQC-ARR continuous learning -- evening pass (17:00 local).
+        Same wrapper as the morning job; see learn-am.plist for full notes.
+
+        Agent home (Jun-2026 relocation):
+            ~/Documents/Cursor/AE Agent/
+
+        Manage with:
+          launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.fqcarr.learn-pm.plist
+          launchctl bootout   gui/$(id -u) ~/Library/LaunchAgents/com.example.fqcarr.learn-pm.plist
+          launchctl kickstart -k gui/$(id -u)/com.example.fqcarr.learn-pm   # run now
+          launchctl print     gui/$(id -u)/com.example.fqcarr.learn-pm      # status
+
+        Mirror copy:
+            ~/Documents/Cursor/AE Agent/launchd/com.example.fqcarr.learn-pm.plist
+    -->
+    <key>Label</key>
+    <string>com.example.fqcarr.learn-pm</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/bin/fqcarr_learn.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/CHANGEME_USERNAME</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+        <key>FQC_ARR_HOME</key>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent</string>
+        <key>FQC_ARR_LESSONS_DIR</key>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/agents/arr_quarter_close/data/lessons</string>
+        <key>FQC_ARR_PROJECT_DIR</key>
+        <string>/Users/CHANGEME_USERNAME/Documents/Cursor/eda-dbt-em</string>
+        <key>FQC_LEARN_SLACK_USER</key>
+        <string><YOUR_SLACK_USER_ID></string>
+    </dict>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>17</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/runs/learning/launchd_pm.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/runs/learning/launchd_pm.err</string>
+</dict>
+</plist>

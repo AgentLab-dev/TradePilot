@@ -1,0 +1,64 @@
+{
+  "name": "fqc-jira",
+  "version": "1.0.0",
+  "description": "Jira access for FQC-ARR via Atlassian REST (token auth) — never the Atlassian MCP. Reads are silent; writes (comment/transition/attachment) carry destructiveHint so Sana raises a Tasks-inbox approval card before posting.",
+  "securityScheme": {
+    "type": "oauth2",
+    "note": "Sana holds Atlassian creds and mirrors the invoking user. Fallback local: JIRA_EMAIL + JIRA_API_TOKEN Basic auth against JIRA_BASE_URL."
+  },
+  "tools": [
+    {
+      "name": "get_issue",
+      "description": "Fetch an issue with selected fields (summary/status/assignee/reporter/issuetype/labels/components/description/comment). Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["ticket_key"],
+        "properties": {
+          "ticket_key": { "type": "string", "pattern": "^EDAEM-[0-9]+$" },
+          "fields": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    {
+      "name": "search",
+      "description": "JQL search returning matching issues. Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["jql"],
+        "properties": { "jql": { "type": "string" }, "fields": { "type": "array", "items": { "type": "string" } }, "max_results": { "type": "integer", "default": 50 } }
+      }
+    },
+    {
+      "name": "add_comment",
+      "description": "Post an ADF comment to an issue. GATED — requires human approval (destructiveHint). Body must be identifier-first with no agent self-signature.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true, "idempotentHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["ticket_key", "adf_body"],
+        "properties": { "ticket_key": { "type": "string" }, "adf_body": { "type": "object", "description": "Atlassian Document Format JSON." } }
+      }
+    },
+    {
+      "name": "add_attachment",
+      "description": "Attach a file (e.g. the FQC-ARR run report) to an issue. GATED (destructiveHint).",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true },
+      "inputSchema": {
+        "type": "object",
+        "required": ["ticket_key", "file_path"],
+        "properties": { "ticket_key": { "type": "string" }, "file_path": { "type": "string" } }
+      }
+    },
+    {
+      "name": "transition",
+      "description": "Transition an issue to a new status by transition id. GATED (destructiveHint). Never auto-transition to Done — QA owns acceptance.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true },
+      "inputSchema": {
+        "type": "object",
+        "required": ["ticket_key", "transition_id"],
+        "properties": { "ticket_key": { "type": "string" }, "transition_id": { "type": "string" } }
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+        AE Agent weekly git backup. Pushes a snapshot of the entire agent
+        home (code, lessons, audit logs, plists) to a sidecar feature
+        branch (`feature/ae-agent-backup`) on the workday-inc/eda-dbt-em
+        GitHub repo. Branched off `qa` on first run; thereafter accumulates
+        one commit per week.
+
+        Manage with:
+          launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.fqcarr.backup-weekly.plist
+          launchctl bootout   gui/$(id -u) ~/Library/LaunchAgents/com.example.fqcarr.backup-weekly.plist
+          launchctl kickstart -k gui/$(id -u)/com.example.fqcarr.backup-weekly   # run now
+          launchctl print     gui/$(id -u)/com.example.fqcarr.backup-weekly      # status
+
+        Mirror copy:
+            ~/Library/Application Support/AE Agent/launchd/com.example.fqcarr.backup-weekly.plist
+    -->
+    <key>Label</key>
+    <string>com.example.fqcarr.backup-weekly</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/bin/fqcarr_backup_weekly.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/CHANGEME_USERNAME</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+        <key>FQC_ARR_HOME</key>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent</string>
+        <key>FQC_ARR_LESSONS_DIR</key>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/agents/arr_quarter_close/data/lessons</string>
+        <key>FQC_ARR_PROJECT_DIR</key>
+        <string>/Users/CHANGEME_USERNAME/Documents/Cursor/eda-dbt-em</string>
+        <key>FQC_LEARN_SLACK_USER</key>
+        <string><YOUR_SLACK_USER_ID></string>
+    </dict>
+
+    <!--
+        Fire every Sunday at 02:00 local time. macOS launchd interprets
+        StartCalendarInterval in the LOCAL timezone.
+        Weekday: 0 = Sunday (or 7; both work).
+        02:00 picked because:
+          * Well after Saturday's 17:00 learning pass (lessons store is
+            current with whatever happened that week).
+          * Before Monday morning's work starts -- you wake up to a fresh
+            backup commit.
+          * Off-peak GitHub traffic.
+    -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>2</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/runs/backups/launchd.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/runs/backups/launchd.err</string>
+</dict>
+</plist>

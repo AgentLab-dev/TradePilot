@@ -1,0 +1,32 @@
+{
+  "protocolVersion": "1.0",
+  "name": "<role-name>",
+  "description": "<one-paragraph: what this role does, read-only vs gated-write, where it sits in the DAG>",
+  "version": "2.0-sana",
+  "provider": { "organization": "analytics-engineering", "url": "internal://eda-dbt-em" },
+  "supportedInterfaces": [{ "transport": "A2A", "url": "a2a://fqc-arr/<role-name>" }],
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json"],
+  "capabilities": { "streaming": false, "pushNotifications": false },
+  "securitySchemes": { "sana-oauth2": { "type": "oauth2", "description": "Sana connector auth." } },
+  "security": [{ "sana-oauth2": [] }],
+  "skills": [
+    {
+      "id": "<skill-id>",
+      "name": "<human name>",
+      "description": "<what the skill does; note gated if it writes>",
+      "tags": ["<tag>", "<tag>"],
+      "examples": ["<invocation example>"],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 0,
+    "write_capable": false,
+    "requires_approval": false,
+    "gated_tools": [],
+    "mcp_dependencies": [],
+    "output_key": "payload.<key>"
+  }
+}

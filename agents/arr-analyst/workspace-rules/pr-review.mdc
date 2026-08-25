@@ -1,0 +1,60 @@
+---
+description: When reviewing a PR, review the code diff, run Copilot-instructions checks, check regression, and pull Copilot review threads before concluding.
+alwaysApply: true
+---
+
+# PR review — required pass (do not skip)
+
+When the user asks to **review**, **approve**, or **check** a PR, do all four
+passes below **before** posting an approval or a “looks good” summary.
+Approving on sync/CI/diff-shape alone is incomplete.
+
+## 1. Load repo Copilot instructions first
+
+Read `.github/copilot-instructions.md` (shared baseline + eda-dbt-em overlay)
+and use it as the review rubric. At minimum flag:
+
+- PII / `*_name` / contact / identity columns missing `workday_semantic_category~*`
+  (or the matching `base_prod` tag)
+- Hard-coded `database.schema.table` instead of `source()` / `ref()`
+- `SELECT *`; needless `ORDER BY` on table/incremental models
+- Missing tests / validation evidence on changed models
+- Cross-project `ref()` missing from `scripts/cross-project-stubs/stubs.yml`
+- Grain / double-count risk on ARR/ACV line joins
+- PR template gaps (Jira, validation, merge instructions)
+
+## 2. Review the actual code changes
+
+`gh pr diff` / `git diff <base>...HEAD` on **every** changed file. Check
+correctness, grain, SCD2 hash/`GROUP BY` completeness, YAML contracts, and
+whether unrelated hunks belong in this ticket.
+
+## 3. Regression / validation
+
+State what was (or was not) run: CI checks, dbt tests on changed models,
+mesh `finance_dev` / `finance_qa` recon if the change is ARR-numeric.
+Do not treat “CI green” as a substitute for Copilot-instruction gaps.
+
+## 4. Copilot review threads (mandatory, even if CI is green)
+
+Copilot often posts **after** a human review. Fetch threads before concluding:
+
+```bash
+gh api graphql -f query='{ repository(owner: "OWNER", name: "REPO") {
+  pullRequest(number: N) { reviewThreads(first: 100) { nodes {
+    id isResolved isOutdated path line
+    comments(first: 10) { nodes { databaseId author { login } body } }
+  } } } } }'
+```
+
+- Unresolved Copilot threads are **blockers** to calling the review done.
+- Fix or reply with a real disagreement; then resolve the thread.
+- If threads are empty at first look, wait ~60s and re-fetch once before
+  approving (Copilot is async).
+
+## Do not
+
+- Approve from merge-base / CI / “fields are threaded correctly” without
+  the Copilot-instructions pass and a Copilot-thread fetch.
+- Mix unrelated workarounds (e.g. source routing) into a field-promotion PR
+  without calling them out as scope.

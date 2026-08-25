@@ -1,0 +1,22 @@
+---
+description: Mandatory — cross-check facts before sending any answer
+alwaysApply: true
+---
+
+# Cross-Check Before Answer
+
+Always cross-check before providing an answer. This is mandatory on every reply.
+
+Before sending:
+
+- **Dates / weekdays:** count from a known date; do not assume a round date is Monday
+- **Numbers:** re-read the source; do not blend two metrics into one number
+- **Names / acronyms:** exact spelling (ARR, GRR, Callidus, people, systems)
+- **Claims:** if it is not in the source, do not state it as fact
+- **Calendars / lists:** first item, last item, and weekday labels must match
+- **IDs / paths:** copy from source; do not reconstruct from memory
+
+Prefer a tool (`date`, file read, live query) over memory. If unverified, say so.
+
+Wrong: labeling Aug 18 as Monday when Monday is Aug 17.
+Right: Fri Aug 14 → Sat 15 → Sun 16 → Mon Aug 17, then build the week from there.

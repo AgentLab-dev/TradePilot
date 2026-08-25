@@ -1,0 +1,184 @@
+---
+description: Standard for accessing Jira issues, comments, transitions, and any Jira REST API operations. Always use the Atlassian REST API with email + API token Basic Auth via curl. Never use the Atlassian MCP server for Jira.
+alwaysApply: true
+---
+
+# Jira Access — API Token Only (Never MCP)
+
+## Hard Rule
+
+When the user (or any task) requires reading or writing to Jira (issues, comments, transitions, attachments, JQL search, project metadata, etc.), the agent **must**:
+
+1. Use the **Atlassian REST API directly** via `curl` with **email + API token Basic Auth**.
+2. Read credentials from **environment variables in `~/.zshrc`**.
+3. **Never** call the Atlassian MCP server for Jira operations (no `mcp_auth`, no MCP tool calls for Jira). The Atlassian MCP is unreliable in this environment and frequently fails OAuth.
+
+This applies to **every** Jira interaction, including:
+
+- Reading issue details, comments, history, attachments
+- Creating or updating issues
+- Adding comments
+- Transitioning status (e.g., To Do → In Progress)
+- Linking issues, adding labels/components
+- Searching with JQL
+- Fetching changelogs or worklogs
+- Project / board / sprint queries
+
+## Standard Configuration
+
+### Required environment variables (in `~/.zshrc`)
+
+```bash
+export JIRA_BASE_URL="https://workdaybt.atlassian.net"
+export JIRA_EMAIL="[REDACTED_EMAIL]"
+export JIRA_API_TOKEN=[REDACTED]
+```
+
+Generate the API token at: <https://id.atlassian.com/manage-profile/security/api-tokens>
+
+If `JIRA_API_TOKEN` is not set, **stop and ask the user to set it** — do not fall back to the MCP, do not prompt for OAuth.
+
+### Verify the credentials are loaded before any call
+
+```bash
+[[ -n "$JIRA_BASE_URL" && -n "$JIRA_EMAIL" && -n "$JIRA_API_TOKEN" ]] \
+  && echo "Jira creds loaded" \
+  || { echo "Jira creds missing"; exit 1; }
+```
+
+## Standard `curl` Patterns
+
+### Get an issue (with comments)
+
+```bash
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Accept: application/json" \
+  "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620?fields=summary,status,assignee,reporter,comment" \
+  | jq '{key,summary:.fields.summary,status:.fields.status.name,assignee:.fields.assignee.displayName,reporter:.fields.reporter.displayName,comments:[.fields.comment.comments[] | {author:.author.displayName, created:.created, updated:.updated, body:.body}]}'
+```
+
+### Get only the latest comment
+
+```bash
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Accept: application/json" \
+  "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/comment?orderBy=-created&maxResults=1" \
+  | jq '.comments[0] | {author:.author.displayName, created, updated, body}'
+```
+
+### Filter comments by author (e.g., latest from "Tasha")
+
+```bash
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Accept: application/json" \
+  "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/comment?orderBy=-created&maxResults=100" \
+  | jq '[.comments[] | select(.author.displayName | test("Tasha";"i"))] | .[0] | {author:.author.displayName, created, body}'
+```
+
+### Add a comment
+
+```bash
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Accept: application/json" -H "Content-Type: application/json" \
+  -X POST "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/comment" \
+  --data '{
+    "body": {
+      "type": "doc", "version": 1,
+      "content": [{
+        "type": "paragraph",
+        "content": [{ "type": "text", "text": "Override deployed to QA, validated end-to-end." }]
+      }]
+    }
+  }'
+```
+
+### Transition an issue
+
+```bash
+# 1) Discover available transitions
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/transitions" | jq '.transitions[] | {id,name}'
+
+# 2) Apply by transition id
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -X POST "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/transitions" \
+  --data '{"transition":{"id":"<TRANSITION_ID>"}}'
+```
+
+### JQL search
+
+```bash
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -G "$JIRA_BASE_URL/rest/api/3/search" \
+  --data-urlencode 'jql=project = EDAEM AND status != Done AND assignee = currentUser() ORDER BY updated DESC' \
+  --data-urlencode 'fields=summary,status,priority,updated' \
+  | jq '.issues[] | {key,summary:.fields.summary,status:.fields.status.name,updated:.fields.updated}'
+```
+
+### Get issue worklogs / changelog
+
+```bash
+# Worklogs
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/worklog" | jq '.worklogs[]'
+
+# Changelog (status history etc.)
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620?expand=changelog&fields=summary" \
+  | jq '.changelog.histories[] | {author:.author.displayName, created, items}'
+```
+
+## ADF Body Helper
+
+Jira Cloud comments require the Atlassian Document Format. Quick converter for plain text → ADF JSON:
+
+```bash
+text_to_adf() {
+  local text="$1"
+  jq -n --arg t "$text" '{
+    type:"doc", version:1,
+    content:[{type:"paragraph", content:[{type:"text", text:$t}]}]
+  }'
+}
+
+# Usage
+curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -X POST "$JIRA_BASE_URL/rest/api/3/issue/EDAEM-3620/comment" \
+  --data "$(jq -n --argjson body "$(text_to_adf 'Override deployed; finance to validate.')" '{body:$body}')"
+```
+
+## Forbidden Patterns
+
+Do **not** do any of the following for Jira work:
+
+- Call `mcp_auth` for the `atlassian` MCP server.
+- Invoke any tool under `project-*-atlassian` MCP server.
+- Tell the user "let me authenticate the Atlassian MCP first".
+- Open browser-based OAuth flows for Jira via Cursor.
+- Use the Atlassian Confluence MCP for Confluence operations either — Confluence should also use API token via `curl` (extend this rule pattern).
+
+If a tool / subagent attempts an MCP call for Jira, **abort and switch to the curl + API token pattern**.
+
+## Why This Rule Exists
+
+- The Atlassian MCP requires an interactive OAuth flow that is unreliable in headless / agent contexts.
+- API token + Basic Auth works deterministically from any shell, including subagents and CI.
+- Avoids stalling on auth prompts the user has to manually approve every session.
+- Token-based access is auditable and revocable from the Atlassian admin console.
+
+## Verification Checklist (run once per session, before first Jira call)
+
+1. `echo "$JIRA_BASE_URL"` returns the URL.
+2. `echo "$JIRA_EMAIL"` returns the email.
+3. `[[ -n "$JIRA_API_TOKEN" ]] && echo "token present" || echo "token MISSING"`.
+4. Smoke test:
+   ```bash
+   curl -sS -o /dev/null -w "%{http_code}\n" \
+     -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+     "$JIRA_BASE_URL/rest/api/3/myself"
+   # expect 200
+   ```
+
+If smoke test returns 401/403, ask the user to refresh the API token.

@@ -1,0 +1,73 @@
+{
+  "protocolVersion": "1.0",
+  "name": "debugger",
+  "description": "Read-only investigation role agent (on-demand). Root-causes a failing dbt model or ValidationMatrix check via lineage + read-only Snowflake probes and proposes a fix + regression test. Any Jira note is gated.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/debugger"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": true
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "debugger",
+      "name": "Debugger",
+      "description": "Read-only investigation role agent (on-demand). Root-causes a failing dbt model or ValidationMatrix check via lineage + read-only Snowflake probes and proposes a fix + regression test. Any Jira note is gated.",
+      "tags": [
+        "debug",
+        "root-cause",
+        "on-demand"
+      ],
+      "examples": [
+        "task: debug arr_line_categories"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 0,
+    "write_capable": true,
+    "requires_approval": true,
+    "gated_tools": [
+      "fqc-jira.add_comment"
+    ],
+    "mcp_dependencies": [
+      "fqc-snowflake",
+      "fqc-dbt",
+      "fqc-jira",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.debug"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "protocolVersion": "1.0",
+  "name": "fqc-arr-supervisor",
+  "description": "Supervisor for the Finance ARR Quarter Close agent. Owns a 10-role DAG (jira-intake → requirements-analyzer → code-data-validator → clarifier → implementer → test-runner → pr-author → ci-monitor → cd-monitor → qa-handoff) plus on-demand debugger and quarter-close-runner. Dispatches one role at a time, carries typed state forward, and gates every write behind a human approval.",
+  "version": "2.0-sana",
+  "provider": { "organization": "analytics-engineering", "url": "internal://eda-dbt-em" },
+  "supportedInterfaces": [{ "transport": "A2A", "url": "a2a://fqc-arr-supervisor" }],
+  "defaultInputModes": ["application/json", "text/plain"],
+  "defaultOutputModes": ["application/json"],
+  "capabilities": { "streaming": true, "pushNotifications": true, "stateTransitionHistory": true },
+  "securitySchemes": {
+    "sana-oauth2": { "type": "oauth2", "description": "Sana connector auth; mirrors invoking user's permissions." }
+  },
+  "security": [{ "sana-oauth2": [] }],
+  "skills": [
+    {
+      "id": "run-fqc-arr",
+      "name": "Run FQC-ARR ticket close",
+      "description": "Drive an EDAEM ticket from intake to QA-validated deployment across the 10-role DAG, pausing for approval before every write.",
+      "tags": ["arr", "dbt", "snowflake", "finance", "quarter-close", "supervisor"],
+      "examples": [
+        "run FQC-ARR for EDAEM-3772",
+        "drive EDAEM-3812 through ARR close",
+        "work on EDAEM-3799",
+        "task: quarter-close 2026-01-31",
+        "task: debug arr_line_categories"
+      ],
+      "inputModes": ["application/json", "text/plain"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "x-fqc-arr": {
+    "auth_modes": ["smart_gates", "full_auto"],
+    "dag_roles": ["jira-intake", "requirements-analyzer", "code-data-validator", "clarifier", "implementer", "test-runner", "pr-author", "ci-monitor", "cd-monitor", "qa-handoff"],
+    "on_demand_roles": ["debugger", "quarter-close-runner"],
+    "gates": ["clarifier→jira-comment", "pr-author→push+pr", "slack-channel-pin(once)", "qa-handoff→jira-comment+attach", "any-prod-dbt-run"],
+    "mcp_dependencies": ["fqc-jira", "fqc-snowflake", "fqc-dbt", "fqc-github", "fqc-slack", "fqc-lessons"]
+  }
+}

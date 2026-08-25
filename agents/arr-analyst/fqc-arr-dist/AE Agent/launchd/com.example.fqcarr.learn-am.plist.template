@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+        FQC-ARR continuous learning -- morning pass (09:00 local).
+        Runs bin/fqcarr_learn.sh which invokes `fqc-arr --learn`
+        (wide reflection across 7 days of thinking logs + run logs),
+        writes runs/learning/<UTC_ts>.md, and DMs the operator on Slack
+        when there are new or promoted lessons.
+
+        Agent home (Jun-2026 relocation):
+            ~/Documents/Cursor/AE Agent/
+
+        Manage with:
+          launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.fqcarr.learn-am.plist
+          launchctl bootout   gui/$(id -u) ~/Library/LaunchAgents/com.example.fqcarr.learn-am.plist
+          launchctl kickstart -k gui/$(id -u)/com.example.fqcarr.learn-am   # run now
+          launchctl print     gui/$(id -u)/com.example.fqcarr.learn-am      # status
+
+        A mirror copy of this file lives at:
+            ~/Documents/Cursor/AE Agent/launchd/com.example.fqcarr.learn-am.plist
+        so the launchd config survives even if ~/Library/LaunchAgents/ is
+        ever wiped.
+    -->
+    <key>Label</key>
+    <string>com.example.fqcarr.learn-am</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/bin/fqcarr_learn.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent</string>
+
+    <!--
+        launchd does NOT inherit the user's shell PATH. The wrapper script
+        sources ~/.zshrc itself, but we still set a sane PATH here so the
+        very first PATH lookup (python3, slk) succeeds even before sourcing.
+
+        FQC_ARR_LESSONS_DIR and FQC_ARR_HOME are set here too so the agent
+        writes lessons into the durable agent home, never into the dbt repo
+        (which can be re-cloned).
+    -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/CHANGEME_USERNAME</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+        <key>FQC_ARR_HOME</key>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent</string>
+        <key>FQC_ARR_LESSONS_DIR</key>
+        <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/agents/arr_quarter_close/data/lessons</string>
+        <key>FQC_ARR_PROJECT_DIR</key>
+        <string>/Users/CHANGEME_USERNAME/Documents/Cursor/eda-dbt-em</string>
+        <key>FQC_LEARN_SLACK_USER</key>
+        <string><YOUR_SLACK_USER_ID></string>
+    </dict>
+
+    <!--
+        Fire every day at 09:00 local time. macOS launchd interprets
+        StartCalendarInterval in the LOCAL timezone.
+    -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!--
+        Don't fire on bootstrap/load - only on the schedule above.
+        If the machine was asleep at 9am, launchd fires the job within
+        a short delay after wake.
+    -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <!--
+        Don't keep the job alive past completion; this is a one-shot per
+        schedule trigger.
+    -->
+    <key>KeepAlive</key>
+    <false/>
+
+    <!--
+        Capture launchd-level stdout/stderr. The script also tees its own
+        output into runs/learning/<ts>.log under the agent home.
+    -->
+    <key>StandardOutPath</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/runs/learning/launchd_am.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/CHANGEME_USERNAME/Library/Application Support/AE Agent/runs/learning/launchd_am.err</string>
+</dict>
+</plist>
