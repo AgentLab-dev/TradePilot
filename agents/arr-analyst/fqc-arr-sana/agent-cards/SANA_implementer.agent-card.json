@@ -1,0 +1,71 @@
+{
+  "protocolVersion": "1.0",
+  "name": "implementer",
+  "description": "Write-capable (feature branch only) role agent. Creates a feature branch and applies the dbt model/macro/test edits from a host-LLM prompt. Never pushes; never touches qa/prod.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/implementer"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "implementer",
+      "name": "Implementer",
+      "description": "Write-capable (feature branch only) role agent. Creates a feature branch and applies the dbt model/macro/test edits from a host-LLM prompt. Never pushes; never touches qa/prod.",
+      "tags": [
+        "implement",
+        "dbt",
+        "feature-branch"
+      ],
+      "examples": [
+        "implement the change for EDAEM-3772"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 5,
+    "write_capable": true,
+    "requires_approval": false,
+    "gated_tools": [
+      "fqc-github.create_branch"
+    ],
+    "mcp_dependencies": [
+      "fqc-github",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.implementation"
+  }
+}

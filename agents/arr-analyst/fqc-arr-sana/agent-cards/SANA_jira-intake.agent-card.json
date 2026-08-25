@@ -1,0 +1,25 @@
+{
+  "protocolVersion": "1.0",
+  "name": "jira-intake",
+  "description": "Read-only role agent. Pulls an EDAEM Jira ticket, flattens its ADF body to text, and extracts acceptance criteria, labels, components, and comments into a structured TicketSpec. First role of the FQC-ARR DAG.",
+  "version": "2.0-sana",
+  "provider": { "organization": "analytics-engineering", "url": "internal://eda-dbt-em" },
+  "supportedInterfaces": [{ "transport": "A2A", "url": "a2a://fqc-arr/jira-intake" }],
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json"],
+  "capabilities": { "streaming": false, "pushNotifications": false },
+  "securitySchemes": { "sana-oauth2": { "type": "oauth2", "description": "Sana connector auth for fqc-jira (token, never Atlassian MCP)." } },
+  "security": [{ "sana-oauth2": [] }],
+  "skills": [
+    {
+      "id": "parse-ticket",
+      "name": "Parse EDAEM ticket",
+      "description": "Fetch and normalize an ARR/analytics-engineering Jira ticket into a TicketSpec. Read-only; never posts or transitions.",
+      "tags": ["jira", "read-only", "intake"],
+      "examples": ["parse EDAEM-3772", "get the acceptance criteria for EDAEM-3799"],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "x-fqc-arr": { "role_order": 1, "write_capable": false, "mcp_dependencies": ["fqc-jira"], "output_key": "payload.ticket" }
+}

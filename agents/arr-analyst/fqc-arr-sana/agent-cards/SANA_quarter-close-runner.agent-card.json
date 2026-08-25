@@ -1,0 +1,73 @@
+{
+  "protocolVersion": "1.0",
+  "name": "quarter-close-runner",
+  "description": "On-demand role agent. Runs the scheduled/snapshot ARR close (stage stg_arr_categories chain, build rollups, refresh corp report, validate waterfall + IA recon). Prod runs always require approval.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/quarter-close-runner"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": true
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "quarter_close_runner",
+      "name": "Quarter Close Runner",
+      "description": "On-demand role agent. Runs the scheduled/snapshot ARR close (stage stg_arr_categories chain, build rollups, refresh corp report, validate waterfall + IA recon). Prod runs always require approval.",
+      "tags": [
+        "quarter-close",
+        "dbt",
+        "on-demand",
+        "gated"
+      ],
+      "examples": [
+        "task: quarter-close 2026-01-31"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 0,
+    "write_capable": true,
+    "requires_approval": true,
+    "gated_tools": [
+      "fqc-dbt.run"
+    ],
+    "mcp_dependencies": [
+      "fqc-dbt",
+      "fqc-snowflake",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.close_report"
+  }
+}

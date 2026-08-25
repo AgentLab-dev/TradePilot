@@ -1,0 +1,103 @@
+---
+description: Guardrails and selectors for the eda-dbt-em ARR quarter close. Apply when working on ARR close runs, ARR aggregation models (arr_line_categories, arr_sku_categories, arr_subproduct_categories, arr_product_categories, arr_account_product_corp_report), the stg_arr_categories_* staging chain, or any work that mentions ARR quarter close, FY snapshot, as_was_date, waterfall test, or IA migration recon.
+globs:
+  - "models/finance/modeled/aggregate/table/arr_*.sql"
+  - "models/finance/modeled/aggregate/table/arr_*.yml"
+  - "models/finance/int/stage/table/tmp_tbls_of_bt_arr_categories_optimized/**"
+  - "tests/test_arr_*.sql"
+  - "tests/test_finance_prod_vs_certified_prod_arr_*.sql"
+  - "agents/arr_quarter_close/**"
+  - ".cursor/skills/arr-quarter-close/**"
+alwaysApply: false
+---
+
+# ARR Quarter Close - Project Rule
+
+## Hard guardrails
+
+1. **Never hardcode a close date.** Read FY snapshot dates from
+   `dbt_project.yml::arr_refactor_as_was_date_list` or accept them as the
+   `as_was_date` input. The canonical FY27Q1 set is
+   `2025-05-08, 2025-08-11, 2025-11-10, 2026-02-11`.
+2. **Always quote the date literal in dbt vars.**
+   `--vars '{"as_was_date": "'\''YYYY-MM-DD'\''"}'`. Snowflake needs the
+   inner single quotes for the date cast to succeed.
+3. **Always exclude `*_scd2` on run steps** during a close. SCD2 refreshes
+   are a separate operation and are not part of the close runbook.
+4. **Follow the build order** (stage chain -> line -> rollups -> corp).
+   Skipping ahead inflates intermediate tables and corrupts the waterfall.
+5. **Validate before sign-off.** A close is not "done" until
+   `test_arr_waterfall_balance` and (during cutover) `tag:ia_migration`
+   have been run for the same `as_was_date`.
+
+## Selector discipline
+
+| Stage | Use this selector | Do not use |
+|---|---|---|
+| Staging chain | `path:models/finance/int/stage/table/tmp_tbls_of_bt_arr_categories_optimized` | `tag:arr` alone (matches aggregates too) |
+| Line aggregate | `+arr_line_categories` | `arr_line_categories` (no `+`) - misses fresh upstream |
+| Rollups | `arr_sku_categories arr_subproduct_categories arr_product_categories` | individual `+arr_sku_categories` per model |
+| Corp report | `+arr_account_product_corp_report` | `arr_account_product_corp_report` only |
+| Validation | `test_arr_waterfall_balance`, `tag:ia_migration` | open-ended `dbt test` |
+
+## Currency variants
+
+ARR close emits three USD variants per measure:
+
+- `USD_CURRENT` (live, latest FX) - dashboards and trending
+- `USD_HIST` (transaction-date FX) - period-over-period comparison
+- `USD_ACTUAL` (no conversion) - billing/invoicing tie-out
+
+Pick **one** variant per metric and document it in the close summary.
+Never mix variants in a single waterfall.
+
+## Heavy warehouse
+
+`arr_line_categories` and the SKU rollup can spill local storage on small
+warehouses. If the deployment has an `em_heavy_warehouse` configured, pass
+it via `--vars '{"em_heavy_warehouse": "<wh_name>"}'` for steps 2 and 3.
+
+## Materialization invariants
+
+- `arr_*_categories` are `incremental` with `delete+insert` on
+  `unique_key='as_was_date'`. Re-running a close for the same snapshot is
+  safe and idempotent.
+- `stg_arr_categories_*` are `transient=true` `cluster_by=['as_was_date']`.
+  Storage footprint per snapshot is small; do not "optimize" by changing
+  materialization.
+- `data_product/view` models contain **no business logic**. Any logic that
+  appears there belongs in the matching aggregate/managed table upstream.
+
+## Validation thresholds
+
+| Check | Threshold |
+|---|---|
+| Waterfall: Begin + incrementals = End | < $0.01 per (buying_center, fiscal_quarter) |
+| Waterfall: QoQ End -> Begin continuity | < $0.01 per buying_center |
+| IA recon: row count / distinct accounts / distinct agreements | Exact match |
+| IA recon: sum of FLOAT monetary columns | `abs(delta)` <= $1.00 USD |
+
+Failing rows for both tests land in `<env>.stage.test_*` (severity=warn,
+store_failures=true). Read failing rows via Snowflake MCP - do not re-run
+the test to "see" failures.
+
+## Cross-project parity
+
+The close depends on `eda_dbt_base` (SCD2 + base salesforce + Google
+Sheets refs) and `eda_dbt_gtm` (`wd_*_as_was` wrappers). If either is
+behind for the requested `as_was_date`, the close will silently use stale
+data. Confirm upstream freshness before steps 2-4. The
+`eda-pipeline-refresh-schedule` skill documents the timing.
+
+## Tool preference
+
+1. **dbt MCP** (`run`, `test`, `compile`, `list`, `build`) - first choice.
+2. **The orchestrator** (`python -m agents.arr_quarter_close.cli`) - when
+   the user wants a deterministic, reproducible run.
+3. **Raw shell `dbt`** - last resort; announce the fallback explicitly.
+
+## Authorization
+
+Production close runs require explicit user approval before execution.
+Do not run `--target prod` unattended (e.g. inside an automation or
+subagent) without confirming the user has greenlit the run.

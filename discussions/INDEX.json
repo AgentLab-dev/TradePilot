@@ -1,0 +1,239 @@
+{
+  "chats": 26,
+  "index": [
+    {
+      "date": "2026-08-25",
+      "agent": "ssr-st",
+      "title": "SSR-ST",
+      "file": "discussions/ssr-st/2026-08-25_0dc2e1e1-06c5-4296-a685-73d2b1e3912a_e7e3ccfb.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-ssr-analyst",
+      "turns": 1587,
+      "mtime": "2026-08-25T15:44:59"
+    },
+    {
+      "date": "2026-08-25",
+      "agent": "arr-analyst",
+      "title": "Slack-Email-responses",
+      "file": "discussions/arr-analyst/2026-08-25_f7661e00-ebdd-4dea-941c-04df4aeac9ff_4f2a8bb8.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 47,
+      "mtime": "2026-08-25T15:38:10"
+    },
+    {
+      "date": "2026-08-25",
+      "agent": "arr-analyst",
+      "title": "Agent Creation",
+      "file": "discussions/arr-analyst/2026-08-25_b83fe2d8-d6ac-4d71-8665-11ba202703f6_82fbf803.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 3243,
+      "mtime": "2026-08-25T15:37:57"
+    },
+    {
+      "date": "2026-08-25",
+      "agent": "arr-analyst",
+      "title": "Refactoring - EM",
+      "file": "discussions/arr-analyst/2026-08-25_6401c5af-7473-4255-8b69-58efcea01b94_091f41da.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 4417,
+      "mtime": "2026-08-25T12:50:34"
+    },
+    {
+      "date": "2026-08-24",
+      "agent": "arr-analyst",
+      "title": "add skills - office politics, managing the manager , and setting up proper tone \u2026",
+      "file": "discussions/arr-analyst/2026-08-24_ce6c4f55-2150-4815-8d13-488b8a6a04c1_35a3d67f.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 1936,
+      "mtime": "2026-08-24T13:43:07"
+    },
+    {
+      "date": "2026-08-19",
+      "agent": "arr-analyst",
+      "title": "GTM Next - Solution",
+      "file": "discussions/arr-analyst/2026-08-19_64446306-1a86-4cd1-a4d1-12ce9a24bc12_a724831e.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 658,
+      "mtime": "2026-08-19T12:23:12"
+    },
+    {
+      "date": "2026-08-10",
+      "agent": "arr-analyst",
+      "title": "Workday Sana",
+      "file": "discussions/arr-analyst/2026-08-10_0f3b9f9a-6125-4e2d-b6a1-f941872a12cc_720e30e6.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 85,
+      "mtime": "2026-08-10T12:59:35"
+    },
+    {
+      "date": "2026-08-04",
+      "agent": "arr-analyst",
+      "title": "SSR Agent",
+      "file": "discussions/arr-analyst/2026-08-04_8943f057-59bc-4a93-abf9-4ba4c0669633_2cb3e6d4.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 24,
+      "mtime": "2026-08-04T10:34:48"
+    },
+    {
+      "date": "2026-07-31",
+      "agent": "ssr-st",
+      "title": "Flight tickets",
+      "file": "discussions/ssr-st/2026-07-31_63a4e52f-89d9-4a50-b0ad-deb2b025ffe1_2829078f.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-ssr-analyst",
+      "turns": 24,
+      "mtime": "2026-07-31T17:00:29"
+    },
+    {
+      "date": "2026-07-29",
+      "agent": "arr-analyst",
+      "title": "Zuora Agent",
+      "file": "discussions/arr-analyst/2026-07-29_4576ab9a-14c7-4c07-8198-74e652b9e5ef_c307850e.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 95,
+      "mtime": "2026-07-29T07:20:53"
+    },
+    {
+      "date": "2026-07-21",
+      "agent": "arr-analyst",
+      "title": "Explore the standalone Python application for the \"FQC-ARR\" (Finance ARR Quarter\u2026",
+      "file": "discussions/arr-analyst/2026-07-21_subagents_75813fef.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 5,
+      "mtime": "2026-07-21T10:00:02"
+    },
+    {
+      "date": "2026-07-16",
+      "agent": "arr-analyst",
+      "title": "You are auditing downstream impact in the **eda-dbt-gtm** repo (Workday ED&A sal\u2026",
+      "file": "discussions/arr-analyst/2026-07-16_subagents_4d611aec.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 18,
+      "mtime": "2026-07-16T19:01:45"
+    },
+    {
+      "date": "2026-07-16",
+      "agent": "arr-analyst",
+      "title": "You are auditing downstream impact in the **eda-dbt-cx** repo (Workday ED&A cust\u2026",
+      "file": "discussions/arr-analyst/2026-07-16_subagents_bf92bf1a.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 17,
+      "mtime": "2026-07-16T19:01:28"
+    },
+    {
+      "date": "2026-07-16",
+      "agent": "arr-analyst",
+      "title": "You are auditing downstream impact in the **eda-dbt-em** repo (Workday ED&A fina\u2026",
+      "file": "discussions/arr-analyst/2026-07-16_subagents_a58bf263.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 15,
+      "mtime": "2026-07-16T19:00:16"
+    },
+    {
+      "date": "2026-07-16",
+      "agent": "arr-analyst",
+      "title": "Goal: DEFINITIVELY determine whether the dbt model `models/redshift_history/base\u2026",
+      "file": "discussions/arr-analyst/2026-07-16_subagents_05d872d0.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 14,
+      "mtime": "2026-07-16T18:46:29"
+    },
+    {
+      "date": "2026-07-16",
+      "agent": "arr-analyst",
+      "title": "You are investigating dbt Cloud runs for the **eda-dbt-base** project (dbt Cloud\u2026",
+      "file": "discussions/arr-analyst/2026-07-16_subagents_053143e5.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 7,
+      "mtime": "2026-07-16T18:45:14"
+    },
+    {
+      "date": "2026-07-09",
+      "agent": "ssr-st",
+      "title": "hello",
+      "file": "discussions/ssr-st/2026-07-09_400f2d17-28e0-4bb4-a6ad-5ae9fb409532_c72ff46d.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-ssr-analyst",
+      "turns": 9,
+      "mtime": "2026-07-09T11:13:17"
+    },
+    {
+      "date": "2026-07-05",
+      "agent": "other",
+      "title": "Advisor",
+      "file": "discussions/other/2026-07-05_6b37cc36-81fc-4802-be15-9adc6c974ea2_33fb2faf.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-Advisor",
+      "turns": 126,
+      "mtime": "2026-07-05T19:34:11"
+    },
+    {
+      "date": "2026-07-05",
+      "agent": "other",
+      "title": "Career Pilot AI",
+      "file": "discussions/other/2026-07-05_bbd888b2-f135-4a03-9073-8e52d0f212e4_235b6da1.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-Skill-Advisor",
+      "turns": 19,
+      "mtime": "2026-07-05T17:18:47"
+    },
+    {
+      "date": "2026-07-05",
+      "agent": "arr-analyst",
+      "title": "Advisor",
+      "file": "discussions/arr-analyst/2026-07-05_3241edd3-72c3-4c63-912d-b5f62a0e64e3_3e4a85c6.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 11,
+      "mtime": "2026-07-05T16:24:12"
+    },
+    {
+      "date": "2026-07-01",
+      "agent": "arr-analyst",
+      "title": "ACV Reconciliation + QE",
+      "file": "discussions/arr-analyst/2026-07-01_d933bef1-de9f-42f2-8dc1-0ad514ee5939_172cfa04.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 2071,
+      "mtime": "2026-07-01T14:26:16"
+    },
+    {
+      "date": "2026-06-30",
+      "agent": "arr-analyst",
+      "title": "SSR Analyst",
+      "file": "discussions/arr-analyst/2026-06-30_de5ec8c0-d4d7-4d06-858f-ad354c5ab19e_62f892aa.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 1422,
+      "mtime": "2026-06-30T08:55:27"
+    },
+    {
+      "date": "2026-06-30",
+      "agent": "ssr-st",
+      "title": "Add mcp",
+      "file": "discussions/ssr-st/2026-06-30_3d2f3c91-6178-4023-bbbf-8a1907015cb8_d00726ea.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-ssr-analyst",
+      "turns": 14,
+      "mtime": "2026-06-30T08:37:07"
+    },
+    {
+      "date": "2026-06-12",
+      "agent": "other",
+      "title": "Refactoring - EM",
+      "file": "discussions/other/2026-06-12_6401c5af-7473-4255-8b69-58efcea01b94_3b3d5ed5.md",
+      "project": "empty-window",
+      "turns": 3282,
+      "mtime": "2026-06-12T19:21:02"
+    },
+    {
+      "date": "2026-06-12",
+      "agent": "arr-analyst",
+      "title": "Slack connection",
+      "file": "discussions/arr-analyst/2026-06-12_1a5e2f6a-b7b9-4495-853e-fda3ddde2217_3963e726.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 124,
+      "mtime": "2026-06-12T16:19:10"
+    },
+    {
+      "date": "2026-06-11",
+      "agent": "arr-analyst",
+      "title": "ARR - Quarter Close",
+      "file": "discussions/arr-analyst/2026-06-11_9cc7a2bd-a4f1-402d-8491-c4a51739f8a6_991360d7.md",
+      "project": "Users-koteswararao-venkata-Documents-Cursor-eda-dbt-em",
+      "turns": 3229,
+      "mtime": "2026-06-11T18:15:53"
+    }
+  ]
+}

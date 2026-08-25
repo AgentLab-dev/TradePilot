@@ -1,0 +1,34 @@
+{
+  "name": "fqc-slack",
+  "version": "1.0.0",
+  "description": "Slack notifications for FQC-ARR (heartbeats, per-role status, run banners) wrapping the slk CLI. Posting to the pinned status channel is low-risk (not a data write); the channel is set once in agent config, not chosen per run. Message text is identifier-first with no agent self-signature.",
+  "securityScheme": {
+    "type": "oauth2",
+    "note": "Sana holds the Slack app token. Fallback local: slk CLI Keychain session. Directory resolution replaces slack_directory.json."
+  },
+  "tools": [
+    {
+      "name": "notify",
+      "description": "Post a short status line to the pinned FQC-ARR channel. Not a governed data write; no HITL gate.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": { "type": "string", "description": "Identifier-first status text; no agent signature." },
+          "channel": { "type": "string", "description": "Optional override; defaults to the pinned channel from agent config." }
+        }
+      }
+    },
+    {
+      "name": "post_thread",
+      "description": "Reply in a per-role thread under the run banner (activity feed mirror of the Tasks inbox).",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["thread_ts", "text"],
+        "properties": { "thread_ts": { "type": "string" }, "text": { "type": "string" }, "channel": { "type": "string" } }
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+---
+description: Every known T+0/T+1 event (earnings, investor day, mapped sympathy) must have an armed catalyst card — "no credit sell" is not a plan. Prevents XE/SNDK-class overnight misses.
+alwaysApply: true
+---
+
+# Catalyst overnight cards (always on in this workspace)
+
+When running FULLCHECK, evening wrap, or next-day prep, follow
+`~/.claude/skills/catalyst-overnight-plan/SKILL.md` (project copy:
+`.cursor/skills/catalyst-overnight-plan/SKILL.md`).
+
+Hard rule: **listing an event without a take/arm/stand-down ticket that includes
+structure, trigger, and same-day exit is a miss.** "Stand down / no XE anything /
+don't chase" after the open is not yesterday's plan.
+
+Calendar must UNION Nasdaq `earnings_radar.md` + Robinhood earnings calendar +
+fundamentals next-earnings on book/watch/peers + web search for investor/analyst/
+capital-markets days. Write `ssr-analyst/Documents/catalyst_cards.md`.
