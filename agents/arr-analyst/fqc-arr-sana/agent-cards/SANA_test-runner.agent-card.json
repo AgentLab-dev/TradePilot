@@ -1,0 +1,70 @@
+{
+  "protocolVersion": "1.0",
+  "name": "test-runner",
+  "description": "Non-destructive role agent. Builds + tests the feature branch on finance_dev and re-runs the ValidationMatrix SQL to fill actual values and verdicts.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/test-runner"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "test_runner",
+      "name": "Test Runner",
+      "description": "Non-destructive role agent. Builds + tests the feature branch on finance_dev and re-runs the ValidationMatrix SQL to fill actual values and verdicts.",
+      "tags": [
+        "dbt",
+        "test",
+        "dev"
+      ],
+      "examples": [
+        "run dev tests for EDAEM-3772"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 6,
+    "write_capable": false,
+    "requires_approval": false,
+    "gated_tools": [],
+    "mcp_dependencies": [
+      "fqc-dbt",
+      "fqc-snowflake",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.test_report"
+  }
+}

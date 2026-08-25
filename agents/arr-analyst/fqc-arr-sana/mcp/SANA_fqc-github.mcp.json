@@ -1,0 +1,55 @@
+{
+  "name": "fqc-github",
+  "version": "1.0.0",
+  "description": "GitHub access for FQC-ARR wrapping the gh CLI. Reads (PR status, checks) are silent; branch create is low-risk; push + open-PR carry destructiveHint so Sana raises an approval card. Never targets qa/prod branches.",
+  "securityScheme": {
+    "type": "oauth2",
+    "note": "Sana holds the GitHub app/OAuth token and mirrors the invoking user. Fallback local: gh auth session."
+  },
+  "tools": [
+    {
+      "name": "get_pr",
+      "description": "Read PR metadata (title, body, state, mergeable, reviews). Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["pr_number"], "properties": { "pr_number": { "type": "integer" } } }
+    },
+    {
+      "name": "pr_checks",
+      "description": "Read CI check runs / statuses for a PR (for ci-monitor polling). Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["pr_number"], "properties": { "pr_number": { "type": "integer" } } }
+    },
+    {
+      "name": "create_branch",
+      "description": "Create a feature branch from the default branch. Must match feature/EDAEM-*; never qa/prod.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["branch"],
+        "properties": { "branch": { "type": "string", "pattern": "^feature/EDAEM-[0-9]+" }, "from_ref": { "type": "string", "default": "main" } }
+      }
+    },
+    {
+      "name": "push_branch",
+      "description": "Push local commits on the feature branch to origin. GATED (destructiveHint).",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true },
+      "inputSchema": { "type": "object", "required": ["branch"], "properties": { "branch": { "type": "string", "pattern": "^feature/EDAEM-[0-9]+" } } }
+    },
+    {
+      "name": "create_pr",
+      "description": "Open a PR from the feature branch into the default branch. GATED (destructiveHint). Title/body identifier-first, no agent signature.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true },
+      "inputSchema": {
+        "type": "object",
+        "required": ["title", "body", "head"],
+        "properties": {
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "head": { "type": "string", "pattern": "^feature/EDAEM-[0-9]+" },
+          "base": { "type": "string", "default": "main", "enum": ["main", "develop"] },
+          "reviewers": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  ]
+}

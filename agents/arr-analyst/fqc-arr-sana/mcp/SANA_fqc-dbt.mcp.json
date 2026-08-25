@@ -1,0 +1,57 @@
+{
+  "name": "fqc-dbt",
+  "version": "1.0.0",
+  "description": "dbt build/test/run + run-status for FQC-ARR, wrapping the local dbt CLI / ARRCloseOrchestrator / dbt Cloud API. dev/qa targets are non-destructive; the prod target carries destructiveHint so Sana always requires approval before any prod run.",
+  "securityScheme": {
+    "type": "oauth2",
+    "note": "Sana holds dbt Cloud service token / warehouse creds. Fallback local: dbt profiles + DBT_PROJECT_DIR for eda-dbt-em."
+  },
+  "tools": [
+    {
+      "name": "build",
+      "description": "dbt build for selected models (+downstream) on dev/qa. Non-destructive to human systems.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["select"],
+        "properties": {
+          "select": { "type": "string", "description": "dbt --select selector." },
+          "target": { "type": "string", "enum": ["dev", "qa", "prod"], "default": "dev" },
+          "exclude": { "type": "string" }
+        }
+      }
+    },
+    {
+      "name": "test",
+      "description": "dbt test for selected models / the FQC-ARR test suite (waterfall balance, row parity, currency tie-out) on dev/qa.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["select"],
+        "properties": { "select": { "type": "string" }, "target": { "type": "string", "enum": ["dev", "qa", "prod"], "default": "dev" } }
+      }
+    },
+    {
+      "name": "run",
+      "description": "dbt run for selected models. On target=prod this is GATED (destructiveHint=true): Sana must show an approval card and no prod run is ever automatic.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true, "note": "destructiveHint applies only when target=prod; dev/qa runs are non-destructive but declared conservatively." },
+      "inputSchema": {
+        "type": "object",
+        "required": ["select", "target"],
+        "properties": { "select": { "type": "string" }, "target": { "type": "string", "enum": ["dev", "qa", "prod"] } }
+      }
+    },
+    {
+      "name": "get_run_status",
+      "description": "Read the status of a CD/deploy run (dbt Cloud job run) for cd-monitor. Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": { "type": "object", "properties": { "run_id": { "type": "string" }, "commit_sha": { "type": "string" } } }
+    },
+    {
+      "name": "compile",
+      "description": "Compile a model to inspect resolved SQL / lineage for the debugger. Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["select"], "properties": { "select": { "type": "string" } } }
+    }
+  ]
+}

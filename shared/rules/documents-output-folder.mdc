@@ -1,0 +1,57 @@
+---
+description: Default output folder for ALL prepared documents/deliverables. All markdown reports, validation writeups, presentations, Excel files, PDFs, and any user-facing document MUST be written to /Users/koteswararao.venkata/Documents/Cursor/Documents unless the user explicitly directs otherwise.
+alwaysApply: true
+---
+
+# Documents Output Folder
+
+## Canonical location
+
+**All prepared documents and deliverables must be written to:**
+
+```
+/Users/koteswararao.venkata/Documents/Cursor/Documents
+```
+
+This is the user's single source of truth for finished documents across all workspaces and projects.
+
+## What counts as a "prepared document"
+
+Any user-facing artifact whose primary purpose is to be read, shared, or attached to an external system (Jira, Slack, email, Confluence). Examples:
+
+- Validation / QA reports (`*_validation_*.md`, `*_qa_*.md`, `*_signoff_*.md`)
+- Analysis writeups, recon reports, root-cause documents
+- Meeting notes, summaries, action items, decision logs
+- Presentations and slide decks (`.md`, `.pptx`, `.html`, `.pdf`)
+- Excel deliverables (`.xlsx`)
+- Announcements, status reports, executive summaries
+- Any document the user asks you to "prepare", "draft", "write up", or "create a file with…"
+
+## What does NOT belong in this folder
+
+In-repo source code, dbt models, SQL files used by code, scripts, and code-adjacent docs:
+
+- dbt model `.sql` files → repo `models/`
+- Repo READMEs, in-repo skill files → repo
+- `analyses/*.sql` exploratory queries kept inside the repo for reproducibility → repo
+- Code-level READMEs / runbooks tied to a specific repo → repo
+
+If unsure, ask: "Is this artifact for the user to read/share, or for a code system to consume?" If the answer is "user reads or shares it", it goes in `Documents`.
+
+## Naming conventions
+
+- Lowercase, snake_case, no spaces: `edaem_3545_post_merge_validation_certified_qa.md`
+- Include a stable identifier where applicable (Jira ID, FY quarter, date)
+- Prefer `.md` for textual content; only convert to `.pdf` / `.docx` / `.pptx` when the user explicitly asks for that format
+
+## Behavior
+
+1. When the user asks you to "prepare a file", "create a document", "write up", "save this analysis", or similar — default the path to `/Users/koteswararao.venkata/Documents/Cursor/Documents/<filename>`.
+2. If the file already exists at the correct path, update it in place rather than creating a duplicate.
+3. If a deliverable was previously written to a repo path (e.g., `analyses/`, `docs/`) and the user asks where it is, **proactively offer to move it** to the canonical Documents folder.
+4. If the canonical folder doesn't exist on the current machine, create it with `mkdir -p` before writing.
+5. Always confirm the final absolute path in your response so the user knows where to find the file.
+
+## Override
+
+The user may override on a per-request basis (e.g., "save this inside the repo"). Honor explicit overrides; do not move existing repo-level docs unless asked.

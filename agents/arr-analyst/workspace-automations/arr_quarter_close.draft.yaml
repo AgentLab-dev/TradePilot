@@ -1,0 +1,118 @@
+# Cursor Automation - reviewed draft
+# Finalize in: Cursor -> Agents Window -> Automations -> + New
+# (the on-disk format isn't a runtime; this YAML is the wire shape to paste).
+#
+# Two automation variants below. Use one or both.
+
+# -----------------------------------------------------------------------------
+# Variant 1 - Quarter-end snapshot run (intended cadence)
+# -----------------------------------------------------------------------------
+name: "ARR Quarter Close - quarter-end snapshot"
+description: "Runs the ARR quarter close on FY snapshot dates (typically the 8th-11th of the close month) against QA. Validation included. Operator approval required before promoting to prod."
+workflow:
+  triggers:
+    # Daily at 03:30 PT during close week; the agent gates on whether the
+    # requested as_was_date is in arr_refactor_as_was_date_list and exits
+    # otherwise. This keeps the trigger simple - the gating is in the prompt.
+    - cron: { cron: "30 10 * * *" }   # 03:30 PT = 10:30 UTC (standard time); adjust on DST in the editor.
+  actions: []
+  prompts:
+    - |
+      You are running the eda-dbt-em ARR quarter close.
+
+      Step 1 (gate): Read agents/arr_quarter_close/core.py:KNOWN_FY_CLOSE_DATES
+      and dbt_project.yml::arr_refactor_as_was_date_list. If today is not
+      within +/- 3 calendar days of any snapshot date in those lists, exit
+      cleanly with the message "no close due today" and do nothing else.
+
+      Step 2: Pick the nearest snapshot date as <DATE>. Default target is qa.
+
+      Step 3: Read .cursor/skills/arr-quarter-close/SKILL.md and follow it.
+      Apply .cursor/rules/arr-quarter-close.mdc guardrails.
+
+      Step 4: Prefer the orchestrator:
+        python -m agents.arr_quarter_close.cli \
+          --as-was-date <DATE> --project-dir . --target qa --json
+
+      Step 5: Post a one-line status summary (success / warn / fail +
+      duration + failing-row counts) to the close channel.
+
+      Do NOT run --target prod. If qa close is green, ping the on-call to
+      authorize a manual prod run.
+  model: "composer-2.5"
+  agentOptions:
+    skipInstall: false
+  memoryEnabled: true
+
+---
+
+# -----------------------------------------------------------------------------
+# Variant 2 - Daily weekday recon (drift detection between closes)
+# -----------------------------------------------------------------------------
+name: "ARR Daily Recon - weekday drift check"
+description: "Weekday QA recon that compares finance_prod vs certified_prod ARR aggregates for the most recent close snapshot. Surfaces drift before quarter close."
+workflow:
+  triggers:
+    - cron: { cron: "30 13 * * 1-5" }   # 06:30 PT weekdays = 13:30 UTC
+  actions: []
+  prompts:
+    - |
+      You are running the daily ARR recon for eda-dbt-em (not a full close).
+
+      Step 1: Read dbt_project.yml::arr_refactor_as_was_date_list and pick
+      the most recent snapshot date <= today as <DATE>.
+
+      Step 2: Run the IA-migration recon tests only (no rebuild):
+        dbt test --select tag:ia_migration \
+          --target qa \
+          --vars '{"as_was_date": "'\''<DATE>'\''"}'
+
+      Step 3: If any test fails (severity=warn), query the failing-rows
+      tables via the Snowflake MCP (see .cursor/skills/arr-quarter-close/validation.md
+      "Layer 2") and summarize which aggregate diverged most.
+
+      Step 4: Post a one-line status (clean / drift detected + which agg).
+  model: "composer-2.5"
+  agentOptions:
+    skipInstall: false
+  memoryEnabled: true
+
+---
+
+# -----------------------------------------------------------------------------
+# Variant 3 - Daily Jira scan -> supervisor for ARR-flavored tickets
+# -----------------------------------------------------------------------------
+name: "Finance ARR Quarter Close (FQC-ARR) - daily ticket scan"
+description: "Weekday morning JQL scan for EDAEM tickets in 'Ready for Dev' with label arr-close-change. Each match launches the Finance ARR Quarter Close (FQC-ARR) supervisor (ticket mode, smart-gates). The supervisor stops at every pause point; this automation never auto-approves Jira/PR/Slack writes."
+workflow:
+  triggers:
+    - cron: { cron: "0 14 * * 1-5" }   # 07:00 PT weekdays = 14:00 UTC
+  actions: []
+  prompts:
+    - |
+      You are scanning EDAEM Jira tickets for Finance ARR Quarter Close (FQC-ARR) supervisor candidates.
+
+      Step 1: JQL via curl (per .cursor/rules/jira-api-access.mdc):
+
+        project = EDAEM
+        AND status = "Ready for Dev"
+        AND labels = "arr-close-change"
+        AND updated >= -3d
+        ORDER BY priority DESC, updated DESC
+
+      Step 2: For each ticket key returned:
+        - Read .cursor/skills/arr-quarter-close/supervisor.md and
+          .cursor/rules/arr-close-supervisor.mdc.
+        - Launch the FQC-ARR supervisor in ticket mode with smart-gates:
+            python -m agents.arr_quarter_close.cli \
+              --ticket <KEY> --mode ticket --project-dir . --dry-run
+        - Capture the planned role DAG. Post a short Slack DM with: ticket
+          key, status, AC count, planned DAG length, "ready for owner to
+          approve gates."
+      Step 3: Do NOT execute the supervisor end-to-end here. This is a
+      discovery + notify run; the ticket owner approves the gates in their
+      own session.
+  model: "composer-2.5"
+  agentOptions:
+    skipInstall: false
+  memoryEnabled: true

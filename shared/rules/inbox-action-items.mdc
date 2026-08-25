@@ -1,0 +1,104 @@
+---
+description: >-
+  Daily inbox action-item sweep at 8am, 11am, 2pm, and 3pm PT. Collect open
+  items from Gmail, Jira, and Slack; post a table plus ticket details and a
+  paste-ready expected answer to Slack self-DM. Triggers: "inbox action items",
+  "open items from gmail jira slack", "action item sweep", "8am inbox",
+  "11am inbox", "2pm inbox", "3pm inbox", /inbox-action-items.
+alwaysApply: true
+---
+
+# Inbox action items → Slack self
+
+## When to run
+
+**Execute this playbook only when one of these is true:**
+
+1. The user asks for inbox / open / action items from Gmail, Jira, and/or Slack.
+2. This chat is the scheduled sweep (8:00 / 11:00 / 14:00 / 15:00 America/Los_Angeles).
+3. The user runs `/inbox-action-items`.
+
+**Do not hijack an unrelated coding session** just because the clock matches a slot.
+
+Cadence (every day, America/Los_Angeles): **8:00 AM, 11:00 AM, 2:00 PM, 3:00 PM**.
+To have the clock fire without a prompt, enable the Cursor Automation draft
+`inbox_action_items` in the Agents Window. A rule alone does not schedule.
+
+## Hard constraints
+
+- **Destination is Slack self only.** User ID `U03GK3V2FQU`. Do not post this list to a team channel, Jira, or email.
+- **List + draft. Do not send replies** to Gmail, Jira, or Slack threads unless the user already authorized that item in this session.
+- **No agent signatures** on the Slack DM (no “posted by…”, no FQC-ARR / agent branding).
+- **Dedupe.** Same Jira key in mail + Slack + Jira = one row. Prefer the Jira key as the identifier.
+- **Waiting-on-you first.** Then FYI. Skip noise (CI green, merged-PR spam, calendar pings) unless they ask a question.
+
+Lookback: 8am = since yesterday 3pm plus anything still unanswered; 11am = since 8am; 2pm = since 11am; 3pm = since 2pm. Always keep older items that are still waiting on Koteswar.
+
+## Collect (all three sources, every run)
+
+### 1. Jira — curl + API token (never Atlassian MCP)
+
+`source ~/.zshrc`; token is `$JIRA_API_TOKEN` or `$JIRA_TOKEN`. Search is
+`POST /rest/api/3/search/jql` (GET `/rest/api/3/search` is 410).
+
+Pull:
+
+- Assigned to `currentUser()`, `statusCategory != Done`
+- Updated in the lookback window where the **latest comment is not from Koteswar** and @mentions him, or the description/comment asks him a question
+- Parent/related keys when they are the reason someone is waiting (e.g. QA blocked on a bug)
+
+For each candidate, fetch latest comment. Waiting-on-you if last human comment is not Koteswar and it asks for confirm / fix / dates / a decision.
+
+### 2. Slack — `slk` (Keychain; needs unrestricted shell)
+
+`slk auth`, then `slk unread`, `slk activity`, `slk saved`, DMs, and @mentions.
+Read the thread when the last message is not from Koteswar and it asks a question
+or assigns an action. Channel + thread_ts + permalink belong in the row.
+
+### 3. Gmail — MCP if it works; else Safari Gmail tab text only
+
+Prefer `user-gmail` search/list if authenticated. If MCP cannot read mail, use
+Safari `text of` the `mail.google.com` tab only. **Do not read other Safari tabs**
+(they can contain Snowflake OAuth tokens). Flag items that ask for a reply,
+approval, or Jira action. Ignore newsletters and FYI-only unless they contain a
+question.
+
+## Slack self DM — required shape
+
+Post with `slk send U03GK3V2FQU` (fallback: open self-DM via Slack API
+`conversations.open` with `users=U03GK3V2FQU`, then `chat.postMessage`).
+Use Slack mrkdwn. Split into a second message if the body is too long.
+
+Header:
+
+```
+*Open & action items — {Weekday} {D} {Mon} {YYYY} {h:mm} {AM|PM} PT*
+Waiting on you: N  ·  FYI: N  ·  Sources: Gmail / Jira / Slack
+```
+
+**Table** (code block so columns line up):
+
+```
+# | Src | Key / thread                         | Asked by     | Since | Expected answer (1 line)
+--|------|--------------------------------------|--------------|-------|-------------------------
+1 | Jira | EDAEM-3897                           | HaiHa Nguyen | 3h    | Confirm QA 08-25 is 1.00x; no full-refresh; 3890 can proceed
+2 | Mail | QA Bug duplicates…                   | HaiHa Nguyen | 3h    | (same as EDAEM-3897 — deduped)
+3 | Slack| #arr-analytics thread …              | …            | 1h    | …
+```
+
+Then **ticket details** for every waiting-on-you row (FYI can stay table-only):
+
+```
+*1. EDAEM-3897* — QA Bug — duplicate snapshot records
+Status: Open · Assignee: Ojas Mehrotra · <https://workdaybt.atlassian.net/browse/EDAEM-3897>
+Ask: Confirm fix in QA for snapshot_date = 2026-08-25.
+*Expected answer:*
+> paste-ready reply (2–6 sentences). Facts only. No agent name.
+```
+
+`Expected answer` must be something Koteswar can paste as-is into Jira / Slack / Gmail.
+If the item is not actionable yet, write `Need from you: {the decision}` instead of a fake reply.
+
+## After posting
+
+Reply in Cursor with: slot time, counts (waiting / FYI), Slack DM confirmation, and the 3 highest-priority keys. Do not re-dump the full table in chat unless the Slack post failed.

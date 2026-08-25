@@ -1,0 +1,410 @@
+---
+description: Finance ARR Quarter Close (FQC-ARR) supervisor authorization model, sub-agent boundary contract, and Slack heartbeat cadence. Applies when driving a Jira ticket end-to-end through the ARR close pipeline (intake -> requirements -> validate -> clarify -> implement -> test -> PR -> CI -> CD -> QA handoff) or when running any single sub-agent under agents/arr_quarter_close/subagents/. Also referred to as "FQC-ARR" throughout this codebase.
+globs:
+  - "agents/arr_quarter_close/supervisor.py"
+  - "agents/arr_quarter_close/subagents/**"
+  - ".cursor/skills/arr-quarter-close/supervisor.md"
+  - ".cursor/skills/arr-quarter-close/subagents/**"
+alwaysApply: false
+---
+
+# Finance ARR Quarter Close (FQC-ARR) - Project Rule
+
+Display name: **Finance ARR Quarter Close**
+Short code:   **FQC-ARR**
+Aliases:      **FQC**, **FQCARR**, **FQC-ARR** (all interchangeable)
+Module:       `agents/arr_quarter_close/supervisor.py` (path kept stable for backwards-compatible imports)
+
+## Authorization model (smart-gates default)
+
+The supervisor runs autonomously until it hits a side-effecting step, then
+pauses and surfaces a `RoleResult` with `status='needs_input'`. The four
+default pause points are:
+
+| # | Pause point | Default action |
+|---|---|---|
+| 1 | Post clarifier comment to Jira | Pause; print ADF preview; require approval. |
+| 2 | Push branch + open PR | Pause; print PR title/body/reviewers; require approval. |
+| 3 | Pin Slack channel for CI/CD heartbeats | Pause once per ticket; require channel id. |
+| 4 | Post QA-readiness comment + attach artifacts | Pause; print ADF preview; require approval. |
+
+Override: `--auto` on the CLI (= `auth_mode=full_auto`) skips all pauses.
+Use only when the user explicitly authorizes unattended end-to-end runs.
+
+## Sub-agent boundary contract
+
+- Every sub-agent module exposes `plan(input) -> dict` (dry-run safe) and
+  `run(input) -> RoleResult` (structured output).
+- Every `RoleResult` carries a `status` (`ok` / `needs_input` / `warn` /
+  `fail` / `skipped`) and a `payload` dict.
+- The supervisor parses `payload` keys (`ticket`, `requirements`,
+  `validation`, `implementation`, `test_report`, `pr`, `ci_report`,
+  `cd_report`) - never free-form text.
+- Sub-agents never call other sub-agents directly. The supervisor owns the
+  DAG.
+
+## Slack notifications
+
+Two distinct streams, both routed to the same `--slack-channel` (channel
+id, DM id, or user id `U...`):
+
+### A. Per-role thread (supervisor-driven)
+
+The supervisor opens one thread per run and posts a threaded reply after
+every sub-agent completes. Enabled by default whenever `--slack-channel`
+is set; disable with `--no-slack`; skipped entirely in `--dry-run`.
+
+Parent message:
+```
+:rocket: *Finance ARR Quarter Close (FQC-ARR) started* - `EDAEM-3725`
+mode=`ticket`  auth=`smart_gates`  roles=`10`
+Thread :arrow_down: for per-role status.
+```
+
+Per-role reply (status icon by `RoleStatus`):
+```
+:white_check_mark: *jira-intake* - `ok`
+> EDAEM-3725 "Refresh ARR for FY27Q1" status=Ready for Dev
+```
+
+Final reply:
+```
+:white_check_mark: *Supervisor finished* - overall=`ok`
+(10 roles, 0 pause(s), 12.3s)
+```
+
+Status icons: `ok`=:white_check_mark:, `warn`=:warning:,
+`needs_input`=:pause_button:, `fail`=:x:, `skipped`=:fast_forward:.
+
+Transport: `slk send` for the parent (works for channels, DMs, and user
+ids), `slackApi` over `node -e` with `thread_ts` for threaded replies.
+If `slk` or `node` is missing, the notifier logs and continues - Slack
+failures never block the supervisor.
+
+### A.1 Slack side-channel intake (`task:` messages)
+
+Between every sub-agent the supervisor reads the parent thread for new
+messages (poll uses `conversations.replies` via `node -e slackApi`).
+Anything starting with `task:` (case-insensitive) is treated as an
+operator-issued instruction. The supervisor posts a threaded ack
+for every recognized task and records it on the `SupervisorRunReport`
+under `side_tasks` for audit.
+
+First-class commands run immediately:
+
+| Pattern | Effect |
+|---|---|
+| `task: skip <role>` | Adds `<role>` to `skip_roles` for any remaining sub-agents (matches `_role_dag()` names: `jira-intake`, `requirements-analyzer`, `code-data-validator`, `clarifier`, `implementer`, `test-runner`, `pr-author`, `ci-monitor`, `cd-monitor`, `qa-handoff`). |
+| `task: pause` | Pauses after the current role and returns a `SupervisorRunReport(status='needs_input')`. Caller must resume explicitly. |
+| `task: cancel` | Aborts after the current role with `overall_status='warn'`. |
+| `task: status` | Posts a one-line recap of the last 5 role statuses to the thread. |
+| `task: debug [<model>]` | Dispatches the on-demand debugger sub-agent. `<model>` is optional - defaults to the first in-scope model from requirements (falls back to `arr_line_categories`). |
+| `task: quarter-close [<as_was_date>]` | Dispatches the on-demand quarter-close-runner sub-agent. `<as_was_date>` is optional - defaults to the latest entry in `KNOWN_FY_CLOSE_DATES`. Always recon-mode-safe; respects `quarter_close_skip_pipeline` setting. |
+| anything else | Queued as a free-form side-task, surfaced in the final-banner reply and on the `SupervisorRunReport.side_tasks` list. |
+
+Failure mode: if `slk` / `node` is missing, the parent message lost its
+`ts`, or `conversations.replies` errors, the supervisor logs a warning
+and continues without side-channel intake. The drain itself never raises.
+
+### B. CI/CD heartbeat (monitor-driven)
+
+- Default poll: 10 minutes. Cap: 4 hours per CI monitor invocation
+  (configurable via `CIInput.max_hours`).
+- Check name pattern: `ci/dbt_cloud` (eda-dbt-em repo). Override per ticket
+  if the workflow renames the check.
+- Heartbeat shape (exact match to `monitor_pr458_slack.sh`):
+
+  ```
+  :hourglass_flowing_sand: *PR #N CI* check `ci/dbt_cloud` = `pending` (poll #i)
+  <PR_URL|PR #N>
+  ```
+
+- Final state shape:
+
+  ```
+  :white_check_mark: *PR #N CI finished* - `ci/dbt_cloud` pass
+  <run-url|run> · <PR_URL|PR #N>
+  ```
+
+The CI/CD heartbeat is NOT threaded under the supervisor's parent today
+(it goes flat to the same channel via `slk send`). Don't conflate this
+with the per-role thread.
+
+## Live thinking log (Markdown, append-only)
+
+Every supervisor run writes a live `tail -f`-friendly Markdown trace so the
+operator can watch reasoning in real time and intervene via the Slack
+side-channel (`task: ...`) if needed.
+
+| Aspect | Detail |
+|---|---|
+| Default path | `<project_dir>/runs/thinking/<UTC_ts>_<slug>.md` |
+| Override | `--thinking-log <path>` on the CLI; `thinking_log_path=Path(...)` on `SupervisorInput` |
+| Disable | `--no-thinking-log` or `thinking_log_enabled=False` |
+| Writer module | `agents/arr_quarter_close/thinking_log.py::ThinkingLog` |
+| Write semantics | Append + `flush() + fsync()` per section; any IO error disables the writer, never blocks the run |
+
+Sections emitted (in order):
+
+1. **Header** — display name, mode, ticket, as_was_date, auth_mode, role count, Slack channel, project dir, aliases.
+2. **Per role** — `## :arrow_forward: <role>` with "Why running now" (from `_ROLE_REASONS`), then `**Result:** <icon> <status> - <summary>`, pause reason if any, artifacts, payload preview inside `<details>`.
+3. **Side-tasks** — `### :incoming_envelope: side-task picked up from Slack` for every `task: ...` the supervisor dispatches.
+4. **Supervisor decisions** — `### :brain: supervisor decision - <title>` for cancel/pause from the side-channel.
+5. **Per dbt step** — `- <icon> close:<step> -> <status> (<duration>s)` inside the scheduled-mode/Mode A inline runner.
+6. **Footer** — overall status, role count, pause count, side-task count, elapsed; queued side-tasks listed for follow-up.
+
+Operator workflow: open the path printed at the start of the run
+(`Thinking log: <abs path>`) in a second terminal and `tail -f` it. When
+the supervisor pauses or you see a sub-agent heading toward the wrong
+answer, post `task: skip <role>` or `task: pause` in the Slack thread.
+
+## Interactive clarifier (try-local-first, fall back to Jira)
+
+When the `clarifier` sub-agent returns `NEEDS_INPUT` (the default
+smart-gates pause point for "I have questions before posting to
+Jira"), the supervisor tries an **interactive resolution in the
+Cursor terminal** before falling back to the public Jira-comment
+flow.
+
+### Flow
+
+1. Supervisor sees `RoleResult(role=clarifier, status=NEEDS_INPUT)`.
+2. If `clarifier_interactive_timeout_s > 0` (default `600` = 10 min)
+   AND `sys.stdin.isatty()` (the operator is at a real terminal,
+   not a piped / CI run), the supervisor:
+   - Prints the numbered questions in a clearly-bordered banner.
+   - Reads one answer per line via `input()`.
+   - Wraps the entire exchange in a single `SIGALRM` timer.
+3. **If the operator answers within the timeout** (and at least one
+   answer is non-empty):
+   - The Q&A is appended to `state.requirements_payload.scope_summary`
+     so downstream roles + the QA-handoff comment surface the
+     interpretation.
+   - Answered questions are removed from
+     `state.requirements_payload.questions`.
+   - The clarifier role is rewritten as `RoleResult(status=OK)` with
+     `payload.clarification.resolved_interactively = True`.
+   - **No Jira comment is posted.** The DAG continues to the
+     implementer.
+4. **If the operator times out, hits Ctrl+C, hits EOF, or leaves all
+   answers blank**, the supervisor falls back to the existing
+   pause-and-post flow exactly as before (no behavior regression).
+
+### CLI flags
+
+| Flag | Effect |
+|---|---|
+| `--clarifier-interactive-timeout 600` | Wait N seconds (default 600). |
+| `--no-clarifier-interactive` | Shortcut: timeout=0, always pause and post to Jira (the pre-FQC-ARR-1.6 behavior). |
+
+### Hard rules
+
+1. **Stdin tty required.** Non-tty (piped, CI, automation) always
+   falls back to the Jira-comment path. Never blocks a headless run.
+2. **No partial Jira posts.** Either every answered question is
+   absorbed locally, or every unanswered question gets posted to
+   Jira — never a mix on the same Jira comment.
+3. **Audit trail preserved.** The interactive resolve writes a
+   `### :brain: supervisor decision - clarifier resolved
+   interactively` block into the thinking log with the full Q&A.
+4. **No SIGALRM on platforms without it.** Falls through to
+   un-timed `input()` if `signal.SIGALRM` is unavailable; the
+   operator can `Ctrl+C` to abort.
+5. **`full_auto` still posts to Jira.** If `auth_mode=full_auto`,
+   the clarifier sub-agent never returns `NEEDS_INPUT` in the
+   first place (it posts directly). The interactive prompt is
+   only reachable from `smart_gates` / `gated_full` /
+   `gated_minimal`.
+
+## On-demand debugger sub-agent
+
+A non-DAG sub-agent (`agents/arr_quarter_close/subagents/debugger.py`)
+is dispatched whenever and wherever a failure or discrepancy surfaces.
+It is **never** part of the canonical 10-sub-agent DAG; it runs
+alongside, on demand.
+
+### Triggers
+
+| Trigger | Source | Default |
+|---|---|---|
+| `auto_failure` | Supervisor sees any DAG role return `FAIL`. | On (disable with `--no-debug-on-failure`). |
+| `side_channel` | Operator posts `task: debug` or `task: debug <model>` in the Slack thread. | On (whenever Slack side-channel is enabled). |
+| `cli` | `--debug-model <model>` or `--debug` on the CLI. | Opt-in. |
+| `manual` | Direct SDK call: `debugger.run(DebugInput(...))`. | Always available. |
+
+### Hard rules
+
+1. **Never writes the fix.** The debugger emits a `ProposedFix` (file
+   + before/after snippet + LLM prompt). The implementer sub-agent or
+   the Cursor IDE coding agent applies the edit.
+2. **Never opens a Snowflake connection.** Emits SQL templates the
+   supervisor runs via the Snowflake MCP (per
+   `prefer-mcp-for-data-platforms`).
+3. **Pause before any Jira write.** Honors the supervisor's
+   `auth_mode`: `smart_gates` (default) returns
+   `status='needs_input'` with the ADF preview on the payload;
+   `full_auto` posts immediately.
+4. **Ticket-type-aware ADF.** The Jira comment is shaped by
+   `TicketSpec.issue_type`:
+   - **Bug** -> "Root cause + reproducible fix" framing, includes
+     "Proposed fix", "Regression test added", and "Repro steps"
+     sections.
+   - **Story / Task / Sub-task / Epic** -> "Debug findings" framing,
+     uses "Suggested investigation focus" + "Generated dbt + pytest
+     harness" sections (no repro steps).
+5. **No fabricated verdicts.** AC analysis verdicts default to
+   `needs_review` until the operator (or a follow-up debugger
+   re-invocation) populates the stage matrix actual values via
+   Snowflake.
+6. **Auto-dispatch is opt-out, never recursive.** When the debugger
+   itself returns `FAIL`, the supervisor does NOT re-dispatch the
+   debugger (`failed.role == "debugger"` short-circuit in
+   `_maybe_debug_on_failure`).
+7. **Pytest harness routes through dbt.** The generated pytest
+   wrapper shells out to `dbt test --select <singular>` and asserts
+   `returncode == 0`. No direct `snowflake.connector` usage.
+8. **Artifacts go to predictable paths.** dbt singular test ->
+   `tests/test_debug_<model>_<ticket>.sql`; pytest wrapper ->
+   `tests/pytest/test_debug_<model>_<ticket>.py`. Both are listed in
+   `.gitignore` (regenerated on demand; not committed).
+
+### Slack `task: debug` syntax
+
+| Pattern | Effect |
+|---|---|
+| `task: debug` | Debug the first in-scope model from requirements (falls back to `arr_line_categories`). |
+| `task: debug <model>` | Debug the specified model (e.g. `task: debug arr_sku_categories`). |
+
+The ack reply has shape:
+`:incoming_envelope: side-task `debug`: ran debugger on `<model>` -> status=needs_input; top hypothesis: <title>`
+
+## On-demand quarter-close-runner sub-agent
+
+A non-DAG sub-agent (`agents/arr_quarter_close/subagents/quarter_close_runner.py`)
+that runs the ARR quarter-close dbt pipeline AND builds the recon
+matrix in one role. Use whenever a quarter snapshot needs to be
+loaded + reconciled.
+
+Triggers:
+
+| Trigger | How | Default behavior |
+|---|---|---|
+| `cli` | `--quarter-close` (optionally with `--quarter-close-baseline-date`, `--quarter-close-target-db`, `--quarter-close-tolerance-pct`, `--quarter-close-skip-pipeline`). | When set with `--ticket`, dispatches after the DAG; when set alone with `--as-was-date`, replaces the standalone-orchestrator path so the pipeline runs once. |
+| `side_channel` | `task: quarter-close` (latest known FY close) or `task: quarter-close 2026-02-11`. | Always runs both pipeline + recon unless `quarter_close_skip_pipeline=True` on the input. |
+| `manual` | `quarter_close_runner.run(QuarterCloseInput(...))`. | Always available; mirror CLI flags as dataclass fields. |
+
+Hard rules:
+
+1. **Never opens a Snowflake connection directly.** Every recon check
+   carries an auditable `sql_template`; the supervisor (or operator)
+   runs them via the Snowflake MCP and re-attaches actuals with
+   `quarter_close_runner._attach_actuals(report, actuals)`.
+2. **Pipeline runs at most once per supervisor invocation.** When
+   `--ticket --as-was-date --quarter-close` are all passed, the inline
+   scheduled-mode orchestrator pass is automatically skipped.
+3. **Recon checks are additive.** The 7 checks (`waterfall_balance_per_category`,
+   `total_arr_at_snapshot`, three `*_row_parity`,
+   `currency_variant_tie_out`, `active_account_continuity`) layer ON
+   TOP of the dbt tests already in the orchestrator manifest
+   (`test_arr_waterfall_balance`, `tag:ia_migration`). They do NOT
+   replace them.
+4. **Pipeline FAIL is always FAIL.** Even when the recon matrix
+   verdict is `pending` (because the dbt tables didn't load), the
+   role status is `FAIL` so the supervisor pauses cleanly.
+5. **Default baselines come from `KNOWN_FY_CLOSE_DATES`.** When the
+   operator passes `--as-was-date 2026-02-11` without
+   `--quarter-close-baseline-date`, the baseline defaults to the prior
+   entry (`2025-11-10`). When neither is passed (Slack side-channel
+   with no positional date), `as_was_date` defaults to the latest
+   entry in the list.
+6. **Tolerance is one knob.** `--quarter-close-tolerance-pct 1.0`
+   means `<1.0% = pass / <5.0% = warn / else fail`. Override per-run
+   for tighter / looser recon.
+
+### Slack `task: quarter-close` syntax
+
+| Pattern | Effect |
+|---|---|
+| `task: quarter-close` | Run pipeline + recon for the latest `KNOWN_FY_CLOSE_DATES` entry. |
+| `task: quarter-close YYYY-MM-DD` | Run pipeline + recon for the specified snapshot. |
+
+The ack reply has shape:
+`:incoming_envelope: side-task `quarter-close`: ran quarter-close-runner -> status=ok pipeline=success recon=pass`
+
+## Validation matrix (7-column comparison shape)
+
+Every validation-producing sub-agent attaches a `ValidationMatrix` to
+its `RoleResult.payload`. The matrix is the operator-facing tie-out
+table that surfaces in the thinking log, the QA Jira comment, and the
+final `SupervisorRunReport`.
+
+Each `ValidationCheck` carries nine columns:
+
+| Column | Meaning |
+|---|---|
+| `check_name` | Human-friendly label. |
+| `grain` | Aggregation grain (e.g. `(as_was_date = max)`). |
+| `source_salesforce` | Raw value from `base_prod.salesforce.*`. Empty when N/A. |
+| `baseline_prod` | Current production value (`finance_prod`) - pre-change. |
+| `target_dev_qa` | Post-change value in `finance_dev` (CI) or `finance_qa` (CD). |
+| `expected` | What the AC / business rule says the value should be. |
+| `actual` | Measured value (usually equals `target_dev_qa`). |
+| `business_logic` | One-line formula or rule. |
+| `verdict` | `pass` / `warn` / `fail` / `needs_review` / `pending`. |
+
+Hard rules for the matrix:
+
+1. **Auditable SQL.** Every check carries a CTE-based `sql_template` with
+   named CTEs (`sf_source`, `prod_baseline`, `dev_target`). The supervisor
+   runs them via the Snowflake MCP - sub-agents never open a connection.
+2. **Verdict tolerances are explicit.** Numeric checks default to
+   `<0.1% pass / <1% warn / else fail`; row-count checks default to
+   `<1% pass / <5% warn / else fail`. Override in `notes` if the ticket
+   demands a tighter bound.
+3. **Salesforce source may be empty.** Structural tests (waterfall
+   balance, line-vs-sku parity, row-count parity) have no SF source -
+   leave the field blank, do not invent one.
+4. **The matrix flows downstream verbatim.** `code-data-validator` builds
+   the pre-flight matrix; `ci-monitor` rebuilds it against `finance_dev`;
+   `cd-monitor` rebuilds it again against `finance_qa`; `qa-handoff`
+   renders all three side-by-side in the QA Jira comment.
+5. **Never replace `pending` with a fabricated value.** The verdict stays
+   `pending` until the SQL actually runs. If the supervisor can't reach
+   Snowflake, mark `verdict='needs_review'` and surface that in the
+   thinking log.
+
+## Hard rules
+
+1. **No prod writes from automation.** `--target prod` is reserved for
+   explicit user-initiated runs. The supervisor never invokes a prod close
+   unattended.
+2. **Jira API only via the curl + env-var pattern.** Never call the
+   Atlassian MCP for Jira (rule `jira-api-access.mdc`). The clarifier and
+   qa-handoff sub-agents are the only authorized Jira writers.
+3. **Snowflake reads via MCP.** Sub-agents never open a Snowflake
+   connection. They emit query templates the supervisor / user run via
+   `prefer-mcp-for-data-platforms` channel.
+4. **PR pushes only to feature branches.** Never push directly to `qa` or
+   `prod`. The PR goes through review per CODEOWNERS + CI.
+5. **No silent edits to `dbt_project.yml::arr_refactor_as_was_date_list`.**
+   The close-date list is finance-owned; changes require explicit ticket
+   approval.
+6. **Resume semantics are external.** The supervisor has no on-disk state.
+   To resume after a pause, the caller supplies `SupervisorState` with the
+   prior role payloads.
+
+## Failure handling
+
+- `fail` from any sub-agent halts the DAG. The supervisor returns a
+  `SupervisorRunReport` with `overall_status='fail'` and the failing role
+  in `role_results`.
+- `warn` does not halt the DAG by default. Warnings accumulate into the
+  overall status (`warn` if any, else `ok`).
+- `needs_input` halts and reports the pause reason. The caller decides
+  whether to resume (approve) or abort.
+
+## Observability
+
+Every supervisor run should be reproducible from its `SupervisorInput` plus
+the `role_results` array. Persist the JSON for any production run -
+attach to the QA-readiness Jira comment via the qa-handoff sub-agent.

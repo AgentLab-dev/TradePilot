@@ -1,0 +1,48 @@
+{
+  "name": "fqc-lessons",
+  "version": "1.0.0",
+  "description": "Knowledge / learning loop for FQC-ARR over the JSONL lessons store (data/lessons/*.jsonl + _stable.jsonl). Reads ground every role's prompt with cited lessons; writes (record/promote/archive/reflect) keep the store as the single source of truth. Also indexed as a Sana knowledge collection for retrieval.",
+  "securityScheme": { "type": "oauth2", "note": "Sana-managed; writes limited to the agent's own knowledge collection." },
+  "tools": [
+    {
+      "name": "load_for",
+      "description": "Return the stable + recent lessons relevant to a role, formatted for prompt grounding (mirrors format_lessons_for_prompt). Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["role"], "properties": { "role": { "type": "string" }, "limit": { "type": "integer", "default": 20 } } }
+    },
+    {
+      "name": "search",
+      "description": "Semantic/keyword search over the lessons store (e.g. by model name + symptom) for the debugger and implementer. Read-only.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["query"], "properties": { "query": { "type": "string" }, "limit": { "type": "integer", "default": 10 } } }
+    },
+    {
+      "name": "record",
+      "description": "Append a new lesson (a miss/win/insight) to the working store. Not a governed external write; no HITL gate.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": {
+        "type": "object",
+        "required": ["role", "lesson"],
+        "properties": { "role": { "type": "string" }, "lesson": { "type": "string" }, "tags": { "type": "array", "items": { "type": "string" } } }
+      }
+    },
+    {
+      "name": "promote",
+      "description": "Promote a validated working lesson into _stable.jsonl (survives reflection compaction).",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["lesson_id"], "properties": { "lesson_id": { "type": "string" } } }
+    },
+    {
+      "name": "archive",
+      "description": "Archive a stale/incorrect lesson so it stops grounding prompts.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": { "type": "object", "required": ["lesson_id"], "properties": { "lesson_id": { "type": "string" } } }
+    },
+    {
+      "name": "reflect",
+      "description": "Run the twice-daily/weekly reflection+compaction (equivalent of --learn). Optionally triggered by a Sana scheduled trigger instead of launchd.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": false },
+      "inputSchema": { "type": "object", "properties": { "mode": { "type": "string", "enum": ["daily", "weekly"], "default": "daily" } } }
+    }
+  ]
+}

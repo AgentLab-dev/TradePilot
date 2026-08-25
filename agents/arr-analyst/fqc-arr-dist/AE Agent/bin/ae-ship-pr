@@ -1,0 +1,276 @@
+#!/usr/bin/env bash
+# ae-ship-pr
+# -----------------------------------------------------------------------------
+# End-to-end "ship a Jira ticket as a PR" automation.
+#
+# Given a Jira ticket key, this script will:
+#   1. Take a fresh shallow clone of the `qa` branch of eda-dbt-em into a
+#      scratch directory keyed by the ticket key.
+#   2. Locate the matching feature branch in the user's primary working copy
+#      (~/Documents/Cursor/eda-dbt-em/) and cherry-pick its commits onto a
+#      fresh branch off origin/qa, auto-remapping paths from the obsolete
+#      pre-IA layout (models/finance/table/) to the post-IA layout
+#      (models/finance/modeled/aggregate/table/) when needed.
+#   3. Push the new branch to origin.
+#   4. Open a pull request against qa with an auto-generated body.
+#   5. Post a Jira comment with PR link, commit SHA, and branch name.
+#   6. Send a Slack DM (or channel message) with a one-screen summary.
+#
+# Usage:
+#   ae-ship-pr --ticket EDAEM-3183 [--slack myself|<user_id>|<channel>] \
+#              [--source-branch <local_branch_name>] [--source-repo <path>]
+#
+# Defaults:
+#   --slack         myself  (resolves via slack_directory.json)
+#   --source-branch first local branch matching `*<ticket-key-lowercase>*`
+#   --source-repo   ~/Documents/Cursor/eda-dbt-em
+#
+# Exit codes:
+#   0  shipped successfully
+#   1  bad arguments
+#   2  source branch not found locally
+#   3  git/clone/push failure
+#   4  PR creation failure
+#   5  Jira comment failure (PR still created)
+#   6  Slack notify failure (PR + Jira still done)
+# -----------------------------------------------------------------------------
+set -euo pipefail
+
+# Re-source credentials (fresh shells lose env vars). zsh syntax in ~/.zshrc
+# can break bash with `set -e`, so we extract only the variables we need by
+# running zsh as a subshell.
+if [[ -z "${JIRA_API_TOKEN=[REDACTED] || -z "${JIRA_EMAIL:-}" || -z "${JIRA_BASE_URL:-}" ]]; then
+  if command -v zsh >/dev/null 2>&1; then
+    eval "$(zsh -c 'source ~/.zshrc >/dev/null 2>&1; \
+      for v in JIRA_API_TOKEN JIRA_EMAIL JIRA_BASE_URL GIT_COMMITTER_NAME; do
+        val="${(P)v}"; [[ -n "$val" ]] && printf "export %s=%q\n" "$v" "$val";
+      done' 2>/dev/null)" || true
+  fi
+fi
+
+REPO_URL="https://github.com/workday-inc/eda-dbt-em.git"
+BASE_BRANCH="qa"
+DEFAULT_SOURCE_REPO="$HOME/Documents/Cursor/eda-dbt-em"
+SHIPPING_ROOT="$HOME/Documents/Cursor/eda-dbt-em-shipping"
+SLACK_DIRECTORY="$HOME/Library/Application Support/AE Agent/agents/arr_quarter_close/data/slack_directory.json"
+
+TICKET=""
+SLACK_TARGET="myself"
+SOURCE_BRANCH=""
+SOURCE_REPO="$DEFAULT_SOURCE_REPO"
+
+usage() {
+  sed -n '2,40p' "$0"
+  exit "${1:-1}"
+}
+
+# --- Arg parsing ---------------------------------------------------------------
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --ticket)          TICKET="$2"; shift 2 ;;
+    --slack)           SLACK_TARGET="$2"; shift 2 ;;
+    --slack-channel)   SLACK_TARGET="$2"; shift 2 ;;  # alias
+    --source-branch)   SOURCE_BRANCH="$2"; shift 2 ;;
+    --source-repo)     SOURCE_REPO="$2"; shift 2 ;;
+    -h|--help)         usage 0 ;;
+    *) echo "Unknown arg: $1" >&2; usage 1 ;;
+  esac
+done
+
+[[ -z "$TICKET" ]] && { echo "ERROR: --ticket is required" >&2; usage 1; }
+TICKET="${TICKET#https://workdaybt.atlassian.net/browse/}"  # accept full URL
+TICKET="$(echo "$TICKET" | tr '[:lower:]' '[:upper:]')"
+TICKET_LC="$(echo "$TICKET" | tr '[:upper:]' '[:lower:]')"
+
+echo ":: Ticket:        $TICKET"
+echo ":: Source repo:   $SOURCE_REPO"
+
+# --- Resolve Slack target ------------------------------------------------------
+resolve_slack_target() {
+  local raw="$1"
+  if [[ "$raw" == "myself" ]]; then
+    # Primary: resolve from the live Slack session via `slk auth`.
+    local resolved=""
+    if command -v slk >/dev/null 2>&1; then
+      resolved=$(slk auth 2>/dev/null | awk -F': ' '/User ID:/{print $2; exit}' | tr -d '[:space:]')
+    fi
+    # Fallback: scan the slack_directory.json for a user marked source=seed
+    # (typically the agent owner).
+    if [[ -z "$resolved" && -f "$SLACK_DIRECTORY" ]]; then
+      resolved=$(python3 -c "import json,sys;d=json.load(open(sys.argv[1]));u=d.get('users',{});m=[k for k,v in u.items() if v.get('source')=='seed'];print(m[0] if m else '')" "$SLACK_DIRECTORY" 2>/dev/null || true)
+    fi
+    [[ -n "$resolved" ]] && echo "$resolved" || echo "$raw"
+  else
+    echo "$raw"
+  fi
+}
+SLACK_RESOLVED=$(resolve_slack_target "$SLACK_TARGET")
+echo ":: Slack target:  $SLACK_TARGET -> $SLACK_RESOLVED"
+
+# --- Find source branch in user's working copy ---------------------------------
+if [[ -z "$SOURCE_BRANCH" ]]; then
+  SOURCE_BRANCH=$(git -C "$SOURCE_REPO" branch --list "*${TICKET_LC}*" --format='%(refname:short)' 2>/dev/null | head -1 || true)
+fi
+if [[ -z "$SOURCE_BRANCH" ]]; then
+  # Try uppercase too
+  SOURCE_BRANCH=$(git -C "$SOURCE_REPO" branch --list "*${TICKET}*" --format='%(refname:short)' 2>/dev/null | head -1 || true)
+fi
+if [[ -z "$SOURCE_BRANCH" ]]; then
+  echo "ERROR: no local branch matching '*$TICKET_LC*' found in $SOURCE_REPO" >&2
+  exit 2
+fi
+echo ":: Source branch: $SOURCE_BRANCH"
+
+# --- Find commits unique to source branch (not on qa) --------------------------
+git -C "$SOURCE_REPO" fetch origin "$BASE_BRANCH" --depth=200 --quiet || true
+MERGE_BASE=$(git -C "$SOURCE_REPO" merge-base "$SOURCE_BRANCH" "origin/$BASE_BRANCH" 2>/dev/null || echo "")
+if [[ -z "$MERGE_BASE" ]]; then
+  echo "WARN: no common ancestor between $SOURCE_BRANCH and origin/$BASE_BRANCH; will use full branch history"
+  COMMIT_RANGE="$SOURCE_BRANCH"
+else
+  COMMIT_RANGE="${MERGE_BASE}..${SOURCE_BRANCH}"
+fi
+COMMITS_TO_SHIP=$(git -C "$SOURCE_REPO" rev-list --reverse "$COMMIT_RANGE")
+COMMIT_COUNT=$(echo "$COMMITS_TO_SHIP" | grep -c . || echo 0)
+echo ":: Commits to ship: $COMMIT_COUNT"
+[[ "$COMMIT_COUNT" -eq 0 ]] && { echo "ERROR: no commits to ship"; exit 2; }
+
+# --- Fresh clone of qa ---------------------------------------------------------
+mkdir -p "$SHIPPING_ROOT"
+WORKDIR="$SHIPPING_ROOT/$TICKET"
+rm -rf "$WORKDIR"
+echo ":: Cloning $BASE_BRANCH into $WORKDIR ..."
+git clone --branch "$BASE_BRANCH" --single-branch --depth 50 "$REPO_URL" "$WORKDIR" 2>&1 | tail -3
+
+cd "$WORKDIR"
+git config user.email "$JIRA_EMAIL"
+git config user.name "${GIT_COMMITTER_NAME:-$(echo "$JIRA_EMAIL" | cut -d@ -f1)}"
+
+NEW_BRANCH="feature/${TICKET_LC}-ship"
+# Ensure unique branch name (don't clobber existing)
+if git ls-remote --exit-code --heads origin "$NEW_BRANCH" >/dev/null 2>&1; then
+  NEW_BRANCH="${NEW_BRANCH}-$(date +%Y%m%d%H%M%S)"
+fi
+git checkout -b "$NEW_BRANCH"
+BASE_SHA=$(git rev-parse --short HEAD)
+echo ":: New branch:    $NEW_BRANCH (off qa @ $BASE_SHA)"
+
+# --- Cherry-pick with path remap ----------------------------------------------
+# Pull each commit as a patch from source repo, optionally remap paths, apply.
+PATH_REMAP_SED='s|models/finance/table/|models/finance/modeled/aggregate/table/|g; s|models/finance/view/|models/finance/modeled/aggregate/view/|g'
+
+REMAPPED=0
+FIRST_SHA=""
+LAST_SHA=""
+for sha in $COMMITS_TO_SHIP; do
+  echo ":: Applying $sha ..."
+  PATCH=$(git -C "$SOURCE_REPO" format-patch -1 --stdout "$sha")
+  # Detect if remap is needed
+  if echo "$PATCH" | grep -qE '^(diff --git a/models/finance/(table|view)/|--- a/models/finance/(table|view)/)'; then
+    if [[ ! -d "$WORKDIR/models/finance/table" ]]; then
+      echo "   path remap: pre-IA -> post-IA"
+      PATCH=$(echo "$PATCH" | sed -E "$PATH_REMAP_SED")
+      REMAPPED=1
+    fi
+  fi
+  echo "$PATCH" | git am --keep-cr 2>&1 | tail -3
+  LAST_SHA=$(git rev-parse --short HEAD)
+  [[ -z "$FIRST_SHA" ]] && FIRST_SHA="$LAST_SHA"
+done
+
+# --- Push ----------------------------------------------------------------------
+echo ":: Pushing $NEW_BRANCH ..."
+git push -u origin "$NEW_BRANCH" 2>&1 | tail -3
+
+# --- Open PR -------------------------------------------------------------------
+PR_TITLE="${TICKET}: $(git log -1 --pretty=%s "$LAST_SHA" | sed -E "s/^${TICKET}:[[:space:]]*//")"
+COMMITS_LIST=$(git log --reverse --pretty='- `%h` %s' "${BASE_SHA}..${LAST_SHA}")
+PR_BODY=$(cat <<EOF
+## Summary
+
+Auto-shipped by \`ae-ship-pr\` for [${TICKET}](https://workdaybt.atlassian.net/browse/${TICKET}).
+
+- Base: \`${BASE_BRANCH}\` @ \`${BASE_SHA}\`
+- Commits: ${COMMIT_COUNT}
+- Path remap applied: $( [[ "$REMAPPED" -eq 1 ]] && echo "yes (pre-IA -> post-IA)" || echo "no" )
+
+## Commits in this PR
+
+${COMMITS_LIST}
+
+## Test plan
+
+- [ ] CI green
+- [ ] Reviewer sign-off
+
+---
+_Generated by \`ae-ship-pr\` (AE Agent toolkit)._
+EOF
+)
+
+echo ":: Opening PR ..."
+PR_URL=$(gh pr create --base "$BASE_BRANCH" --head "$NEW_BRANCH" \
+  --title "$PR_TITLE" --body "$PR_BODY" 2>&1 | tail -1) || {
+    echo "ERROR: gh pr create failed" >&2; exit 4
+  }
+echo ":: PR opened:     $PR_URL"
+
+# --- Post Jira comment ---------------------------------------------------------
+echo ":: Posting Jira comment ..."
+JIRA_COMMENT_PAYLOAD=$(python3 - "$PR_URL" "$NEW_BRANCH" "$LAST_SHA" "$COMMIT_COUNT" <<'PY'
+import json, sys
+pr_url, branch, sha, n = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+adf = {"body":{"type":"doc","version":1,"content":[
+  {"type":"heading","attrs":{"level":3},"content":[{"type":"text","text":"AE Agent — PR shipped"}]},
+  {"type":"paragraph","content":[
+    {"type":"text","text":"PR: "},
+    {"type":"text","text":pr_url,"marks":[{"type":"link","attrs":{"href":pr_url}}]}
+  ]},
+  {"type":"bulletList","content":[
+    {"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"Branch: "},{"type":"text","text":branch,"marks":[{"type":"code"}]}]}]},
+    {"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"Tip commit: "},{"type":"text","text":sha,"marks":[{"type":"code"}]}]}]},
+    {"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":f"Commits: {n}"}]}]}
+  ]}
+]}}
+print(json.dumps(adf))
+PY
+)
+JIRA_RESP=$(curl -sS -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+  -H "Accept: application/json" -H "Content-Type: application/json" \
+  -X POST "$JIRA_BASE_URL/rest/api/3/issue/${TICKET}/comment" \
+  --data "$JIRA_COMMENT_PAYLOAD")
+JIRA_COMMENT_ID=$(echo "$JIRA_RESP" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d.get('id',''))" 2>/dev/null || true)
+if [[ -z "$JIRA_COMMENT_ID" ]]; then
+  echo "WARN: Jira comment may have failed. Response: $JIRA_RESP" >&2
+else
+  echo ":: Jira comment:  ${JIRA_COMMENT_ID}"
+fi
+
+# --- Slack DM ------------------------------------------------------------------
+echo ":: Sending Slack notification to ${SLACK_RESOLVED} ..."
+SLACK_MSG=$(cat <<EOF
+:white_check_mark: *${TICKET}* PR shipped
+
+*PR:* ${PR_URL}
+*Jira:* <https://workdaybt.atlassian.net/browse/${TICKET}|${TICKET}>
+*Branch:* \`${NEW_BRANCH}\` :arrow_right: \`${BASE_BRANCH}\`
+*Commits:* ${COMMIT_COUNT} (tip \`${LAST_SHA}\`)
+*Path remap:* $( [[ "$REMAPPED" -eq 1 ]] && echo "yes (pre-IA -> post-IA)" || echo "no" )
+
+_Generated by \`ae-ship-pr\`._
+EOF
+)
+if command -v slk >/dev/null 2>&1; then
+  slk send "$SLACK_RESOLVED" "$SLACK_MSG" || { echo "WARN: slk send failed" >&2; exit 6; }
+else
+  echo "WARN: slk CLI not found; skipping Slack notify" >&2
+fi
+
+echo ""
+echo "=============================================="
+echo "DONE - $TICKET shipped"
+echo "  PR:     $PR_URL"
+echo "  Branch: $NEW_BRANCH"
+echo "  Tip:    $LAST_SHA"
+echo "  Jira:   comment $JIRA_COMMENT_ID"
+echo "=============================================="

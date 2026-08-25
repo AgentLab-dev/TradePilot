@@ -1,0 +1,69 @@
+{
+  "protocolVersion": "1.0",
+  "name": "code-data-validator",
+  "description": "Read-only role agent. Scans the eda-dbt-em repo for affected models/macros and builds a ValidationMatrix of Snowflake tie-out checks, emitting auditable SELECT-only SQL templates.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/code-data-validator"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "code_data_validator",
+      "name": "Code Data Validator",
+      "description": "Read-only role agent. Scans the eda-dbt-em repo for affected models/macros and builds a ValidationMatrix of Snowflake tie-out checks, emitting auditable SELECT-only SQL templates.",
+      "tags": [
+        "validation",
+        "snowflake",
+        "read-only"
+      ],
+      "examples": [
+        "build the validation matrix for EDAEM-3772"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 3,
+    "write_capable": false,
+    "requires_approval": false,
+    "gated_tools": [],
+    "mcp_dependencies": [
+      "fqc-snowflake",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.validation"
+  }
+}

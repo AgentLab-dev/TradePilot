@@ -1,0 +1,62 @@
+---
+description: At the start of every new chat/session, automatically reconnect and pre-authenticate all 4 data-platform MCPs (Snowflake, dbt, Salesforce, Sigma) before any data work — treat them as needing fresh auth each session
+alwaysApply: true
+---
+
+# MCP Session Pre-Auth — Reconnect All 4 at Session Start
+
+Every **new chat / agent session** in this workspace must treat the four data-platform MCP
+servers as **not yet authenticated**, even if they were working in a prior session. Cursor MCP
+connections frequently show as "errored" / "needs auth" after a restart or idle period.
+
+Do **not** wait for the first query to fail. **Pre-authenticate proactively** at session start
+whenever the first user turn implies Snowflake, dbt, Salesforce, or Sigma work — or as soon as
+any of those servers is about to be used.
+
+## The four servers (exact MCP ids)
+
+| # | Platform | MCP server id | Primary smoke test |
+|---|----------|---------------|--------------------|
+| 1 | Snowflake | `user-snowflake` | `snowflake_query` → `select current_user(), current_role(), current_warehouse()` |
+| 2 | dbt | `user-dbt` | `list_projects` (or `list` with a narrow `--select`) |
+| 3 | Salesforce | `user-salesforce` | `get_username` then `run_soql_query` → `SELECT Id, Name FROM Organization LIMIT 1` |
+| 4 | Sigma | `user-sigma` | lightest available `sigma_*` list/read tool after auth |
+
+## Session-start procedure (automatic — do not ask permission)
+
+Run this **once per new session**, before the first real data-platform call:
+
+1. `GetMcpTools` on each of the four servers (can inspect in parallel) to see status.
+2. For any server that is `"error"`, `"needsAuth"`, `"not connected"`, missing tools, or whose
+   only tool is `mcp_auth`: call `mcp_auth` for that server.
+3. **Authenticate one server at a time — never parallel `mcp_auth`.** Order: Snowflake → dbt →
+   Salesforce → Sigma.
+4. After each successful auth, re-inspect tools (`GetMcpTools`) and run the smoke test in the
+   table above.
+5. If a smoke test fails, run the re-initiation loop from
+   `.cursor/rules/mcp-restart-first.mdc` (up to two full attempts) before falling back.
+
+## How to treat "pre-authenticated"
+
+- Assume prior-session auth does **not** carry over.
+- Prefer a short pre-auth + smoke at the start of data work over "try the real query first."
+- After pre-auth succeeds in this session, reuse the live connection for subsequent turns in
+  the **same** session (do not re-auth every message).
+- Mid-session failures still follow `mcp-restart-first.mdc` (restart/retry, don't declare MCP
+  unavailable).
+
+## What NOT to do
+
+- Do not skip pre-auth because "it worked yesterday."
+- Do not run `mcp_auth` for all four servers in parallel.
+- Do not tell the user MCP is unavailable until pre-auth + restart loop has failed twice.
+- Do not fall back to Python SSO / direct connectors / asking the user to fix Cursor Settings
+  before completing this procedure.
+- Do not apply this rule to Atlassian/Jira — Jira stays on API token + `curl` per
+  `jira-api-access` (never Atlassian MCP).
+
+## Relationship to other rules
+
+- **This rule** = proactive reconnect at **session start**.
+- **`mcp-restart-first.mdc`** = reactive reconnect when a call fails **mid-session**.
+- Both apply; neither replaces the other.

@@ -1,0 +1,32 @@
+{
+  "protocolVersion": "1.0",
+  "name": "clarifier",
+  "description": "Write-capable (gated) role agent. Consolidates open questions from requirements-analyzer + code-data-validator into one ADF Jira comment and posts it ONLY after human approval. First write gate of the FQC-ARR DAG.",
+  "version": "2.0-sana",
+  "provider": { "organization": "analytics-engineering", "url": "internal://eda-dbt-em" },
+  "supportedInterfaces": [{ "transport": "A2A", "url": "a2a://fqc-arr/clarifier" }],
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json"],
+  "capabilities": { "streaming": false, "pushNotifications": true },
+  "securitySchemes": { "sana-oauth2": { "type": "oauth2", "description": "Sana connector auth for fqc-jira; add_comment is destructiveHint → approval card." } },
+  "security": [{ "sana-oauth2": [] }],
+  "skills": [
+    {
+      "id": "post-clarification",
+      "name": "Post Jira clarification (gated)",
+      "description": "Draft one consolidated, answerable clarification comment and post it after human approval. Identifier-first; no agent signature. Returns skipped if there are no open questions.",
+      "tags": ["jira", "write", "gated", "hitl", "clarification"],
+      "examples": ["ask the open questions for EDAEM-3772 on the ticket"],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 4,
+    "write_capable": true,
+    "requires_approval": true,
+    "gated_tools": ["fqc-jira.add_comment"],
+    "mcp_dependencies": ["fqc-jira", "fqc-lessons"],
+    "output_key": "payload.clarification"
+  }
+}

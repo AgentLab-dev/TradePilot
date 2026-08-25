@@ -1,0 +1,91 @@
+---
+description: In-IDE data agent shortcut for the Finance ARR Quarter Close (FQC-ARR), also written as FQC, FQCARR, or FQC-ARR. Loads when the user asks to "run the ARR quarter close", "drive the ARR close", "refresh ARR for a snapshot", "drive EDAEM-xxxx through ARR close", "work on EDAEM-xxxx", "FQC-ARR for EDAEM-xxxx", "FQC for EDAEM-xxxx", "FQCARR EDAEM-xxxx", "fcq-arr regression test", "regression test before prod load", "validate gsheet changes for production", or any close-flavored request in the eda-dbt-em repo. Routes scheduled requests to the existing skill, ticket-driven requests to the FQC-ARR supervisor and its sub-agents, and regression-test requests to sub-agent 13 (regression-tester).
+alwaysApply: false
+---
+
+# Finance ARR Quarter Close (FQC-ARR) - in-IDE shortcut
+
+Display name: **Finance ARR Quarter Close**
+Aliases the user may type: **FQC**, **FQCARR**, **FQC-ARR**, **Finance ARR Quarter Close**, **ARR Quarter Close**, **ARR close**. Treat all of these as the same supervisor.
+
+This rule is the user-facing wrapper that turns any of those triggers in chat
+into a real close. It does not duplicate logic - it composes the existing
+skill and rule:
+
+1. **Read** `.cursor/skills/arr-quarter-close/SKILL.md` first. Follow that
+   skill's workflow.
+2. **Apply** `.cursor/rules/arr-quarter-close.mdc` guardrails on every
+   command (selectors, var quoting, exclude `*_scd2`, validation gating).
+3. **Prefer** the Path A delegation pattern
+   (`python -m agents.arr_quarter_close.cli ...`) unless the user asks for
+   per-step interactivity, in which case use the dbt MCP directly.
+4. **Confirm** target (`dev` / `qa` / `prod`) before any execution. Never
+   run `--target prod` without explicit user approval.
+5. **Summarize** with the per-step table format documented in the runbook
+   (status / duration / failing-row count) so the user can read it at a
+   glance.
+
+## Mode dispatch
+
+1. **User mentions a ticket key** (`EDAEM-`, `EDADG-`, etc.): route to the
+   Finance ARR Quarter Close (FQC-ARR) supervisor in ticket mode.
+   - Read `.cursor/skills/arr-quarter-close/supervisor.md` first.
+   - Apply `.cursor/rules/arr-close-supervisor.mdc` guardrails (smart-gates
+     authorization).
+   - Prefer the CLI: `python -m agents.arr_quarter_close.cli --ticket
+     EDAEM-XXXX --mode ticket --project-dir .`
+2. **User mentions only a date / "close" / "snapshot"**: route to the
+   scheduled-snapshot close (the original skill flow).
+3. **Both** (ticket + date): supervisor in `both` mode - 10 sub-agents
+   first, then re-enter the scheduled close if the implementer flagged
+   `needs_snapshot_rebuild=True`.
+4. **Regression test** ("fcq-arr regression test", "regression test before
+   prod load", "validate gsheet changes", "check if source updates are safe
+   for production", "rebuild dev and compare with prod"): route to the
+   regression-tester sub-agent.
+   - Read `.cursor/commands/fcq-arr-regression-test.md` for the full
+     5-phase workflow.
+   - Read `.cursor/skills/arr-quarter-close/subagents/11_regression_tester.md`
+     for I/O contracts.
+   - Executes: detect source changes → rebuild dev → validate vs prod →
+     verdict (PASS/FAIL) → notify (Slack + report document).
+   - On FAIL: provides rollback instructions for business stakeholders.
+
+## Quick triggers (and what to do)
+
+| User says | First action |
+|---|---|
+| "run ARR close for `<date>`" | Confirm target, then orchestrator `--dry-run` -> confirm -> real run. |
+| "validate ARR for `<date>`" | Run only steps 6-7 of the runbook (`test_arr_waterfall_balance` + `tag:ia_migration`). |
+| "what would the ARR close do for `<date>`?" | Orchestrator `--dry-run`; print the planned commands; ask before executing. |
+| "rerun ARR rollups for `<date>`" | Skip step 1; run step 3 + step 4; then validate. |
+| "refresh ARR dashboards" | Step 5 only; no validation required. |
+| "drive EDAEM-XXXX" / "work on EDAEM-XXXX (ARR)" | Supervisor in ticket mode; dry-run first; confirm before any side-effect. |
+| "EDAEM-XXXX for snapshot `<date>`" | Supervisor in `both` mode. |
+| "supervisor for EDAEM-XXXX" | Same as ticket mode; print the role DAG before starting. |
+| "FQC EDAEM-XXXX" / "FQCARR EDAEM-XXXX" / "FQC-ARR EDAEM-XXXX" | Same as ticket mode. The three aliases are interchangeable. |
+| "FQC for `<date>`" / "FQCARR `<date>`" | Same as scheduled mode (orchestrator). |
+| "FQC EDAEM-XXXX for `<date>`" | Same as `both` mode. |
+| "fcq-arr regression test" | Regression-tester: detect → rebuild dev → validate vs prod → verdict. |
+| "regression test before tonight's prod load" | Same as regression test. |
+| "validate gsheet changes for production" | Same as regression test. |
+| "rebuild dev and compare with prod" | Same as regression test. |
+| "check if source updates are safe" | Same as regression test. |
+
+## Default to safety
+
+- Default `target` is `qa` unless the user names `prod` or `dev`.
+- Default `--fail-fast` is on; do not flip it without telling the user.
+- Default validation includes both `test_arr_waterfall_balance` and
+  `tag:ia_migration`. Skip the latter only when the user opts out.
+
+## Output shape
+
+End every close with the standard summary block from the runbook plus a
+**Next steps** line:
+
+```text
+Next steps:
+  - Finance Sigma tie-out (external).
+  - File a follow-up if any failing rows landed in <env>.stage.test_*.
+```

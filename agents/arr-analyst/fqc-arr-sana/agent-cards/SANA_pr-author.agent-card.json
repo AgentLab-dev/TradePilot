@@ -1,0 +1,73 @@
+{
+  "protocolVersion": "1.0",
+  "name": "pr-author",
+  "description": "Write-capable (gated) role agent. Drafts a substance-first PR title/body and, after approval, pushes the branch and opens the PR into the default branch.",
+  "version": "2.0-sana",
+  "provider": {
+    "organization": "analytics-engineering",
+    "url": "internal://eda-dbt-em"
+  },
+  "supportedInterfaces": [
+    {
+      "transport": "A2A",
+      "url": "a2a://fqc-arr/pr-author"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": true
+  },
+  "securitySchemes": {
+    "sana-oauth2": {
+      "type": "oauth2",
+      "description": "Sana connector auth."
+    }
+  },
+  "security": [
+    {
+      "sana-oauth2": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "pr_author",
+      "name": "Pr Author",
+      "description": "Write-capable (gated) role agent. Drafts a substance-first PR title/body and, after approval, pushes the branch and opens the PR into the default branch.",
+      "tags": [
+        "github",
+        "pr",
+        "gated",
+        "hitl"
+      ],
+      "examples": [
+        "open the PR for EDAEM-3772"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-fqc-arr": {
+    "role_order": 7,
+    "write_capable": true,
+    "requires_approval": true,
+    "gated_tools": [
+      "fqc-github.push_branch",
+      "fqc-github.create_pr"
+    ],
+    "mcp_dependencies": [
+      "fqc-github",
+      "fqc-lessons"
+    ],
+    "output_key": "payload.pr"
+  }
+}
