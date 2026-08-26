@@ -1,6 +1,8 @@
 # TradePilot
 
-An autonomous AI agent that monitors markets, plans trades, and reports risk.
+**Trade Pilot** is the single agent for this repository: it monitors markets, plans trades, reports risk, and runs the packed ARR quarter-close DAG. Packed folders `agents/ssr-st/` and `agents/arr-analyst/` are domains of Trade Pilot, not separate products.
+
+Identity: [`AGENTS.md`](AGENTS.md) · [`.cursor/skills/trade-pilot/SKILL.md`](.cursor/skills/trade-pilot/SKILL.md) · Cloud env: [`.cursor/environment.json`](.cursor/environment.json)
 
 ## Requirements
 
@@ -36,12 +38,12 @@ Run the CLI help:
 tradepilot --help
 ```
 
-Packaged operating system for two Cursor discussion agents:
+Trade Pilot domains (one agent):
 
-| Agent | Role |
+| Domain | Role |
 |---|---|
-| **ssr-st** | Short-term / options / income trading agent (`ssr-analyst`) |
-| **arr-analyst** | Finance ARR quarter-close agent (FQC-ARR / `eda-dbt-em`) |
+| **Trading** (`agents/ssr-st/`) | Short-term / options / income (`ssr-analyst`) |
+| **ARR close** (`agents/arr-analyst/`) | Finance ARR quarter-close (FQC-ARR / `eda-dbt-em`) |
 
 Source GitHub repo: [AgentLab-dev/TradePilot](https://github.com/AgentLab-dev/TradePilot)
 
@@ -49,22 +51,26 @@ This dump was packed **25 Aug 2026** from the live Cursor + Claude skill trees, 
 
 ## Start here
 
-1. [`CONTEXT_LAST_100_DAYS.md`](CONTEXT_LAST_100_DAYS.md) — index of every extracted chat + named operations
-2. [`agents/ssr-st/commands/FULLCHECK.md`](agents/ssr-st/commands/FULLCHECK.md) — the 12-step trading battery
-3. [`agents/arr-analyst/commands/FQC_ARR.md`](agents/arr-analyst/commands/FQC_ARR.md) — the 10-role ARR DAG
-4. [`discussions/`](discussions/) — full chat text (tools stripped, secrets redacted)
+1. [`AGENTS.md`](AGENTS.md) — Trade Pilot identity (Cloud Agents read this)
+2. [`.cursor/commands/`](.cursor/commands/) — slash commands (`/fullcheck`, `/fqc-arr`, …)
+3. [`agents/ssr-st/commands/FULLCHECK.md`](agents/ssr-st/commands/FULLCHECK.md) — the 12-step trading battery
+4. [`agents/arr-analyst/commands/FQC_ARR.md`](agents/arr-analyst/commands/FQC_ARR.md) — the 10-role ARR DAG
+5. [`CONTEXT_LAST_100_DAYS.md`](CONTEXT_LAST_100_DAYS.md) — extracted chats
+6. [`discussions/`](discussions/) — full chat text (tools stripped, secrets redacted)
 
 ## Layout
 
 ```
 TradePilot/
+├── AGENTS.md            Trade Pilot identity (Cloud Agents read this)
 ├── CONTEXT_LAST_100_DAYS.md
-├── tradepilot/          CLI agent package
+├── .cursor/             skills, rules, commands, MCP, Cloud environment.json
+├── tradepilot/          CLI package (`tradepilot doctor`)
 ├── agents/
-│   ├── ssr-st/          skills, commands, rules, plans, canvases, workspace
-│   └── arr-analyst/     FQC skills, Sana bundle, dist, eda-dbt-em .cursor files
-├── discussions/         last-100-days chats (ssr-st / arr-analyst / other)
-├── shared/              rules + shared skills
+│   ├── ssr-st/          trading skills, commands, plans, workspace
+│   └── arr-analyst/     FQC skills, Sana bundle, dist
+├── discussions/         last-100-days chats
+├── shared/              shared rules + skills
 └── tools/pack_from_local.py
 ```
 

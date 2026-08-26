@@ -1,0 +1,19 @@
+---
+description: T+0/T+1 catalyst cards for trading FULLCHECK / evening wrap. Not a credit-sell substitute.
+globs: agents/ssr-st/**
+alwaysApply: false
+---
+
+# Catalyst overnight cards
+
+When running FULLCHECK, evening wrap, or next-day prep, follow
+`.cursor/skills/catalyst-overnight-plan/SKILL.md` (packed copy:
+`agents/ssr-st/skills/catalyst-overnight-plan/SKILL.md`).
+
+Hard rule: listing an event without a take/arm/stand-down ticket that includes
+structure, trigger, and same-day exit is a miss. "Stand down / don't chase"
+after the open is not yesterday's plan.
+
+Calendar must UNION Nasdaq `earnings_radar.md` + Robinhood earnings calendar +
+fundamentals next-earnings on book/watch/peers + web search for investor/analyst/
+capital-markets days. Write `agents/ssr-st/workspace/Documents/catalyst_cards.md`.

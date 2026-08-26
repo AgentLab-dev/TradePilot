@@ -1,0 +1,28 @@
+---
+description: Default output folder for Trade Pilot deliverables in this checkout (and Cloud Agents).
+alwaysApply: true
+---
+
+# Documents Output Folder
+
+Do not use `/Users/koteswararao.venkata/Documents/Cursor/Documents`. That path is another machine.
+
+## Canonical locations in this repo
+
+| Domain | Path |
+|---|---|
+| Trading write-ups | `agents/ssr-st/workspace/Documents/` |
+| ARR / FQC write-ups | `agents/arr-analyst/plans/` |
+
+User-facing markdown (FULL CHECK, catalyst cards, next-day prep, validation notes) goes in those folders unless the user names another path.
+
+## What does not belong there
+
+Source, tests, skills, rules, and CLI code stay in their package directories (`tradepilot/`, `agents/*/skills/`, `.cursor/`).
+
+## Behavior
+
+1. Default to the domain folder above.
+2. Update in place when the file already exists.
+3. Confirm the final repo-relative path in the reply.
+4. Honor an explicit override ("save this in X").
