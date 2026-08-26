@@ -38,6 +38,15 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 - [ ] Catalyst cards + next_day_prep.md
 ```
 
+## Sites — publish universe
+
+```
+- [ ] tradepilot sites-publish --html-only
+- [ ] If secrets/credentials.json exists: tradepilot sites-publish (--login if no token)
+- [ ] Return HTML path + Google Doc link + any listed Sites
+- [ ] Publishing is not go
+```
+
 ## ARR — FQC-ARR ticket
 
 ```

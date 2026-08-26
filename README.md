@@ -1,6 +1,6 @@
 # TradePilot
 
-**Trade Pilot** is the single agent for this repository: it monitors markets, plans trades, reports risk, and runs the packed ARR quarter-close DAG. Packed folders `agents/ssr-st/` and `agents/arr-analyst/` are domains of Trade Pilot, not separate products.
+**Trade Pilot** is the single agent for this repository: it monitors markets, plans trades, reports risk, runs the packed ARR quarter-close DAG, and publishes FULL CHECK pages to Google Sites. Packed folders `agents/ssr-st/`, `agents/arr-analyst/`, and `agents/sites-publisher/` are domains of Trade Pilot, not separate products.
 
 Identity: [`AGENTS.md`](AGENTS.md) · [`.cursor/skills/trade-pilot/SKILL.md`](.cursor/skills/trade-pilot/SKILL.md) · Cloud env: [`.cursor/environment.json`](.cursor/environment.json)
 
@@ -68,7 +68,8 @@ TradePilot/
 ├── tradepilot/          CLI package (`tradepilot doctor`)
 ├── agents/
 │   ├── ssr-st/          trading skills, commands, plans, workspace
-│   └── arr-analyst/     FQC skills, Sana bundle, dist
+│   ├── arr-analyst/     FQC skills, Sana bundle, dist
+│   └── sites-publisher/ Google Sites publisher bot
 ├── discussions/         last-100-days chats
 ├── shared/              shared rules + skills
 └── tools/pack_from_local.py
@@ -89,6 +90,16 @@ TradePilot/
 | `daily.py` | Session pipeline |
 
 Read-only by default: surface tickets, wait for **go** before orders.
+
+## Sites publisher
+
+```bash
+tradepilot sites-publish --html-only
+tradepilot sites-publish --login
+tradepilot sites-publish
+```
+
+Skill: [`agents/sites-publisher/skills/google-sites-publisher/SKILL.md`](agents/sites-publisher/skills/google-sites-publisher/SKILL.md). OAuth client JSON is gitignored under `agents/sites-publisher/secrets/`.
 
 ## arr-analyst named commands
 

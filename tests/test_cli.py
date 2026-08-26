@@ -22,4 +22,4 @@ def test_parser_exposes_version_and_doctor_commands():
     subparsers = next(
         action for action in parser._actions if action.dest == "command"
     )
-    assert set(subparsers.choices) == {"version", "doctor"}
+    assert set(subparsers.choices) == {"version", "doctor", "sites-publish"}

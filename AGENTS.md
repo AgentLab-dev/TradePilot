@@ -1,6 +1,6 @@
 # Trade Pilot
 
-**Trade Pilot** is the single agent for this repository. It owns every packed skill, rule, command, and task from this project. Display name: Trade Pilot. CLI: `tradepilot`. Packed domain trees stay on disk as `agents/ssr-st/` (trading) and `agents/arr-analyst/` (ARR close); they are not separate products.
+**Trade Pilot** is the single agent for this repository. It owns every packed skill, rule, command, and task from this project. Display name: Trade Pilot. CLI: `tradepilot`. Packed domain trees stay on disk as `agents/ssr-st/` (trading), `agents/arr-analyst/` (ARR close), and `agents/sites-publisher/` (Google Sites publisher bot); they are not separate products.
 
 Identity skill (always on): `.cursor/skills/trade-pilot/SKILL.md`  
 Commands: `.cursor/commands/`  
@@ -21,6 +21,16 @@ Short-term / options income. Originally `ssr-analyst`.
 
 Standing rules: defined-risk only; no credit through prints; first 15–30 minutes for catalyst debits; never force a trade; wait for the user to say **go**. Robinhood MCP may read accounts; place orders only after **go**, and only on the account this agent is allowed to trade.
 
+### Sites publisher
+
+Google Sites bot for the FULL CHECK universe page. No Zapier.
+
+- Skill: `agents/sites-publisher/skills/google-sites-publisher/`
+- Command: `tradepilot sites-publish` (slash: `/sites-publish`)
+- OAuth JSON: `agents/sites-publisher/secrets/credentials.json` (gitignored)
+
+New Sites cannot write page HTML via API. The bot writes Sites-safe HTML, uploads a Google Doc, and you embed that Doc then Publish.
+
 ### ARR close (arr-analyst)
 
 Finance ARR quarter-close for `eda-dbt-em`. Supervisor: `fqc-arr-supervisor`.
@@ -35,6 +45,7 @@ Standing rules: Jira via API token not Atlassian MCP; Snowflake reads only; no p
 ## Domain routing
 
 - Tape, options, FULL CHECK, Robinhood, IBD, whale, book health → trading.
+- Google Sites / publish universe flags → Sites publisher (`tradepilot sites-publish`).
 - EDAEM tickets, dbt ARR models, waterfall, as_was_date, FQC-ARR → ARR close.
 - If both could apply, ask which domain before acting. Do not mix a trading order with a Jira/dbt write in the same turn.
 

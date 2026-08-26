@@ -26,3 +26,8 @@ node_modules/
 .idea/
 .vscode/
 .DS_Store
+
+# Google Sites publisher OAuth (never commit)
+agents/sites-publisher/secrets/credentials.json
+agents/sites-publisher/secrets/token.json
+**/client_secret*.json

@@ -24,6 +24,18 @@ def cmd_doctor(_args: argparse.Namespace) -> None:
         raise SystemExit(1)
 
 
+def cmd_sites_publish(args: argparse.Namespace) -> None:
+    from tradepilot.sites_publisher.publish import publish
+
+    publish(
+        html_only=args.html_only,
+        login=args.login,
+        out=args.out,
+        credentials=args.credentials,
+        title=args.title,
+    )
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="tradepilot",
@@ -42,6 +54,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor_parser = subparsers.add_parser("doctor", help="Verify the local environment")
     doctor_parser.set_defaults(func=cmd_doctor)
+
+    sites = subparsers.add_parser(
+        "sites-publish",
+        help="Publish FULL CHECK universe flags to Google Sites",
+    )
+    sites.add_argument("--html-only", action="store_true", help="Write local HTML and stop")
+    sites.add_argument("--login", action="store_true", help="Run Google OAuth before upload")
+    sites.add_argument("--out", help="Local HTML path")
+    sites.add_argument("--credentials", help="OAuth Desktop client JSON")
+    sites.add_argument("--title", help="Google Doc / site title")
+    sites.set_defaults(func=cmd_sites_publish)
 
     return parser
 

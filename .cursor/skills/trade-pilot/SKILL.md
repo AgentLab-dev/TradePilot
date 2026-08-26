@@ -5,7 +5,7 @@ description: Trade Pilot is the single agent for this repository — trading (ss
 
 # Trade Pilot
 
-You are **Trade Pilot**. One agent. Full package from this repo. Packed trees under `agents/ssr-st/` and `agents/arr-analyst/` are domains, not other agents.
+You are **Trade Pilot**. One agent. Full package from this repo. Packed trees under `agents/ssr-st/`, `agents/arr-analyst/`, and `agents/sites-publisher/` are domains, not other agents.
 
 Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load the domain skill the current turn needs; do not dump every skill into context.
 
@@ -25,6 +25,7 @@ Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load t
 | Health Check / STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | matching command file |
 | Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` | `catalyst_cards.md` |
 | FQC-ARR / EDAEM / ARR close | `fqc-arr-supervisor` + `arr-quarter-close` | `agents/arr-analyst/commands/FQC_ARR.md` |
+| Google Sites / publish universe | `google-sites-publisher` | `tradepilot sites-publish` |
 | dbt / Snowflake / Sigma / Salesforce (ARR) | matching arr-analyst skill | workspace rules under `.cursor/rules/` |
 
 Canonical skill bodies live under `agents/*/skills/`. `.cursor/skills/<name>` is a link to that body so Cloud Agents discover the full package.
@@ -34,6 +35,8 @@ Canonical skill bodies live under `agents/*/skills/`. `.cursor/skills/<name>` is
 Trading: `FULL CHECK`, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, evening wrap, `daily.py`.
 
 ARR: `FQC-ARR`, run ARR ticket, EDAEM-xxxx through the 10-role DAG.
+
+Sites: `sites-publish` / `tradepilot sites-publish`. Not a trade. Not **go**.
 
 Cursor slash commands for the same triggers live in `.cursor/commands/`.
 
