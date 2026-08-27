@@ -1,6 +1,6 @@
 # Earnings Radar (next 14 days)
 
-_Generated 2026-08-26 17:23 local by `market_data/fetch_earnings.py`. Intersection of the Nasdaq earnings calendar with the cached universe **plus ALWAYS watch names**. **Not sufficient alone** — UNION Robinhood `get_earnings_calendar` and search investor/analyst days. Nasdaq omitted XE on 2026-08-13._
+_Generated 2026-08-26 17:50 local by `market_data/fetch_earnings.py`. Intersection of the Nasdaq earnings calendar with the cached universe **plus ALWAYS watch names**. **Not sufficient alone** — UNION Robinhood `get_earnings_calendar` and search investor/analyst days. Nasdaq omitted XE on 2026-08-13._
 
 > 🔴 **sell-gate**: do not let any credit spread expire after this date (the AVGO / MU rule). 🟢 **directional**: pre-earnings debit/long watch.
 
