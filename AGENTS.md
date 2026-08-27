@@ -14,7 +14,8 @@ Tasks: `.cursor/skills/trade-pilot/tasks.md`
 Short-term / options income. Originally `ssr-analyst`.
 
 - Skills: `agents/ssr-st/skills/` (also linked from `.cursor/skills/`)
-- Commands: FULL CHECK, Health Check, STNOW, STKK, Three Good, SelfIDB50, Whale Watch, Evening wrap, daily.py
+- News portals: `news-portals` (WSJ / MarketWatch login ladder — no WSJ MCP; Cursor browser, then Safari/Chrome tail, then RSS)
+- Commands: FULL CHECK, Health Check, STNOW, STKK, Three Good, SelfIDB50, Whale Watch, NEWS / WSJ / MW, Evening wrap, daily.py
 - Workspace: `agents/ssr-st/workspace/`
 - Learning log: `agents/ssr-st/workspace/Documents/agent_learning_log.md`
 - Primary skill: `trading-continuous-learning`

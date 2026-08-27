@@ -152,6 +152,41 @@ LEGEND = (
 )
 
 
+DOC_TABLE_HEADERS = [
+    "Ticker",
+    "Why",
+    "STKK",
+    "STNOW",
+    "3Good",
+    "Whale",
+    "IV / structure",
+    "Event",
+    "After gate",
+]
+
+
+def doc_table_rows() -> list[list[str]]:
+    """First table only: 9 columns x 9 data rows for the Sites Doc."""
+    why_by = {r["ticker"]: r["why"] for r in TOP5}
+    iv_by = {r["ticker"]: r["iv_structure"] for r in TOP5}
+    rows: list[list[str]] = []
+    for name in NAMES[:9]:
+        rows.append(
+            [
+                name["ticker"],
+                why_by.get(name["ticker"], name["after_gate"]),
+                name["stkk"],
+                name["stnow"],
+                name["three_good"],
+                name["whale"],
+                iv_by.get(name["ticker"], f"{name['iv']} {name['structure']}"),
+                name["event"],
+                name["after_gate"],
+            ]
+        )
+    return rows
+
+
 def snapshot() -> dict[str, Any]:
     return {
         "title": "FULL CHECK universe",
@@ -165,4 +200,6 @@ def snapshot() -> dict[str, Any]:
         "industries": INDUSTRIES,
         "names": NAMES,
         "legend": LEGEND,
+        "doc_headers": DOC_TABLE_HEADERS,
+        "doc_rows": doc_table_rows(),
     }

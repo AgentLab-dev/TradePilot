@@ -12,14 +12,12 @@ import webbrowser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
-SCOPES = (
-    "https://www.googleapis.com/auth/drive.file "
-    "https://www.googleapis.com/auth/sites"
-)
+# New Sites API uses Drive scopes. https://www.googleapis.com/auth/sites is not a valid OAuth scope.
+SCOPES = "https://www.googleapis.com/auth/drive.file"
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 AUTH_URI = "https://accounts.google.com/o/oauth2/v2/auth"
 REDIRECT_PORT = 8753
-REDIRECT_URI = f"http://127.0.0.1:{REDIRECT_PORT}/"
+REDIRECT_URI = f"http://localhost:{REDIRECT_PORT}/"
 
 
 def default_secrets_dir() -> Path:
@@ -119,7 +117,7 @@ def login(client_file: str | None = None) -> dict:
         def log_message(self, format: str, *args: object) -> None:  # noqa: A003
             return
 
-    server = HTTPServer(("127.0.0.1", REDIRECT_PORT), Handler)
+    server = HTTPServer(("localhost", REDIRECT_PORT), Handler)
     thread = threading.Thread(target=server.handle_request, daemon=True)
     thread.start()
     params = {

@@ -23,6 +23,7 @@ CUTOFF = datetime.datetime(2026, 5, 17)  # last 100 days from 2026-08-25
 
 SSR_SKILLS = [
     "trading-continuous-learning",
+    "news-portals",
     "agentic-whale-short-term-trading",
     "evening-wrap-nextday-prep",
     "catalyst-overnight-plan",

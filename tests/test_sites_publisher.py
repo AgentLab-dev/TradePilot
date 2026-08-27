@@ -4,8 +4,8 @@ from pathlib import Path
 
 from tradepilot.cli import build_parser, main
 from tradepilot.sites_publisher.publish import publish
-from tradepilot.sites_publisher.render import render_html
-from tradepilot.sites_publisher.universe import NAMES, snapshot
+from tradepilot.sites_publisher.render import render_docs_html, render_html
+from tradepilot.sites_publisher.universe import NAMES, doc_table_rows, snapshot
 
 
 def test_parser_exposes_sites_publish():
@@ -14,12 +14,29 @@ def test_parser_exposes_sites_publish():
     assert set(subparsers.choices) == {"version", "doctor", "sites-publish"}
 
 
+def test_doc_table_is_nine_by_nine():
+    rows = doc_table_rows()
+    headers = snapshot()["doc_headers"]
+    assert len(headers) == 9
+    assert len(rows) == 9
+    assert all(len(row) == 9 for row in rows)
+    assert [row[0] for row in rows] == [n["ticker"] for n in NAMES[:9]]
+
+
+def test_render_docs_html_is_only_the_first_table():
+    html = render_docs_html()
+    assert html.count("<table") == 1
+    assert "<style" not in html
+    for ticker in [n["ticker"] for n in NAMES[:9]]:
+        assert ticker in html
+    assert "CRWV" not in html
+
+
 def test_render_html_contains_universe():
     html = render_html()
     assert "FULL CHECK universe" in html
     assert "INTU" in html
     assert "BEARISH" in html
-    assert "Read-only until go" in html
     assert "<script" not in html
     assert len(NAMES) == 24
 

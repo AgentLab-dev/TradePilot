@@ -33,6 +33,26 @@ def _table(headers: list[str], rows: list[str]) -> str:
     return f"<table><thead><tr>{head}</tr></thead><tbody>{''.join(rows)}</tbody></table>"
 
 
+def _plain_table(headers: list[str], rows: list[list[Any]]) -> str:
+    head = "".join(f"<th>{_e(h)}</th>" for h in headers)
+    body = "".join(
+        "<tr>" + "".join(f"<td>{_e(c)}</td>" for c in row) + "</tr>" for row in rows
+    )
+    return f'<table border="1" cellpadding="4" cellspacing="0"><tr>{head}</tr>{body}</table>'
+
+
+def render_docs_html(data: dict[str, Any] | None = None) -> str:
+    """Sites Doc: one table, 9 columns x 9 rows. No CSS."""
+    page = data or snapshot()
+    return (
+        "<html><body>"
+        f"<h1>{_e(page['title'])}</h1>"
+        f"<p>{_e(page['as_of'])}. Read-only until go.</p>"
+        f"{_plain_table(page['doc_headers'], page['doc_rows'])}"
+        "</body></html>"
+    )
+
+
 def render_html(data: dict[str, Any] | None = None) -> str:
     page = data or snapshot()
     stats = page["stats"]

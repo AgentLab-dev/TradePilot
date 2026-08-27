@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from tradepilot.sites_publisher.render import render_html
+from tradepilot.sites_publisher.render import render_docs_html, render_html
 from tradepilot.sites_publisher.universe import snapshot
 
 DEFAULT_OUT = (
@@ -51,10 +51,13 @@ def publish(
         login as google_login,
     )
     from tradepilot.sites_publisher.google_api import (
-        create_site_from_source,
-        list_sites,
-        optional_source_site,
+        export_plain,
+        load_last_doc_id,
+        missing_tickers,
+        publish_to_web,
+        save_last_doc_id,
         upload_html_doc,
+        upload_text_doc,
     )
 
     creds = credentials_path(credentials)
@@ -72,39 +75,38 @@ def publish(
 
     token = access_token(str(creds) if creds.exists() else None)
     doc_title = title or f"{page['title']} — {page['as_of']}"
-    doc = upload_html_doc(token, doc_title, html)
+    docs_html = render_docs_html(page)
+    expected = [row[0] for row in page["doc_rows"]]
+    doc = upload_html_doc(token, doc_title, docs_html, file_id=load_last_doc_id())
+    file_id = doc["id"]
+    plain = export_plain(token, file_id)
+    missing = missing_tickers(plain, expected)
+    if missing:
+        print(
+            f"HTML import dropped {len(missing)} tickers. Re-uploading as plain text."
+        )
+        doc = upload_text_doc(token, doc_title, docs_html, file_id=file_id)
+        file_id = doc["id"]
+        plain = export_plain(token, file_id)
+        missing = missing_tickers(plain, expected)
+        if missing:
+            raise SystemExit(
+                f"Google Doc is incomplete after import; missing {len(missing)} tickers "
+                f"(first: {', '.join(missing[:8])}). Not printing the Doc body."
+            )
+    pub_url = publish_to_web(token, file_id)
+    save_last_doc_id(file_id, doc.get("webViewLink"))
     result["doc"] = doc
-    print(f"Google Doc (embed this in Sites): {doc.get('webViewLink')}")
+    result["pub_url"] = pub_url
+    result["tickers_verified"] = len(expected)
+    print(f"Google Doc (edit): {doc.get('webViewLink')}")
+    print(f"Published page (embed this in Sites): {pub_url}")
+    print(f"Verified {len(expected)}/{len(expected)} tickers in the 9x9 table.")
 
-    try:
-        sites = list_sites(token)
-    except RuntimeError as exc:
-        print(f"Sites list skipped: {exc}")
-        sites = []
-    result["sites"] = sites
-    if sites:
-        print("Existing Google Sites:")
-        for site in sites:
-            print(f"  - {site.get('title')}  {site.get('siteUrl') or site.get('name')}")
-    else:
-        print("No Google Sites visible on this account yet.")
-
-    source = optional_source_site()
-    if source:
-        try:
-            created = create_site_from_source(token, doc_title, source)
-            result["created_site"] = created
-            print(f"Copied site: {created.get('siteUrl') or created.get('name')}")
-        except RuntimeError as exc:
-            print(f"Site copy failed: {exc}")
-
-    link = doc.get("webViewLink", "")
+    link = result.get("pub_url") or doc.get("webViewLink", "")
     print(
-        "\nTo finish on Google Sites:\n"
-        "  1. Open https://sites.google.com and create or open a site.\n"
-        "  2. Insert > Docs (or Embed URL) and paste the Google Doc link above.\n"
-        f"  3. Publish the site.\n"
-        f"Doc: {link}"
+        "\nSites: Insert → Embed the /pub URL (not Insert → Docs).\n"
+        f"Embed URL: {link}"
     )
     return result
 

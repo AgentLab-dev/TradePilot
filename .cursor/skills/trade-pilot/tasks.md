@@ -25,6 +25,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 
 ```
 - [ ] Run the 12 steps in agents/ssr-st/commands/FULLCHECK.md
+- [ ] Step 9 news: load news-portals (MCP → browser login → Safari tail → RSS)
 - [ ] Fail the run if any 0d/1d event has no catalyst card
 - [ ] End with take / arm / stand-down, split options book vs Agentic sleeve
 - [ ] Overwrite catalyst_cards.md, next_day_prep.md, momentum_watchlist.md

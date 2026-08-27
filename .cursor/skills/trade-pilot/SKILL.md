@@ -24,6 +24,7 @@ Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load t
 | FULL CHECK / tape / book / options | `trading-continuous-learning` | Command file under `agents/ssr-st/commands/` |
 | Health Check / STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | matching command file |
 | Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` | `catalyst_cards.md` |
+| WSJ / MW / news login | `news-portals` | RSS script + Cursor browser or Safari tail |
 | FQC-ARR / EDAEM / ARR close | `fqc-arr-supervisor` + `arr-quarter-close` | `agents/arr-analyst/commands/FQC_ARR.md` |
 | Google Sites / publish universe | `google-sites-publisher` | `tradepilot sites-publish` |
 | dbt / Snowflake / Sigma / Salesforce (ARR) | matching arr-analyst skill | workspace rules under `.cursor/rules/` |
@@ -32,7 +33,7 @@ Canonical skill bodies live under `agents/*/skills/`. `.cursor/skills/<name>` is
 
 ## Commands (user-typed)
 
-Trading: `FULL CHECK`, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, evening wrap, `daily.py`.
+Trading: `FULL CHECK`, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, evening wrap, `daily.py`.
 
 ARR: `FQC-ARR`, run ARR ticket, EDAEM-xxxx through the 10-role DAG.
 
@@ -49,4 +50,5 @@ Cursor slash commands for the same triggers live in `.cursor/commands/`.
 ## MCP
 
 - Trading: Robinhood at `https://agent.robinhood.com/mcp/trading` (project `.cursor/mcp.json`). Read-only until **go**.
+- News: no WSJ/MarketWatch MCP. Use `news-portals` (Cursor browser login, then Safari/Chrome tail, then RSS).
 - ARR: Snowflake / dbt / Salesforce / Sigma only when that domain is in play and those servers exist in the session. Do not pre-auth them on a trading turn.
