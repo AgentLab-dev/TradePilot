@@ -26,8 +26,7 @@ market is closed, so it places **no orders**; it produces analysis and stages to
 
 1. **Close + after-hours tape** — pull final closes for the book + the tape (SPX/QQQ/VIX proxies,
    10Y) and any notable after-hours movers among held/watch names. State % vs prior close.
-2. **News watch** — load `news-portals`. Run `news_portals.py` (RSS floor), then
-   Cursor browser or Safari/Chrome tail if a paywall article is required. Search
+2. **News watch** — load `news-portals` + `ibd-wsj-capture`. Capture IBD Stock Lists and WSJ homepage in the Cursor browser (**do not ask for a paste**). Run `news_portals.py` (RSS floor). Search
    **WSJ, MarketWatch, Yahoo Finance** (+ Reuters/CNBC as backup) for today's
    market-moving story, sector rotation, and book/watch names. **Required extra
    query every wrap:** `"investor day" OR "analyst day" OR "capital markets day"`

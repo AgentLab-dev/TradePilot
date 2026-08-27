@@ -11,7 +11,7 @@ from tradepilot.sites_publisher.universe import NAMES, doc_table_rows, snapshot
 def test_parser_exposes_sites_publish():
     parser = build_parser()
     subparsers = next(action for action in parser._actions if action.dest == "command")
-    assert set(subparsers.choices) == {"version", "doctor", "sites-publish"}
+    assert set(subparsers.choices) == {"version", "doctor", "sites-publish", "portal-capture"}
 
 
 def test_doc_table_is_nine_by_nine():

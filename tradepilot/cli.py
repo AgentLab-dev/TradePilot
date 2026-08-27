@@ -36,6 +36,23 @@ def cmd_sites_publish(args: argparse.Namespace) -> None:
     )
 
 
+def cmd_portal_capture(args: argparse.Namespace) -> None:
+    import runpy
+    from pathlib import Path
+
+    script = (
+        Path(__file__).resolve().parents[1]
+        / "agents"
+        / "ssr-st"
+        / "workspace"
+        / "Documents"
+        / "market_data"
+        / "ibd_wsj_capture.py"
+    )
+    sys.argv = [str(script)] + (["--login"] if args.login else [])
+    runpy.run_path(str(script), run_name="__main__")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="tradepilot",
@@ -65,6 +82,13 @@ def build_parser() -> argparse.ArgumentParser:
     sites.add_argument("--credentials", help="OAuth Desktop client JSON")
     sites.add_argument("--title", help="Google Doc / site title")
     sites.set_defaults(func=cmd_sites_publish)
+
+    portal = subparsers.add_parser(
+        "portal-capture",
+        help="Capture IBD Stock Lists + WSJ (local Playwright session)",
+    )
+    portal.add_argument("--login", action="store_true", help="Headed login; save cookies")
+    portal.set_defaults(func=cmd_portal_capture)
 
     return parser
 

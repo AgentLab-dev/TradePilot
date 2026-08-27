@@ -11,12 +11,13 @@ The 12-step battery. Read-only by default — surfaces tickets, waits for go.
 5. Event gate + T+0/T+1 catalyst cards (required)
 6. STKK + STNOW + Three Good on finalists
 7. Whale Watch (vol vs OI)
-8. SelfIDB50 momentum discovery
-9. WSJ / MarketWatch + investor-day search (`news-portals` ladder: MCP → Cursor browser login → Safari/Chrome tail → RSS)
+8. SelfIDB50 + **IBD lists auto-capture** (`ibd-wsj-capture` — do not ask for a paste)
+9. WSJ / MarketWatch + investor-day search (`news-portals` + `ibd-wsj-capture`)
 10. Direction × IV routing
 11. Backtest new structures
 12. Ranked plan 🟢 / 🟡 / 🔴 + write catalyst_cards.md, next_day_prep.md, momentum_watchlist.md
 
 Skill: `agents/ssr-st/skills/trading-continuous-learning/SKILL.md`
 News: `agents/ssr-st/skills/news-portals/SKILL.md`
+IBD/WSJ capture: `agents/ssr-st/skills/ibd-wsj-capture/SKILL.md`
 Loop: `agents/ssr-st/workspace/strategy_battery_loop.sh`
