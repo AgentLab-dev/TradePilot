@@ -86,7 +86,7 @@ See [portals.md](portals.md) for URLs. Defaults: WSJ, MarketWatch, Yahoo Finance
 
 ## Secrets
 
-`agents/ssr-st/secrets/portals.json` is gitignored. Do not put passwords there. Optional email reminder only. Login lives in the browser session.
+`agents/ssr-st/secrets/portals.json` is gitignored. Do not put passwords there if you can use env vars (`WSJ_PASSWORD` / `IBD_PASSWORD`). Login lives in the browser session or `storage_state.json` after `ibd_wsj_capture.py --login`. Never paste a password in chat.
 
 ## FULL CHECK / evening wrap
 

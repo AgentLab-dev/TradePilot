@@ -1,6 +1,21 @@
-# News sweep — Wed 2026-08-26 17:07 PDT
+# News sweep — Wed 2026-08-26 ~5:28 PM PT
 
-_Public RSS floor. Paywall body needs Cursor browser or Safari tail. Skill: `news-portals`._
+_Public RSS floor is stale on WSJ. Live homepage (Cursor browser, signed in) is the tape._
+
+## WSJ homepage (live, signed in)
+
+- **Nvidia Reports Blowout Quarter, Says Demand for AI Chips Is Getting Even Hotter** — lead. Live: Chip Giant’s Shares Climb.
+- CIA Chief’s Surprise Moscow Trip Was to Warn Russia Not to Attack NATO
+- U.S. and Canada Are Bracing for Prolonged Trade Dispute
+- Fed’s Cook Says She Never Committed Fraud
+- FDA Approves Drug for Pancreatic Cancer in Milestone for Treatment
+- Tape: DJIA 53463.88 −0.21% · S&P 7675.70 −0.02% · Nasdaq 26130.20 −0.08% · 10Y 4.651% · VIX 15.21
+
+IBD lists: `ibd_stock_lists.md` (auto-capture same session).
+
+# News sweep — RSS floor (Wed 2026-08-26 17:07 PDT)
+
+_Public RSS. Paywall body needs Cursor browser or Safari tail. Skill: `news-portals`._
 
 ## WSJ Markets
 - [Stocks Sink in Broad AI Rout Sparked by China's DeepSeek](https://www.wsj.com/articles/nikkei-may-rise-as-weak-yen-raises-earnings-hopes-776a8056?mod=rss_markets_main) — Mon, 27 Jan 2025 14:26:00 -0500

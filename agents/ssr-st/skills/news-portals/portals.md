@@ -34,7 +34,7 @@ WSJ `RSSMarketsMain` / `WSJcomUSBusiness` can lag by months. Do not treat those 
 |---|---|
 | Whale Watch | Robinhood MCP + `market_data/whale_check.py`. No website login. |
 | Unusual Whales | No MCP in this repo. Do not scrape it unless the user names it and is signed in via ladder 1–2. |
-| IBD 50 | After IBD Sign In: MarketTrend + Stock Lists. Until then SelfIDB50 (`FFTY` + `rs_screen.py`). |
+| IBD 50 | After IBD Sign In: auto-capture via `ibd-wsj-capture` (Stock Lists URLs). SelfIDB50 (`FFTY` + `rs_screen.py`) is fallback only. |
 
 ## First-time WSJ login (user)
 

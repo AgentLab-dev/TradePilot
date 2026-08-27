@@ -24,7 +24,7 @@ Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load t
 | FULL CHECK / tape / book / options | `trading-continuous-learning` | Command file under `agents/ssr-st/commands/` |
 | Health Check / STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | matching command file |
 | Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` | `catalyst_cards.md` |
-| WSJ / MW / news login | `news-portals` | RSS script + Cursor browser or Safari tail |
+| WSJ / MW / IBD lists / news login | `news-portals` + `ibd-wsj-capture` | Cursor browser; optional `tradepilot portal-capture` (never paste passwords) |
 | FQC-ARR / EDAEM / ARR close | `fqc-arr-supervisor` + `arr-quarter-close` | `agents/arr-analyst/commands/FQC_ARR.md` |
 | Google Sites / publish universe | `google-sites-publisher` | `tradepilot sites-publish` |
 | dbt / Snowflake / Sigma / Salesforce (ARR) | matching arr-analyst skill | workspace rules under `.cursor/rules/` |
@@ -33,11 +33,13 @@ Canonical skill bodies live under `agents/*/skills/`. `.cursor/skills/<name>` is
 
 ## Commands (user-typed)
 
-Trading: `FULL CHECK`, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, evening wrap, `daily.py`.
+Trading: `FULL CHECK`, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, `IBD lists`, evening wrap, `daily.py`.
 
 ARR: `FQC-ARR`, run ARR ticket, EDAEM-xxxx through the 10-role DAG.
 
 Sites: `sites-publish` / `tradepilot sites-publish`. Not a trade. Not **go**.
+
+Portals (laptop): `tradepilot portal-capture --login` once, then `tradepilot portal-capture`. Never paste passwords in chat.
 
 Cursor slash commands for the same triggers live in `.cursor/commands/`.
 

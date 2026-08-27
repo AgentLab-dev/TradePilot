@@ -29,6 +29,8 @@ node_modules/
 
 # News portal session reminders / browser profile (never commit)
 agents/ssr-st/secrets/portals.json
+agents/ssr-st/secrets/storage_state.json
+agents/ssr-st/secrets/*storage*.json
 agents/ssr-st/secrets/browser-profile/
 
 # Google Sites publisher OAuth (never commit)
