@@ -22,12 +22,25 @@ See `catalyst_cards.md` (overwritten Wed 8/26 ~5:45 PM PT). Lead: **NVDA arm cal
 - Investor days: SNDK **8/13 done**. MRVL **Oct 6**. INTU **Sep 17**. **None this week** (Marvell IR; Intuit IR).
 - RSS floor failed this run (feeds empty). Live homepage + IBD lists are the tape.
 
-## 3. Whale watch (fresh options flow, vol vs OI)
-- NVDA Sep 18 **220C** vol **20,453** vs OI **51,407** — elevated into the print. **Stale for Thu morning.** Disregard at 9:30.
-- NVDA Sep 18 **225C** vol **20,230** vs OI **52,084**. Same.
-- MS 210P vol **32** vs OI **5,010** — not unusual. Leave the GTC.
-- MARA Sep 18 **12C** vol **821** vs OI **27,338**. Covered-call overlay, not a new whale tell.
-- `whale_check.py` returned no chain this run (script). Marks above are from Robinhood option quotes at the RTH close.
+## 3. 4-model flags (STKK · STNOW · 3Good · Whale)
+
+STKK from cache + Wed RTH. Whale = `whale_check.py --to 2026-09-18`. STNOW / 3Good from those. 3Good is put-credit only. Printed names **stale at 9:30.** Full NBT: `NBT.md`. Combined: `FULLCHECK.md`.
+
+| Name | STKK | STNOW | 3Good | Whale | P/C | IV | Use |
+|---|---|---|---|---|---|---|---|
+| **NVDA** | 🟡 UP, thin R:R | 🟢 GO **+3** | ❌ IV 44% | 🟢 +1 lean-bull | 0.53 | ~44% | Call debit. Stale at 9:30 |
+| **CRWD** | 🔴 DOWN | 🔴 TRAP **+1** | ⚠️ IV 66% at support | 🟢 +2 BULLISH | 0.58 | ~66% | Debit only. No credit |
+| **CRM** | 🟡 RANGE | 🔴 raw **−2** | ❌ flow bearish | 🔴 −2 BEARISH | 1.37 | ~52% | Rank 3. Stale after +12.4% AH |
+| **VEEV** | 🟡 RANGE, ext | 🔴 raw **−4** | ❌ flow bearish | 🔴 −2 BEARISH | 1.29 | ~56% | Rank 4 only |
+| **MS** | 🟡 RANGE | 🟢 GO **+2** | ❌ IV 29% | 🟢 +2 BULLISH | 0.39 | ~29% | Manage. Do not add |
+| **MARA** | 🟡 RANGE | 🟢 GO **+3** | ✅ IV 85% | 🟢 +1 lean-bull | 0.54 | ~85% | Shares on. No puts |
+| **WPM** | 🟡 RANGE, ext | 🟡 raw **+0** | ❌ IV ~50% | 🟢 +1 lean-bull | 0.55 | ~50% | NBT-1 after Warsh |
+| **ANET** | 🟡 UP, thin R:R | 🟢 GO **+3** | ✅ IV 50% | 🟢 +2 BULLISH | 0.41 | ~50% | NBT-2 Thu Sep 3. No puts |
+| **MRVL** | 🟢 UP, room | 🟢 GO **+2** | ✅ IV 82% | 🟡 0 NEUTRAL | 0.75 | ~82% | Fri card. Print blocks 3Good |
+| **HOOD** | 🟢 UP, room | 🟡 raw **+0** | ❌ flow bearish | 🔴 −1 lean-bear | 1.05 | ~63% | Do not replace closed PCS |
+| **GLW** | 🟡 RANGE | 🟡 raw **+0** | ⚪ IV n/a | ⚪ n/a | — | — | NBT dead |
+
+Ticket-strike RH quotes (RTH 16:00 ET): NVDA Sep 18 **220C** vol **20,453** / OI **51,407** · **225C** vol **20,230** / OI **52,084**. MS **210P** vol **32** / OI **5,010**. MARA **12C** vol **821** / OI **27,338**.
 
 ## 4. Analyst rating changes
 - Not separately pulled. NVDA beat + Q3 **$108B ±2%** (session notes / WSJ lead) is the tape. Do not buy the AH rip as an overnight hold.

@@ -7,6 +7,14 @@ _Last updated: August 26, 2026._
 
 ---
 
+### 2026-08-26 — Whale Watch skipped on FULL CHECK; flags filled after  [PROCESS]
+
+- **What happened:** FULL CHECK step 7 (Whale Watch) did not run. `daily.py` printed **whale n/a** on every name. `whale_check.py` was not executed. `next_day_prep.md` only had four strike vol/OI prints (NVDA 220C/225C, MS 210P, MARA 12C), not the −2…+2 flag.
+- **Root cause:** treating a broken Health Check whale column as “skip the whale step” instead of falling back to `whale_check.py` on candidates + book + NBT.
+- **Flags (Wed RTH, `--to 2026-09-18`):** NVDA 🟢 +1 · CRWD 🟢 +2 · CRM 🔴 −2 · VEEV 🔴 −2 · MS 🟢 +2 · MARA 🟢 +1 · WPM 🟢 +1 · ANET 🟢 +2 · MRVL 🟡 0 · HOOD 🔴 −1. Printed names are **stale at 9:30**.
+- **Rule / fix:** Every FULL CHECK writes a whale flag table before ranking. `daily.py` n/a is a cache miss, not a skip. Combined output lives in `FULLCHECK.md`.
+- **Status:** adopted in tonight’s combined file.
+
 ### 2026-08-26 — NBT rotation: GLW dead; WPM + ANET for Sep 1–11  [PROCESS]
 
 - **Old NBT (8/17–8/28):** GLW $170 reclaim never held (close **$152.78**). MRVL leftover is **Fri first-30 after Thu AMC**, not a 2-week hold.

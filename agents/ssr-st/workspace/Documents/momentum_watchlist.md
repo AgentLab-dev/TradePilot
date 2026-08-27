@@ -1,6 +1,6 @@
 # Momentum Watchlist & Discovery Screen
 
-> **FULLCHECK — Wed Aug 26 ~5:50 PM PT (applied top 5 + NBT):** Thu 1–5 = **NVDA 220/230** · CRWD 205/215 · CRM 230/240 · VEEV 260/270 · **MS manage**. **NBT next two weeks (Sep 1–11):** **WPM** 155/165 after Warsh (metals, IBD triple-list) · **ANET** 200/210 **Thu Sep 3** after AVGO/HPE (Sector Leader #1, first $3B qtr). **GLW dead** ($152.78). **MRVL** = Fri print, not NBT. Cross-list ANET · AU · IBKR · WPM. Live = **MS manage** (cushion 1.9%). Personal 1×. Wait for **go**.
+> **FULLCHECK — Wed Aug 26 ~6:00 PM PT (4-model flags on every row):** Combined `FULLCHECK.md` · NBT `NBT.md`. Thu 1–5 = **NVDA** (STKK 🟡 UP thin · STNOW 🟢 +3 · 3G ❌ IV44 · Whale 🟢 +1) · **CRWD** (🔴 DOWN · 🔴 TRAP · ⚠️ · 🟢 +2) · **CRM** (🟡 RANGE · 🔴 −2 · ❌ · 🔴 −2) · **VEEV** (🟡 ext · 🔴 −4 · ❌ · 🔴 −2) · **MS manage** (🟡 RANGE · 🟢 +2 · ❌ IV29 · 🟢 +2). **NBT Sep 1–11:** **WPM** (🟡 RANGE ext · 🟡 +0 · ❌ · 🟢 +1) after Warsh · **ANET** (🟡 UP thin · 🟢 +3 · ✅ · 🟢 +2) **Thu Sep 3**. GLW dead. MRVL 🟢 UP / 🟢 +2 / ✅ / 🟡 0 = Fri print. Personal 1×. Wait for **go**.
 
 > **FULLCHECK — Tue Aug 25 ~5:15 PM PT:** INTU beat-and-dump **AH ~−10%** (FY27 9–10% guide) — **arm 320/310 put debit** for Wed first 15–30, cap $4.00. ZM secondary put. DKS miss **kill** (clock gone). PCE 8:30 then NVDA/CRWD/CRM AMC — **no new credit**. SMCI **+9.4%** = do not chase T+1. FFTY top-25 still healthcare/fintech (HNGE/TER/OSCR/KNSA/ENVA/NTRA as of 8/13 holdings). XLK/XLC led; XLE lagged. Live = **MS manage** (cushion 3.1%).
 
