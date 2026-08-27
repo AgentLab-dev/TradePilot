@@ -1,5 +1,7 @@
 # Momentum Watchlist & Discovery Screen
 
+> **FULLCHECK — Wed Aug 26 ~5:50 PM PT (applied top 5 + NBT):** Thu 1–5 = **NVDA 220/230** · CRWD 205/215 · CRM 230/240 · VEEV 260/270 · **MS manage**. **NBT next two weeks (Sep 1–11):** **WPM** 155/165 after Warsh (metals, IBD triple-list) · **ANET** 200/210 **Thu Sep 3** after AVGO/HPE (Sector Leader #1, first $3B qtr). **GLW dead** ($152.78). **MRVL** = Fri print, not NBT. Cross-list ANET · AU · IBKR · WPM. Live = **MS manage** (cushion 1.9%). Personal 1×. Wait for **go**.
+
 > **FULLCHECK — Tue Aug 25 ~5:15 PM PT:** INTU beat-and-dump **AH ~−10%** (FY27 9–10% guide) — **arm 320/310 put debit** for Wed first 15–30, cap $4.00. ZM secondary put. DKS miss **kill** (clock gone). PCE 8:30 then NVDA/CRWD/CRM AMC — **no new credit**. SMCI **+9.4%** = do not chase T+1. FFTY top-25 still healthcare/fintech (HNGE/TER/OSCR/KNSA/ENVA/NTRA as of 8/13 holdings). XLK/XLC led; XLE lagged. Live = **MS manage** (cushion 3.1%).
 
 > **Prior FULLCHECK — Thu Aug 20 ~11:22 ET:** HOOD 85/80 ×3 **closed +$198** at the 9:30 GTC. DE/WMT killed (first 30 missed). Live = **MS manage** (cushion 1.2%, abort $210 / mid ≥ $4.50). Tonight arm **BJ** Fri BMO (WMT −9% is the bellwether). XLE +1.25% still leads; XLY/XLP follow WMT. Do not chase MARA +10%, MRVL T+1, or COST. Write-up: `/Users/koteswararao.venkata/Documents/Cursor/Documents/fullcheck_2026-08-20.md`.

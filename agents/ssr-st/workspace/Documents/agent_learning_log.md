@@ -3,9 +3,25 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: August 25, 2026._
+_Last updated: August 26, 2026._
 
 ---
+
+### 2026-08-26 — NBT rotation: GLW dead; WPM + ANET for Sep 1–11  [PROCESS]
+
+- **Old NBT (8/17–8/28):** GLW $170 reclaim never held (close **$152.78**). MRVL leftover is **Fri first-30 after Thu AMC**, not a 2-week hold.
+- **New pair:** **WPM** (gold streamer, IBD 50 ∩ Sector Leaders ∩ Big Cap) Sep 18 **155/165 call debit**, cap **$4.50**, after Warsh. **ANET** (Sector Leader #1, first $3B qtr) Sep 18 **200/210 call debit**, cap **$5.00**, **Thu Sep 3** after AVGO/HPE. Different industries. No ANET puts (200P only **1.1%** OTM).
+- **Rule / fix:** Do not open NBT Thu/Fri. Do not sell premium into Warsh. Recalibrate 7:00 AM PT. Personal 1×. Wait for **go**.
+- **Status:** written into tonight’s cards.
+
+### 2026-08-26 — INTU/ZM first-30 missed again; NVDA/CRWD/CRM armed for Thu  [PROCESS]
+
+- **INTU / ZM:** Tue-night cards existed (put debits, cap $4.00 / $2.50). No **go** before 9:30 ET Wed. INTU recovered to RTH **$345.88**. ZM **$93.83** held the dump. Kill at 5:45 PM is correct *entry*. Same process miss as DE/WMT/DKS.
+- **NVDA:** Beat **$2.22 vs $2.09**. RTH **$209.66** → AH **$218.85 (+4.4%)**. Card for **Thu first 15–30**: 1× Sep 18 **220/230 call debit**, cap **$4.00**. Recalibrate 7:00 AM PT (RTH 220/230 mid ~$2.50 is stale).
+- **CRWD / CRM:** Beat on the tape (CRWD **$0.31 vs $0.24**, AH **+9.2%**; CRM RH **$5.90 vs $3.09** definition mismatch, AH **+12.4%**). Secondary call debits. Skip if debit > cap. **OKTA +20.6% AH** = stand-down.
+- **MS:** Cushion **1.9%** (was 3.1% Tue). Mid **~$2.67** vs open **$2.25**. Abort still **$210 / mid ≥ $4.50**. GTC **$1.25** live.
+- **Rule / fix:** Overnight cards need a go *before* 9:30. Agentic cash **$176** still cannot take a $2–4 debit; personal 1× only. Do not chase OKTA +21% or SMCI T+1.
+- **Status:** adopted in tonight’s cards. Need **go before 9:30 Thu** or this is another first-30 miss.
 
 ### 2026-08-25 — INTU/ZM armed for Wed first-30; DKS clock gone; SMCI +9.4% no T+1  [PROCESS]
 
