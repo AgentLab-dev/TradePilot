@@ -7,6 +7,17 @@ _Last updated: August 26, 2026._
 
 ---
 
+### 2026-08-26 — Session rollup: first-30 go miss, whale skip, 4-model flags, NBT  [MISS / RULE]
+
+- **What happened:** Wed FULL CHECK after AH. INTU/ZM first-30 **killed** (cards existed; no **go** before 9:30 ET). NVDA beat **$2.22 vs $2.09**, AH **$218.85 (+4.4%)** — arm Thu 1× Sep 18 **220/230 call debit**, cap **$4.00**. CRWD/CRM secondary; OKTA **+20.6% AH** stand-down. MS cushion **1.9%**, manage, do not add. `daily.py` finished ~11 min later with **whale n/a** and stale prices — do not trade off it.
+- **Root cause (two process misses):** (1) Overnight cards still need a go *before* 9:30 — same miss as DE/WMT/DKS. (2) FULL CHECK step 7 (Whale Watch) was skipped because `daily.py` printed n/a; `whale_check.py` was not the fallback. NBT and ranked tables shipped without STKK/STNOW/3Good/Whale as regular columns until the user caught it.
+- **Rule / fix:**
+  1. Need **go before 9:30 ET Thursday** on NVDA (then CRWD/CRM) or this is another first-30 miss. Recalibrate **7:00 AM PT**. Personal 1×. Agentic cash **$176** cannot take a $2–4 debit.
+  2. `daily.py` whale n/a is a **cache miss, not a skip**. Run `whale_check.py` on candidates + book + NBT. Live-catalyst flow is **stale at 9:30**.
+  3. Every ticker row (FULL CHECK, NBT, book, cards) shows **STKK · STNOW · 3Good · Whale**. 3Good is put-credit eligibility only — it does **not** veto a call debit.
+  4. Combined write-up: `FULLCHECK.md`. NBT pair: `NBT.md` — **WPM** (🟡 RANGE ext / 🟡 +0 / ❌ IV~50 / 🟢 +1) after Warsh; **ANET** (🟡 UP thin / 🟢 +3 / ✅ / 🟢 +2) **Thu Sep 3** after AVGO/HPE. **GLW dead** ($152.78). **MRVL** is Fri print, not a 2-week hold. Do not open NBT Thu/Fri. No new credit into Warsh **Fri 8/28 ~10:00 ET**.
+- **Status:** adopted in tonight’s files. Validated only after a Thursday go actually fires.
+
 ### 2026-08-26 — Whale Watch skipped on FULL CHECK; flags filled after  [PROCESS]
 
 - **What happened:** FULL CHECK step 7 (Whale Watch) did not run. `daily.py` printed **whale n/a** on every name. `whale_check.py` was not executed. `next_day_prep.md` only had four strike vol/OI prints (NVDA 220C/225C, MS 210P, MARA 12C), not the −2…+2 flag.
