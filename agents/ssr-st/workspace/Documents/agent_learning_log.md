@@ -3,9 +3,19 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: August 20, 2026._
+_Last updated: August 25, 2026._
 
 ---
+
+### 2026-08-25 — INTU/ZM armed for Wed first-30; DKS clock gone; SMCI +9.4% no T+1  [PROCESS]
+
+- **INTU:** Beat **$4.03 vs $3.29**, dumped AH **~$357 → $322 (−10%)** on FY27 **9–10%** rev guide + AI-competition comments. Card for **Wed first 15–30**: 1× Sep 18 **320/310 put debit**, cap **$4.00**. Same shape as WMT 8/20 (beat + dump) — the miss is a go *after* 9:30, not a missing card.
+- **ZM:** Beat **$1.55 vs $1.38**, AH **~$96 (−4.8%)** on soft Q3. Secondary put debit, cap **$2.50**.
+- **DKS:** Miss **$3.53 vs $3.88**, close **$124.31**. Mon-night card existed. No go before 9:30. Kill at 5 PM is correct *entry*. Same process miss as DE/WMT.
+- **SMCI +9.4%** fired the NVDA peer radar. No new event Wednesday → **do not chase T+1**. **CRM** is the INTU peer that *does* print (Wed AMC).
+- **MS:** Cushion **3.1%** (was 1.2% on 8/20). Mid **~$2.32** vs open **$2.25**. Abort still **$210 / mid ≥ $4.50**. GTC **$1.25** live.
+- **Rule / fix:** PCE 8:30 sits *before* INTU first-30 — do not sell a new credit into PCE; still need the INTU go **before 9:30**. Agentic cash **$176** cannot take a $2–4 debit; personal 1× only.
+- **Status:** adopted in tonight’s cards. Need **go before 9:30 Wed** or this is another first-30 miss.
 
 ### 2026-08-20 — HOOD 85/80 ×3 closed +$198; DE/WMT first-30 missed  [WIN / PROCESS]
 

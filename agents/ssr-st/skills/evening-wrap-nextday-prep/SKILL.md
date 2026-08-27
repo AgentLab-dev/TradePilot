@@ -26,11 +26,13 @@ market is closed, so it places **no orders**; it produces analysis and stages to
 
 1. **Close + after-hours tape** — pull final closes for the book + the tape (SPX/QQQ/VIX proxies,
    10Y) and any notable after-hours movers among held/watch names. State % vs prior close.
-2. **News watch** — search **WSJ, MarketWatch, Yahoo Finance** (+ Reuters/CNBC as backup) for:
-   today's market-moving story, sector rotation read, and anything on names in the book
-   (GOOGL + options positions) or the watchlist. **Required extra query every wrap:**
-   `"investor day" OR "analyst day" OR "capital markets day"` on SMH/memory/AI + book +
-   READTHROUGH peers (SNDK 8/13 was not on the earnings radar). Cite sources with dates.
+2. **News watch** — load `news-portals`. Run `news_portals.py` (RSS floor), then
+   Cursor browser or Safari/Chrome tail if a paywall article is required. Search
+   **WSJ, MarketWatch, Yahoo Finance** (+ Reuters/CNBC as backup) for today's
+   market-moving story, sector rotation, and book/watch names. **Required extra
+   query every wrap:** `"investor day" OR "analyst day" OR "capital markets day"`
+   on SMH/memory/AI + book + READTHROUGH peers (SNDK 8/13 was not on the earnings
+   radar). Cite sources with dates. Do not store portal passwords.
 3. **Options whale watch** — scan for **unusual options activity** into the close: high relative
    options volume, call/put skew, and **volume vs open interest** (vol ≈ OI or ≫ OI = freshly
    opened positioning). Flag fresh institutional bets; separate conviction from hedges and from

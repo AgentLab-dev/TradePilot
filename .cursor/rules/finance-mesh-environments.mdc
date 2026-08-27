@@ -1,0 +1,98 @@
+---
+description: Always use the IA data mesh finance environments (finance_dev, finance_qa, finance_prod) — not certified_dev/certified_qa — for all dbt runs, Snowflake queries, and data validation in the eda-dbt-em workspace.
+globs: agents/arr-analyst/**
+alwaysApply: false
+---
+
+# Finance IA Mesh Environments — Always Use
+
+## Hard Rule
+
+All dbt runs, Snowflake queries, and data validation in the eda-dbt-em workspace
+**must** target the IA data mesh finance environment databases:
+
+| Purpose | Database | Schema Examples |
+|---|---|---|
+| Development | `finance_dev` | `aggregations`, `managed`, `data_products` |
+| QA / Staging | `finance_qa` | `aggregations`, `managed`, `data_products` |
+| Production | `finance_prod` | `aggregations`, `managed`, `data_products` |
+| Dev intermediates | `finance_int_dev` | `stage` |
+| QA intermediates | `finance_int_qa` | `stage` |
+| Prod intermediates | `finance_int_prod` | `stage` |
+
+## Forbidden Databases (do not use)
+
+- `certified_dev` — legacy pre-mesh database
+- `certified_qa` — legacy pre-mesh database
+- `certified_prod` — only for cross-project stub references, never as a query target
+
+## dbt Profile
+
+The dbt profile (`~/.dbt/profiles.yml`) for this workspace must use:
+
+```yaml
+eda_dbt_repo:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: qdb29363.us-west-2.privatelink
+      user: KOTESWARARAO.VENKATA@WORKDAY.COM
+      authenticator: externalbrowser
+      role: SNF_FN_EM_AE
+      warehouse: EM_AE_WH
+      database: CERTIFIED_DEV
+      schema: FINANCE
+      threads: 4
+```
+
+- **Role:** `SNF_FN_EM_AE` (has access to all finance_* and certified_* databases)
+- **Warehouse:** `EM_AE_WH`
+- **Note:** `database: CERTIFIED_DEV` is the dbt base database; the `generate_database_name`
+  macro maps model configs to the correct finance_* databases at runtime.
+
+## Snowflake MCP Queries
+
+When querying via Snowflake MCP, always use the mesh databases:
+
+```sql
+-- CORRECT
+select * from finance_dev.aggregations.arr_line_categories ...
+select * from finance_qa.aggregations.arr_line_categories ...
+select * from finance_prod.aggregations.arr_line_categories ...
+
+-- WRONG (legacy)
+select * from certified_dev.finance.arr_line_categories ...
+select * from certified_qa.finance.arr_line_categories ...
+```
+
+## Source Data
+
+Source / landing data is always read from `base_prod`:
+
+```sql
+select * from base_prod.google_sheets.ref_strategic_partners_ref_strategic_partners ...
+select * from base_prod.salesforce.* ...
+```
+
+## Validation Pattern
+
+For any data validation, compare across the three mesh environments:
+
+```sql
+-- Standard 3-environment comparison
+select 'finance_dev' as env, ... from finance_dev.aggregations.<TABLE> where ...
+union all
+select 'finance_qa',        ... from finance_qa.aggregations.<TABLE> where ...
+union all
+select 'finance_prod',      ... from finance_prod.aggregations.<TABLE> where ...
+order by ...;
+```
+
+## Why This Rule Exists
+
+- The IA data mesh migration moved all finance models from `certified_*` to `finance_*`.
+- `certified_dev`/`certified_qa` are legacy databases that may have stale or
+  incomplete data.
+- Using `finance_*` databases ensures consistency with the dbt Cloud CD pipeline
+  and production reporting.

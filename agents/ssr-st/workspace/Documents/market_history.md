@@ -1,6 +1,6 @@
 # Market History Cache (daily OHLCV)
 
-_Last run: 2026-08-17 19:07Z. Source: Nasdaq historical API (split-adjusted daily). Regenerate with `market_data/fetch_history.py`._
+_Last run: 2026-08-27 00:13Z. Source: Nasdaq historical API (split-adjusted daily). Regenerate with `market_data/fetch_history.py`._
 
 > STKK reads this file first; only re-pull a ticker if its last bar is older than the prior trading day, or it's missing here.
 

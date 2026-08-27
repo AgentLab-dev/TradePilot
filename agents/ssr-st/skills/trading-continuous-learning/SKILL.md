@@ -66,7 +66,7 @@ mode is permanently on — every session reads the log, every notable event writ
 6. **STKK** (trend/historicals) + **STNOW** (fundamentals) + **Three Good** on top candidates.
 7. **Whale Watch** — option volume vs OI on busy strikes for candidates + book names (fresh institutional flow; disregard on a live catalyst — flow is prior-session/stale).
 8. **SelfIDB50** — momentum discovery (FFTY + RS screen + armed-alert check + anti-chase parabolic gate).
-9. **WSJ + MarketWatch** — headline / regime / catalyst read. **Required query every run:** `"investor day" OR "analyst day" OR "capital markets day"` on book + SMH/memory/AI + READTHROUGH peers (the 8/13 SNDK miss).
+9. **WSJ + MarketWatch** — load `news-portals` (MCP → Cursor browser login → Safari/Chrome tail → RSS). Headline / regime / catalyst read. **Required query every run:** `"investor day" OR "analyst day" OR "capital markets day"` on book + SMH/memory/AI + READTHROUGH peers (the 8/13 SNDK miss).
 10. **Route** each survivor through the direction × IV matrix (bull+lowIV→call debit · bull+highIV→put credit · bear+highIV→call credit · bear+lowIV→put debit · range+highIV→iron condor).
 11. **Backtest** — run `python3 market_data/backtest_strategies.py --md` on any *new* proposed structure before promoting it; only advance if it improves expectancy (RoR).
 12. **Output** — ranked plan (🟢 take · 🟡 arm/wait-for-trigger · 🔴 stand-down), each with structure/strikes/sizing/entry-trigger/stop-target; split options-book vs $1k agentic sleeve; **lead with today's catalyst cards** (confirm / fire / kill from overnight `catalyst_cards.md`); write/overwrite `catalyst_cards.md` + `next_day_prep.md` + `momentum_watchlist.md`. **Read-only by default: surface action tickets, wait for the user's go.**

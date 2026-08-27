@@ -1,0 +1,53 @@
+---
+description: MCP servers (dbt, Snowflake, Sigma, Salesforce) are installed and available — whenever a tool call fails, the server is "errored"/"not connected", or STATUS.md says to check Cursor Settings, AUTOMATICALLY re-initiate/restart/re-enable the server and retry before falling back or telling the user it is unavailable
+globs: agents/arr-analyst/**
+alwaysApply: false
+---
+
+# MCP Restart First — Auto Re-enable, Never Assume MCPs Are Unavailable
+
+> **Session start:** Also see `.cursor/rules/mcp-session-preauth.mdc` — at the start of every new
+> chat/session, proactively reconnect and pre-authenticate all four MCPs (Snowflake → dbt →
+> Salesforce → Sigma, one `mcp_auth` at a time) before the first data-platform call. This rule
+> covers **mid-session** failures; that rule covers **session-start** pre-auth.
+
+The dbt, Snowflake, Sigma, and Salesforce MCP servers are **installed and available** in this
+workspace. They are the primary path for querying data and running dbt. If they appear to be down,
+disconnected, or a tool call fails, the correct and **automatic** action is to **re-initiate /
+restart / re-enable the MCP server and retry** — not to conclude the capability is missing and not
+to fall back on the first error.
+
+## Rule (automatic — do this without being asked)
+
+- Any of these signals means the server just needs re-initiation, **treat it as recoverable**:
+  - an MCP tool is missing, times out, or returns a connection/transport error
+  - the server shows as **"errored"**, **"not connected"**, or **"needs auth"**
+  - the server's `STATUS.md` says *"The MCP server errored… ask the user to check the MCP status in
+    Cursor Settings"* — this is **NOT** a stop condition; re-enable first.
+- **Automatically run the re-initiation loop below** (do not ask permission, do not wait for the
+  user). Retry the re-initiation **at least twice** before considering any fallback.
+- Do **not** tell the user an MCP capability is unavailable, and do **not** fall back to a workaround
+  (manual SQL runbooks, direct Python `snowflake.connector`, browser automation, asking the user to
+  run it) until the automatic re-initiation loop has run and the retry still fails.
+- Applies to all four: **dbt, Snowflake, Sigma, Salesforce**.
+
+## Re-initiation loop (run automatically on any failure signal)
+
+1. Re-inspect the server's tool descriptors under
+   `~/.cursor/projects/<project>/mcps/<server>/` (and `SERVER_METADATA.json` / `STATUS.md`) to reload
+   its tools.
+2. If the server needs auth or shows "needs auth"/"errored", call `mcp_auth` for that server (one
+   server at a time, never in parallel), then retry.
+3. Retry the original MCP tool call.
+4. If it still fails, repeat steps 1–3 once more (second attempt).
+5. Only after the second re-initiation + retry still fails may you report a real blocker — and then
+   state **specifically** what failed after the restart, and only then fall back (with an explicit
+   note that you are falling back and why).
+
+## What NOT to do
+
+- Do not say "MCP is down / not configured / unavailable" as a first response.
+- Do not silently (or explicitly) switch to a non-MCP workaround because the first MCP call errored.
+- Do not treat `STATUS.md` "check Cursor Settings" text as permission to skip the re-enable loop.
+- Do not ask the user to fix, restart, or re-enable MCPs themselves before you have run the
+  automatic re-initiation loop.

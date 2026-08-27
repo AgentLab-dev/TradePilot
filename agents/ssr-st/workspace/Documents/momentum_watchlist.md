@@ -1,6 +1,8 @@
 # Momentum Watchlist & Discovery Screen
 
-> **FULLCHECK — Thu Aug 20 ~11:22 ET:** HOOD 85/80 ×3 **closed +$198** at the 9:30 GTC. DE/WMT killed (first 30 missed). Live = **MS manage** (cushion 1.2%, abort $210 / mid ≥ $4.50). Tonight arm **BJ** Fri BMO (WMT −9% is the bellwether). XLE +1.25% still leads; XLY/XLP follow WMT. Do not chase MARA +10%, MRVL T+1, or COST. Write-up: `/Users/koteswararao.venkata/Documents/Cursor/Documents/fullcheck_2026-08-20.md`.
+> **FULLCHECK — Tue Aug 25 ~5:15 PM PT:** INTU beat-and-dump **AH ~−10%** (FY27 9–10% guide) — **arm 320/310 put debit** for Wed first 15–30, cap $4.00. ZM secondary put. DKS miss **kill** (clock gone). PCE 8:30 then NVDA/CRWD/CRM AMC — **no new credit**. SMCI **+9.4%** = do not chase T+1. FFTY top-25 still healthcare/fintech (HNGE/TER/OSCR/KNSA/ENVA/NTRA as of 8/13 holdings). XLK/XLC led; XLE lagged. Live = **MS manage** (cushion 3.1%).
+
+> **Prior FULLCHECK — Thu Aug 20 ~11:22 ET:** HOOD 85/80 ×3 **closed +$198** at the 9:30 GTC. DE/WMT killed (first 30 missed). Live = **MS manage** (cushion 1.2%, abort $210 / mid ≥ $4.50). Tonight arm **BJ** Fri BMO (WMT −9% is the bellwether). XLE +1.25% still leads; XLY/XLP follow WMT. Do not chase MARA +10%, MRVL T+1, or COST. Write-up: `/Users/koteswararao.venkata/Documents/Cursor/Documents/fullcheck_2026-08-20.md`.
 
 _Created July 9, 2026. **Purpose: close the discovery gap that let ALAB (+376% in a year) stay invisible.** This file is the market-wide momentum layer — the leaders that DON'T live in MANGOS / the semis-10 / the whale watchlist. Refreshed by the strategy-battery loop (momentum-discovery step) and re-screened weekly._
 
