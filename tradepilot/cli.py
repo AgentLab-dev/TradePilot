@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 
 from tradepilot import __version__
@@ -37,20 +38,18 @@ def cmd_sites_publish(args: argparse.Namespace) -> None:
 
 
 def cmd_portal_capture(args: argparse.Namespace) -> None:
-    import runpy
-    from pathlib import Path
+    from tradepilot.portals import capture, login, serve, session_status
 
-    script = (
-        Path(__file__).resolve().parents[1]
-        / "agents"
-        / "ssr-st"
-        / "workspace"
-        / "Documents"
-        / "market_data"
-        / "ibd_wsj_capture.py"
-    )
-    sys.argv = [str(script)] + (["--login"] if args.login else [])
-    runpy.run_path(str(script), run_name="__main__")
+    if args.serve:
+        serve(host="127.0.0.1", port=args.port)
+        return
+    if args.status:
+        print(json.dumps(session_status(), indent=2))
+        return
+    if args.login:
+        login(wait_seconds=args.wait_seconds)
+        return
+    capture()
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -85,9 +84,22 @@ def build_parser() -> argparse.ArgumentParser:
 
     portal = subparsers.add_parser(
         "portal-capture",
-        help="Capture IBD Stock Lists + WSJ (local Playwright session)",
+        help="Login / capture IBD Stock Lists + WSJ (local Playwright session)",
     )
-    portal.add_argument("--login", action="store_true", help="Headed login; save cookies")
+    portal.add_argument("--login", action="store_true", help="Headed login; save cookies + profile")
+    portal.add_argument("--status", action="store_true", help="Show whether a saved session exists")
+    portal.add_argument(
+        "--serve",
+        action="store_true",
+        help="Localhost HTTP API (127.0.0.1) for login/capture",
+    )
+    portal.add_argument("--port", type=int, default=8765, help="--serve port (default 8765)")
+    portal.add_argument(
+        "--wait-seconds",
+        type=int,
+        default=120,
+        help="Headed login wait for 2FA (default 120)",
+    )
     portal.set_defaults(func=cmd_portal_capture)
 
     return parser

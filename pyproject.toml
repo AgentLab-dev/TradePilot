@@ -15,6 +15,7 @@ tradepilot = "tradepilot.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+portals = ["playwright>=1.40"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

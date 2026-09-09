@@ -10,6 +10,8 @@ build/
 venv/
 .env
 .env.*
+!.env.example
+agents/ssr-st/secrets/.env
 
 # Testing / tooling
 .pytest_cache/
@@ -32,6 +34,13 @@ agents/ssr-st/secrets/portals.json
 agents/ssr-st/secrets/storage_state.json
 agents/ssr-st/secrets/*storage*.json
 agents/ssr-st/secrets/browser-profile/
+
+# Playwright MCP snapshots (local)
+.playwright-mcp/
+
+# Looker Core API3 keys (never commit)
+agents/ssr-st/secrets/looker.ini
+**/looker.ini
 
 # Google Sites publisher OAuth (never commit)
 agents/sites-publisher/secrets/credentials.json

@@ -5,8 +5,10 @@ description: >-
   known next-session event: earnings, investor day, analyst day, capital-markets
   day, and mapped sympathy peers. Use on FULLCHECK, evening wrap, next-day prep,
   "tomorrow's plan", or whenever earnings_radar / the calendar is read. Prevents
-  treating the event gate as "ignore the name." Logged miss: 2026-08-13 XE
-  earnings and SNDK investor day were known 8/12 and never armed.
+  treating the event gate as "ignore the name." Logged misses: 2026-08-13 XE /
+  SNDK never armed; 2026-08-26 OKTA +21% AH was a T−1 ranking miss (see
+  monster-print-screen) — card existed after the print, not a cheap OTM debit
+  into it.
 ---
 
 # Catalyst Overnight Cards
@@ -67,7 +69,8 @@ if the trigger printed** — so the morning agent can execute without reinventin
 
 | Situation | Structure |
 |---|---|
-| Known binary **tomorrow** (earnings BMO/AMC, investor day) | Arm a **defined-risk debit** (call if hold/rip, put if dump). Same-day exit. Tiny size (1×). |
+| Known binary **tomorrow** (earnings BMO/AMC, investor day) | **PPS-T1** is the into-print ticket (`pre-print-screen/t1.md`): 1× OTM debit last 90 min if TAKE. **Catalyst first-30** is a separate fallback if PPS-T1 did not fill. Do not merge them. |
+| Category name **2–7d** from a print | **PPS-T7** only (`pre-print-screen/t7.md`): week monitor, no fill. Flag 🟢 ON. |
 | Bellwether already ripped **today** and a **new** peer event is **tomorrow** (MU rip + SNDK investor day) | Arm the **peer** for the open / first 30 min — this is still catalyst day for the peer, not T+1 chase. |
 | Bellwether ripped **today**, peer has **no** new event tomorrow | Do **not** arm the peer overnight. That is the 6/26 SNDK giveback (chase next day). |
 | Name already +7%+ **this morning** and you have **no** pre-armed card | Stand down. Anti-chase. Log the miss. Do not buy calls 90 minutes in. |
@@ -83,6 +86,9 @@ card the night before.
 ## FULLCHECK / evening-wrap checklist (fail the run if any box is empty)
 
 - [ ] Every 0d / 1d earnings name (radar ∪ MCP ∪ fundamentals) has a card
+- [ ] Every **category** name with a print in **2–7d** has **PPS-T7** 🟢 ON or 🟡 THIN on `print_monitor.md`
+- [ ] Every 0d/1d category name has a **PPS-T1** flag (TAKE / ARM / STAND / MISS / ⚪)
+- [ ] Ranked output table includes columns **PPS-T7** and **PPS-T1**
 - [ ] Web search for investor / analyst / capital-markets days on book + SMH/memory/AI + mapped peers
 - [ ] Every mapped peer of a name that moved ≥5% today is either on a card or explicitly "no new event → do not chase T+1"
 - [ ] Leftover short premium into a T+0/T+1 print has a **close** ticket

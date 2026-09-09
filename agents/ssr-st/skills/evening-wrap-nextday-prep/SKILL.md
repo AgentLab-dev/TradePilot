@@ -31,7 +31,8 @@ market is closed, so it places **no orders**; it produces analysis and stages to
    market-moving story, sector rotation, and book/watch names. **Required extra
    query every wrap:** `"investor day" OR "analyst day" OR "capital markets day"`
    on SMH/memory/AI + book + READTHROUGH peers (SNDK 8/13 was not on the earnings
-   radar). Cite sources with dates. Do not store portal passwords.
+   radar). For each **tomorrow** print, also `{TICKER} earnings` on WSJ/MW/IR (OKTA 8/26
+   was invisible behind the NVDA homepage). Cite sources with dates. Do not store portal passwords.
 3. **Options whale watch** — scan for **unusual options activity** into the close: high relative
    options volume, call/put skew, and **volume vs open interest** (vol ≈ OI or ≫ OI = freshly
    opened positioning). Flag fresh institutional bets; separate conviction from hedges and from
@@ -48,7 +49,10 @@ market is closed, so it places **no orders**; it produces analysis and stages to
    peers, and web-search `"investor day" OR "analyst day" OR "capital markets day"`.
    **Feed the event gate** (no premium selling into a print) **and** write one **catalyst card**
    per T+1 name (take / arm / stand-down **with structure, first-30-min trigger, same-day exit**)
-   into `catalyst_cards.md`. "No XE anything" is not a card. Anti-chase does not cancel overnight
+   into `catalyst_cards.md`. Run **PPS** (`pre-print-screen`): **PPS-T7** on category
+   names 2–7d (`t7.md`, no fill) and **PPS-T1** on 0d/1d (`t1.md`, into-print fill).
+   Both flags on the output table. Board: `print_monitor.md`.
+   "No XE anything" is not a card. Anti-chase does not cancel overnight
    arming. Skill: `catalyst-overnight-plan`.
 7. **Regime read** — one-line verdict: risk-[REDACTED] / risk-[REDACTED] / rotation, and what would flip it.
 8. **Oversold-bounce offense scan** — the counter to playing only defense into a washout (see
