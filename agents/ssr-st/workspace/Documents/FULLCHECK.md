@@ -1,184 +1,186 @@
-# FULLCHECK — Wed Aug 26, 2026 ~5:56 PM PT
+# FULLCHECK — Wed Sep 9, 2026 ~11:30 AM PT (2:30 ET)
 
-Read-only. Combined from `catalyst_cards.md` · `next_day_prep.md` · `momentum_watchlist.md` · `news_sweep.md` · `agent_learning_log.md` **plus Whale Watch (step 7)**, which this run originally skipped. Marks: Robinhood RTH close + AH; Nasdaq chain via `whale_check.py --to 2026-09-18`. Wait for **go**. Personal **1×**. Agentic cash **$176** does not take these debits.
+Read-only. **RTH open.** Last-90 clock **is open** (2:30–4:00 ET). Trade date = **today Wed Sep 9**. Last RTH **Tue Sep 8**. Labor Day **Mon Sep 7** closed. Wait for **go**. Personal **1×** only (••••5611). Do not trade personal. Agentic (••••1451) cash **$176.31** — shares + long options only; cannot take a $2–4 debit.
 
-## Why whale was missing
+**No new credit** into ORCL/NAVN/ADBE/AVAV prints, PPI (Thu), CPI (Fri), or FOMC **Sep 16**.
 
-FULL CHECK step **7 is Whale Watch** (vol vs OI → 🟢/🟡/🔴 flag). This session:
+Quotes as of **~11:24–11:28 AM PT**. Official prior close = **Tue Sep 8**.
 
-1. `daily.py` printed **whale n/a** on every name (cache / IV miss) and was treated as unusable — correct for tape, **wrong as a skip of the whale step**.
-2. `whale_check.py` was **not run** on candidates + book + NBT.
-3. `next_day_prep.md` §3 had four strike vol/OI prints from Robinhood quotes, **not** the −2…+2 flag.
-
-That is a process miss. Flags below are **Wed RTH chain**. Volume is the completed session. **Disregard at 9:30 on a live catalyst** (NVDA / CRWD / CRM / VEEV printed AMC). Recalibrate **7:00 AM PT**.
+---
 
 ## Lead
 
-**INTU / ZM first-30 is a kill.** Cards existed. No go before 9:30 ET. Same miss as DE / WMT / DKS.
+**Book first.** Personal holds **1× Sep 18 ORCL 155/165 call debit** @ **$4.80** (opened **Tue Sep 8 17:02 UTC**). Live mid **$5.05**, natural close **~$4.85**. Spot **$163.49 (+0.6%)**. **No GTC.** Do not add into Thu AMC.
 
-**Thursday #1 is NVDA.** Beat **$2.22 vs $2.09**. RTH **$209.66** → AH **$218.85 (+4.4%)**. 1× Sep 18 **220/230 call debit**, cap **$4.00**. Need **go before 9:30 ET**.
+**HPE miss (mandatory).** HPE last **$57.88 (+3.30% vs Tue $56.03; Tue +7.75% vs Fri $52.00)**. Beat-and-raise print **Sep 2** was ranked **#1** then dumped AH **−5.2%** and marked **DONE**. Tue’s **+7.75%** session and today’s continuation were never recaptured. **Do not chase** HPE into this five as 🟢. Lesson in `agent_learning_log.md`.
 
-**Live risk is MS.** Sep 18 210/200 ×1. Open **$2.25**. RTH mid **~$2.67**. Cushion **1.9%**. Abort **$210 or mid ≥ $4.50**. GTC **$1.25**. Do not add.
-
-**NBT (not Thursday):** **WPM** + **ANET** for **Tue Sep 1 → Fri Sep 11**. GLW dead. MRVL is Friday’s print, not a 2-week hold.
+**Do not recycle** leftover unused (**HOOD · WPM · JNJ · ANET**). ORCL is **open book**, not a leftover arm.
 
 ---
 
-## Ranked plan — Thu Aug 27
+## Ranked plan — 5 for Wed Sep 9 (remaining session)
 
-Flags on every row: **STKK** (chart) · **STNOW** (360°) · **3Good** (put-credit eligibility; does not veto a call debit) · **Whale** (vol vs OI). Live-catalyst whale/STNOW: **stale at 9:30**.
+Flags: **STKK** · **STNOW** · **3Good** · **Whale** · **PPS-T7** · **PPS-T1**. 3Good is put-credit only — does **not** veto a debit. Whale = `whale_check.py` Nasdaq (`--to 2026-09-18`). Wait for **go**.
 
-| Rank | Stock | STKK | STNOW | 3Good | Whale | Strategy | Entry | Exit | Why |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 🟢 | **NVDA** $209.66 | 🟡 UP, thin R:R | 🟢 GO **+3** | ❌ IV 44% | 🟢 +1 lean-bull (stale 9:30) | Sep 18 **220/230 call debit** ×1 | Pay **≤ $4.00**. First 15–30 holds AH **~$219 / VWAP** | 50% of debit same day. Fade VWAP → flatten. Clock **10:00 ET** | Beat **$2.22 vs $2.09**. AH **+4.4%**. Cheap IV → debit not credit |
-| 2 🟡 | **CRWD** $189.18 | 🔴 DOWN | 🔴 TRAP **+1** | ⚠️ IV 66% at support | 🟢 +2 BULLISH (stale 9:30) | Sep 18 **205/215 call debit** ×1 | Pay **≤ $4.50**. Only if NVDA skipped. Hold AH **~$206** | 50% of debit. Clock **10:00 ET** | Beat **$0.31 vs $0.24**. AH **+9.2%**. TRAP is the *credit* gate — debit only if first-30 holds. No new credit |
-| 3 🟡 | **CRM** $205.62 | 🟡 RANGE | 🔴 raw **−2** | ❌ flow bearish | 🔴 −2 BEARISH (stale after +12.4% AH) | Sep 18 **230/240 call debit** ×1 | Pay **≤ $4.00**. Hold AH **~$231** | 50% of debit. Clock **10:00 ET** | INTU peer **with a print**. RTH flow put-heavy **into** the print — not a 9:30 veto; skip if debit > cap |
-| 4 🟡 | **VEEV** $244.91 | 🟡 RANGE, ext | 🔴 raw **−4** | ❌ flow bearish | 🔴 −2 BEARISH (stale after +8.4% AH) | Sep 18 **260/270 call debit** ×1 | Pay **≤ $4.00**. Only if 1–3 skipped | 50% of debit. Clock **10:00 ET** | Beat **$2.35 vs $2.10**. Backup. Flags do **not** confirm a call |
-| 5 🟡 | **MS** $214.08 | 🟡 RANGE | 🟢 GO **+2** | ❌ IV 29% | 🟢 +2 BULLISH | **Manage** Sep 18 **210/200 PCS** ×1 | Already in at **$2.25**. Do **not** add | GTC **$1.25**. Abort **$210** or mid **≥ $4.50** | Cushion **1.9%**. Flow with the book; IV too cheap to sell more puts |
+| Rank | Ticker | Industry | Sleeve | STKK | STNOW | 3Good | Whale | PPS-T7 | PPS-T1 | Verdict | Structure | Clock | Why |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 🟢 | **ORCL** **$163.49 (+0.6%)** | Software / AI infra | Book · print Thu AMC | ⚪ | ⚪ | ✅ IV~103% | 🟢 **+2** (P/C vol 0.31) | ⚪ | ⬛ **FILLED** | **MANAGE** | **1×** Sep 18 **155/165** @ **$4.80**. Mid **$5.05** (155C **$15.78** / 165C **$10.73**). Natural close **~$4.85**. OI **15,157 / 20,069**. Vol **333 / 1,240**. **No GTC.** Abort close **<$155** or mid **≥ $9.60**. **No add** | Through **Thu 9/10 AMC**. Est **$1.67**. 5-for-6 | Open book. Slightly green vs $4.80. Flatten AH ≥0.8× EM after print |
+| 2 🟡 | **NAVN** **$26.05 (−2.2%)** | Travel tech | PPS-T1 0d AMC | ⚪ | ⚪ | ✅ IV~138% | 🔴 **−1** (stale on live print) | ⚪ | 🟡 **ARM** | **ARM** | 1× Sep 18 **25/30**, mid **$2.00** (25C **$2.98** / 30C **$0.98**), natural **$2.30**, cap **$2.00**. OI **382 / 1,294** — long-leg OI **<500**. Skip if natural > cap | **Last-90 now 2:30–4:00 ET** if still not +7% | Print **tonight AMC**. RH est **$0.01 / −$0.35**. Live EM **25C+25P $4.66 / $26.34 = 17.7%** ≥15%. Mar analog **+43%**. Off live IBD 50. Whale −1 does **not** veto a debit. Goldman **Thu 8:10 AM PT** — do not chase |
+| 3 🟡 | **AVAV** **$141.50 (−4.9%)** | Defense drones | 0d AMC unique | ⚪ | ⚪ | ⚪ | 🟢 **+2** (P/C vol 0.42) | ⚪ | 🟡 **ARM** | **ARM** | Recapture 1× Sep 18 **140/145**, mid **$2.10** (140C **$10.80** / 145C **$8.70**), natural **$3.20**, cap **$3.00**. OI **236 / 214** — **FAIL** OI≥500. EM **140C+140P $19.75 / $141.33 = 14.0%** <15% | Last-90 if natural ≤ cap **and** not +7% | Prints **tonight AMC**. Est **$0.24**. Unique vs leftover five. Thin chain — skip if still over cap / thin |
+| 4 🟡 | **ADBE** **$256.32 (−0.4%)** | Software | Second-name · print Thu AMC | ⚪ | ⚪ | ⚪ | 🟡 **0** (P/C vol 0.82) | ⚪ | 🟡 **ARM** | **ARM** | Recapture 1× Sep 18 **255/265**, mid **$4.32** (255C **$13.05** / 265C **$8.73**), natural **$4.95**, cap **$4.00**. **Over cap now** | Last-90 **only if** ORCL analog ≥1.5× EM **or** ADBE last-90 EM ≥15% **and** mid ≤ cap | Same print day as ORCL. Written second ticket. Do not fill over $4.00 |
+| 5 🟢 | **MARA** Agentic **$11.95 (+1.0%)** | Bitcoin miner | Book | ⚪ | ⚪ | ✅ | 🟡 **0** (P/C vol 1.15) | ⚪ | ⚪ | **MANAGE** | **100 sh** @ **$9.72** + short Sep 18 **12C** credit **$0.66**, mark **$0.63**. **No GTC.** Covered call — do not sell puts. Abort: BTC if stock **>$13** into expiry or user wants assignment | Now → Sep 18 | Agentic only. Cash **$176.31**. Not a new debit |
 
-Not in the five: **OKTA** (+20.6% AH). **MRVL** STKK 🟢 UP / STNOW 🟢 GO +2 / 3Good ✅ / Whale 🟡 0 — print **Thu AMC** → Fri card (3Good blocked). **HOOD** STKK 🟢 UP / STNOW 🟡 +0 / 3Good ❌ / Whale 🔴 −1 — do not replace the closed PCS.
-
----
-
-## NBT — Tue Sep 1 → Fri Sep 11
-
-Old window (8/17–8/28): **GLW dead** (RTH **$152.78**, $170 reclaim never held). **MRVL** = Fri first-30, not a 2-week hold.
-
-| # | Name | STKK | STNOW | 3Good | Whale | Industry | Structure | Entry | Exit |
-|---|---|---|---|---|---|---|---|---|---|
-| NBT-1 | **WPM** $156.02 | 🟡 RANGE, ext (RSI 75) | 🟡 raw **+0** | ❌ IV ~50% | 🟢 +1 lean-bull | Gold streamer (IBD 50 ∩ Sector Leaders ∩ Big Cap) | Sep 18 **155/165 call debit** ×1 | Pay **≤ $4.50**. After Warsh holds **$156**. Do **not** buy Thu/Fri | Abort close **<$150**. Next earn ~Nov 5 |
-| NBT-2 | **ANET** $202.25 | 🟡 UP, thin R:R | 🟢 GO **+3** | ✅ IV 50% | 🟢 +2 BULLISH | AI networking (Sector Leader **#1**) | Sep 18 **200/210 call debit** ×1 | Pay **≤ $5.00**. Arm **Thu Sep 3** after AVGO/HPE. Hold **$202 / $200** | Abort close **<$195**. No ANET puts |
-
-**Do not open NBT Thu or Fri.** Full NBT write-up: `NBT.md`. GLW **dead** (STKK 🟡 RANGE; whale n/a). MRVL leftover is Fri print, not this pair.
-
-Killed substitutes: TVTX/ETON/KNSA (biotech lotto), HNGE (IPO), IBKR (slipped **97.84**; spot **$97.02**), COHR, NTRA, AU (same metal bet as WPM), CIEN (prints **Sep 3 AM**).
+**Not in the five:** **HPE $57.88 STAND chase** (Tue already **+7.75%** vs Fri; 55/60 mid **$2.46** vs cap **$1.50**; see miss) · **HOOD / WPM / JNJ / ANET** leftover unused · **META +6.2%** STAND chase · **SAIL** BMO **$0.09 vs $0.08** STAND · **SNOW** IBD 50 **#30** STAND prior gap · **AUGO** IBD 50 **#19** gold unique — board · **ECO** IBD **#4** energy unique — board · **TCOM** PPS-T7 **Tue 9/15** — no fill
 
 ---
 
-## 1. Tape / macro
+## HPE miss (Tue Sep 8 + Wed Sep 9)
 
 | | |
 |---|---|
-| SPY | **766.08** RTH / AH **769.41** |
-| QQQ | **711.37** / AH **716.43** |
-| SMH | **555.77** / AH **566.10** |
-| VXX / VIX | **18.54** / **15.21** |
-| IWM / TLT | **298.93** / **83.30** |
-| IBD close | S&P **7675.70** −0.02% · DJIA **53463.88** −0.21% · Nasdaq **26130.20** −0.08% |
-| 10Y / gold | **4.651%** / **4669** |
-| Exposure | IBD **40–60%** |
-| GICS Wed vs Tue | **XLI +1.09%** lead · XLK +0.61% · XLE +0.60%. Lag **XLV −1.00%** · XLY −0.67% |
-| Regime | Flat RTH, risk-on AH on NVDA. Jul PCE **3.7%** y/y vs 3.6% est; core **3.3%**. **Warsh Fri 8/28 ~10:00 ET** — no new credits Friday |
-| MANGOS | NVDA RTH **$209.66** → AH **~$218.82**. Do not chase SMCI/AMD/AVGO as T+1 |
+| Last | **$57.88** (refreshed ~11:34 AM PT; earlier high **$58.40**, low **$56.55**, open **$56.93**) |
+| vs Tue close **$56.03** | **+3.30%** |
+| vs Fri Sep 4 **$52.00** (Mon Sep 7 Labor Day closed — no Monday close) | **+11.31%**. Tue itself **$56.03 / $52.00 = +7.75%** |
+| vs print RTH Sep 2 **$51.83** | **+11.67%** |
+| vs print AH **$49.16** | **+17.74%** |
+| vs Sep 3 low **$45.70** | **+26.65%**. Sep 3 close **$54.44** (open **$47.60**) |
+| Next earnings | **Thu Dec 3 AMC** (unverified). Last print **Wed Sep 2 AMC $1.11 vs $0.91**, rev **$12.21B** |
+| Sep 18 ATM EM | 58C **$2.19** + 58P **$2.33** = **$4.52 / $57.88 = 7.8%** |
+| 55/60 liquidity | 55C mid **$3.88** OI **12,201** vol **1,772**; 60C mid **$1.42** OI **12,685** vol **4,050**. Mid debit **$2.46**, natural **$2.62**, **over $1.50 cap** |
+| Whale | 🟢 **+2**. P/C vol **0.08**. Fresh **58C** vol **7,484** / OI **2,291** (Vol/OI **3.3**). Benzinga: Dec **60C** bullish sweep |
+| IBD | **Not** on IBD 50 / Sector Leaders / Big Cap 20 |
+| Book | Dust **0.018 sh** personal. **No HPE option orders** since Sep 1 |
 
-`daily.py` finished ~11 min later with **macro n/a**, **IV n/a**, stale prices (ANET **$190.94** vs Wed **$202.25**). **Do not trade off it.** Ranked GOs AVGO/NVDA/GOOGL shares-only do **not** override this file.
+**Gate that dropped it:** not “never in universe.” HPE was **#1** on `daily_top5_2026-09-02.csv` (Sep 18 **55/60**, cap **$1.50**). Last-90 **did not fill** (no **go**). After AH **−5.2%** (inside ±7%), `next_25_print_2026-09-02.md` **killed** HPE and `print_monitor.md` parked it with SNOW as **⬛ DONE / no chase**. This morning’s `FULLCHECK.md` had **zero** HPE lines. Investor Day **Wed Sep 30** (announced **Sep 3 7:45 AM**) never got a card — same hole as SNDK 8/13.
 
----
-
-## 2. Book health
-
-**Personal ••••5611 (margin — this agent does not trade it):**
-
-| Position | STKK | STNOW | 3Good | Whale | Structure | Marks | Plan |
-|---|---|---|---|---|---|---|---|
-| **MS** $214.08 | 🟡 RANGE | 🟢 GO **+2** | ❌ IV 29% | 🟢 +2 BULLISH | Sep 18 **210/200** PCS ×1 | Open **$2.25**. RTH mid **~$2.67**. Cushion **1.9%** | **Manage.** Abort **$210 or mid ≥ $4.50**. GTC **$1.25**. Do not add |
-| **MARA** $11.22 | 🟡 RANGE | 🟢 GO **+3** | ✅ IV 85% | 🟢 +1 lean-bull | 100 @ $9.89 + short Sep 4 **$11C** | Mark $0.73 | Hold shares. **No puts** (3Good ✅ is ignored — shares already on) |
-| **HOOD** $108.54 | 🟢 UP, room | 🟡 raw **+0** | ❌ flow bearish | 🔴 −1 lean-bear | Sep 18 85/80 ×3 **closed** | +$198 on 8/20 | Do not replace |
-
-**Agentic ••••1451 (cash — the tradable sleeve):** cash **$176.31**, total **~$1,241**. MARA 100 @ $9.72 + short Sep 18 **$12C**. Catalyst debits are **personal 1×**.
-
-No leftover short premium into NVDA / CRWD / CRM / OKTA / VEEV / MRVL.
+**Today:** 🔴 **STAND** as a fill. Tue already **≥+7%**. Do not rank 🟢.
 
 ---
 
-## 3. 4-model flags — STKK · STNOW · Three Good · Whale (Wed RTH)
+## Clocks
 
-Regular columns on every name. Whale = Nasdaq chain `--to 2026-09-18`. STKK = cache + live RTH. STNOW / 3Good from those. **Printed names: whale/STNOW stale at 9:30.** 3Good is put-credit only.
-
-| Name | Px | STKK | STNOW | 3Good | Whale | P/C vol | ATM IV | Use |
-|---|---|---|---|---|---|---|---|---|
-| **NVDA** | $209.66 | 🟡 UP, thin R:R | 🟢 GO **+3** | ❌ IV 44% | 🟢 +1 lean-bull | 0.53 | ~44% | Call debit. Stale at 9:30 |
-| **CRWD** | $189.18 | 🔴 DOWN | 🔴 TRAP **+1** | ⚠️ IV 66% at support | 🟢 +2 BULLISH | 0.58 | ~66% | Debit only; no credit replace. Stale at 9:30 |
-| **CRM** | $205.62 | 🟡 RANGE | 🔴 raw **−2** | ❌ flow bearish | 🔴 −2 BEARISH | 1.37 | ~52% | Rank 3. Stale after +12.4% AH |
-| **VEEV** | $244.91 | 🟡 RANGE, ext | 🔴 raw **−4** | ❌ flow bearish | 🔴 −2 BEARISH | 1.29 | ~56% | Rank 4 only |
-| **MS** | $214.08 | 🟡 RANGE | 🟢 GO **+2** | ❌ IV 29% | 🟢 +2 BULLISH | 0.39 | ~29% | Manage. Do not add |
-| **MARA** | $11.22 | 🟡 RANGE | 🟢 GO **+3** | ✅ IV 85% | 🟢 +1 lean-bull | 0.54 | ~85% | Shares on. No puts |
-| **WPM** | $156.02 | 🟡 RANGE, ext | 🟡 raw **+0** | ❌ IV ~50% | 🟢 +1 lean-bull | 0.55 | ~50% | NBT-1 after Warsh |
-| **ANET** | $202.25 | 🟡 UP, thin R:R | 🟢 GO **+3** | ✅ IV 50% | 🟢 +2 BULLISH | 0.41 | ~50% | NBT-2 Thu Sep 3. No puts |
-| **MRVL** | $245.11 | 🟢 UP, room | 🟢 GO **+2** | ✅ IV 82% | 🟡 0 NEUTRAL | 0.75 | ~82% | Fri card. 3Good blocked by print |
-| **HOOD** | $108.54 | 🟢 UP, room | 🟡 raw **+0** | ❌ flow bearish | 🔴 −1 lean-bear | 1.05 | ~63% | Do not replace closed PCS |
-| **GLW** | $152.78 | 🟡 RANGE | 🟡 raw **+0** | ⚪ IV n/a | ⚪ n/a | — | — | NBT dead |
-
-Ticket-strike RH quotes (RTH 16:00 ET, stale vs AH): NVDA Sep 18 **220C** vol **20,453** / OI **51,407** · **225C** vol **20,230** / OI **52,084**. MS **210P** vol **32** / OI **5,010**. MARA **12C** vol **821** / OI **27,338**.
+| Window | Status | Ticket |
+|---|---|---|
+| **Wed last-90 2:30–4:00 ET** | **OPEN now** | **NAVN** primary. **AVAV / ADBE** recapture if cap/liquidity pass |
+| **Wed AMC** | **NAVN · AVAV · COO · AEO** | Cards. No credit |
+| **Thu 9/10 AMC** | **ORCL · ADBE** | Manage ORCL. No add |
+| **Thu 9/10 8:10 / 8:50 AM PT** | NAVN Goldman · **NVDA** Communacopia | Watch only |
+| **Wed Sep 30** | **HPE Networking Investor Day** | Card only. No fill this week |
+| PPI Thu / CPI Fri / FOMC Sep 16 | **STAND** new credit | Overlay |
 
 ---
 
-## 4. Event gate + catalyst cards
+## Sleeve map
 
-**No new credit** through Thu AMC (MRVL / WDAY / ADSK) and **Warsh Fri ~10:00 ET**. No new US investor/analyst/capital-markets days this week. SNDK ID **8/13 done**. **MRVL ID Tue Oct 6.** **INTU ID Thu Sep 17.**
-
-| Ticker | Event | Session | Verdict | Structure | Trigger | Invalidation | Exit |
-|---|---|---|---|---|---|---|---|
-| **INTU** | Earnings | Tue 8/25 AMC | **kill** | Beat-and-dump. Wed first-30 gone. RTH **$345.88**. No go before 9:30 | — | Clock gone | Skip |
-| **ZM** | Earnings | Tue 8/25 AMC | **kill** | Dump held. RTH **$93.83** | — | Clock gone | Skip |
-| **PCE** | Macro | Wed 8/26 8:30 ET | **done** | Jul **3.7%** y/y (est 3.6%), core **3.3%** | — | — | Warsh still Fri |
-| **NVDA** | Earnings | Wed 8/26 AMC | **arm** (#1 Thu) | EPS **$2.22 vs $2.09**. AH **$218.85 (+4.4%)**. 1× Sep 18 **220/230 call debit**. Cap **$4.00**. Recalibrate 7:00 AM PT | First 15–30 holds AH ~$219 / VWAP | Fade VWAP. Debit > $4.00 | Same session Thu. Do not buy AH |
-| **CRWD** | Earnings | Wed 8/26 AMC | **arm** (2) | EPS **$0.31 vs $0.24**. AH **+9.2%**. Cap **$4.50**. No new credit | Hold AH range | Fade VWAP | Prefer NVDA if both fire |
-| **CRM** | Earnings | Wed 8/26 AMC | **arm** (3) | RH **$5.90 vs $3.09** definition mismatch. AH **+12.4%**. Cap **$4.00** | Hold AH ~$231 | Fade VWAP | INTU peer **with** a print |
-| **OKTA** | Earnings | Wed 8/26 AMC | **stand-down** | AH **+20.6%**. Debit will not clear $4.00 | Dump-and-hold only | +21% rip = skip | Skip unless asked |
-| **VEEV** | Earnings | Wed 8/26 AMC | **stand-down** unless 1–3 skipped | AH **+8.4%**. Cap **$4.00** | Hold first-30 | Fade | Rank 4 |
-| **SNPS** | Earnings | Wed 8/26 AMC | **stand-down** | AH **−0.4%**. Off-book | — | — | Skip unless asked |
-| **MRVL** | Earnings | **Thu 8/27 AMC** | **arm later** (Fri) | Street **$0.87**. AH **$252.53 (+3.0%)** NVDA sympathy. Cap **$4.00**. No credit through 8/27 | First 15–30 **Fri** | Do not buy Thu RTH | Recalibrate Thu night |
-| **WDAY / ADSK / AFRM / IREN** | Earnings | Thu 8/27 AMC | **stand-down** | Off-book | — | — | Skip unless asked |
-| **DG / DLTR / BBY / ULTA** | Earnings | Thu 8/27 BMO | **stand-down** | Off-book retail | — | — | Skip unless asked |
-| **SMCI / AMD / AVGO** | NVDA peer | Wed AH | **do not chase T+1** | No new event Thursday except MRVL’s own print | — | 6/26 SNDK path | Do not arm |
-| **Jackson Hole** | Macro | Fri 8/28 ~10:00 ET | **stand-down credits** | Warsh | Wait for the speech | Do not sell premium | Manage MS only |
-| **MS** | Open book | Now → Sep 18 | **manage** | 210/200 ×1. Mid ~$2.67. Abort $210 / mid ≥ $4.50 | Tag abort | Do not add | Leave GTC $1.25 |
-| **MARA** | Shares + CC | Now | **hold / no puts** | Personal 100 + Sep 4 $11C. Agentic 100 + Sep 18 $12C | Crypto beta | No puts | Overlay is not a new credit-sell |
+| Sleeve | Result | In the five? |
+|---|---|---|
+| Book | ORCL 155/165 MANAGE (mid **$5.05**). MARA CC MANAGE. **No GTC** | **ORCL #1 · MARA #5** |
+| GICS 11 | Lead **XLE +0.90%**. Flat **XLK +0.05%**. Lag **XLI −1.33% · XLY −1.07% · XLRE −0.97%** | Energy lead; not a chase |
+| Industries | Lead **GDX +1.71%**. **XOP +0.28% · SMH +0.04%**. Lag **KRE −1.24% · IGV −0.32%** | Gold won vs leftover WPM — **AUGO board**, not WPM recycle |
+| PPS-T1 | NAVN EM **17.7%**. ORCL filled. AVAV EM **14.0%** ARM. ADBE over cap | **NAVN #2 · AVAV #3 · ADBE #4** |
+| PPS-T7 | **TCOM Tue 9/15 AMC**. HPE IR **Sep 30** outside 2–7d | none in five |
+| SelfIDB50 | Live IBD 50 **as-of 9/8**. ANET **#25** · WPM **#33**. **HPE off**. **NAVN off** | none new fill |
+| next-25 analog | NAVN Mar **+43%** still primary | **NAVN #2** |
+| Direction × IV | No new put credit into prints / CPI / FOMC | applied |
+| Bellwether ≥5% | **META +6.2%** STAND chase. **HPE Tue +7.75%** STAND chase | none new |
+| MANGOS | META **+6.2%** · NVDA **−0.7%** · MSFT **−0.3%** · AMZN **−1.9%** · GOOGL **−2.3%** · SPCX **−3.4%** | none |
+| CREDITS | PPI/CPI/FOMC. **No new put credit** | overlay |
+| Whale | `whale_check.py` live | see table |
 
 ---
 
-## 5. News (WSJ / IBD)
+## 1. Tape / macro (vs Tue Sep 8 close)
 
-- **WSJ** (signed-in capture): **Nvidia Reports Blowout Quarter, Says Demand for AI Chips Is Getting Even Hotter.** CIA Moscow trip · US–Canada trade · Fed’s Cook. Tape: DJIA **53463.88** −0.21% · S&P **7675.70** −0.02% · Nasdaq **26130.20** −0.08% · 10Y **4.651%** · VIX **15.21**.
-- **IBD MarketTrend** (Scott Lehtonen, 6:05 PM ET): sticky PCE into Warsh Fri; stay 40–60% invested; cut losers.
-- RSS floor **empty** this run. Live homepage + IBD lists are the tape.
-- Investor days: **none this week.** SNDK 8/13 done. INTU **Thu Sep 17**. MRVL **Tue Oct 6**.
+| | |
+|---|---|
+| SPY | **762.95 (−0.39%)** |
+| QQQ | **716.42 (−0.27%)** |
+| IWM | **291.10 (−1.21%)** |
+| SMH | **573.96 (+0.04%)** |
+| VXX | **18.20 (+1.17%)** |
+| SPX / VIX | **7643.83** · **16.20** |
+| TLT | **81.76 (−0.54%)** |
+| GLD / IBIT | **405.04 (+1.33%)** / **44.49 (+0.23%)** |
+| Regime | **Soft risk-off, oil/gold bid.** META is the MANGOS exception. 10Y yield **4.84%** (WSJ) |
 
-**IBD lists (8/26 capture):** IBD 50 #1–3 TVTX ETON KNSA. Cross-list 50 ∩ Sector Leaders ∩ Big Cap: **ANET · AU · IBKR · WPM**. Sector Leader #1 **ANET**. IBKR slipped entry **97.84** (spot **$97.02**).
+### MANGOS
 
-Oversold-bounce offense: **none.** SMH was flat RTH then **+1.9% AH** on NVDA — not a washout reclaim.
-
----
-
-## 6. Health Check composite (`daily.py` — stale, do not route off this)
-
-Whale column was **n/a**. Ranked GOs: AVGO / NVDA / GOOGL **shares / IV n/a**. AVGO as #1 GO is **wrong** for Thursday (prints **Sep 2**; NVDA peer T+1). SMCI **+9.4%** radar is **Tuesday’s** move. Use the Whale table in §3 and the ranked plan above.
-
----
-
-## 7. Learning (today)
-
-### INTU/ZM first-30 missed again; NVDA/CRWD/CRM armed for Thu
-Cards existed. No **go** before 9:30. Kill at 5:45 PM is correct *entry*. Need **go before 9:30 Thu** or this repeats.
-
-### NBT rotation: GLW dead; WPM + ANET for Sep 1–11
-GLW $170 reclaim never held. MRVL leftover is Fri first-30. New pair: different industries, arm after Warsh, no ANET puts.
-
-### Whale Watch skipped on FULL CHECK (this file)
-Step 7 was not run. `daily.py` whale n/a was treated as a skip instead of a fallback to `whale_check.py`. **Fix:** every FULL CHECK writes a whale flag table for candidates + book + NBT before ranking. Adopted here.
-
-Full log: `agent_learning_log.md`.
+| | Last | vs Tue |
+|---|---|---|
+| META | **653.33** | **+6.50%** STAND chase |
+| NVDA | **224.12** | **−0.71%** |
+| GOOGL | **330.53** | **−2.31%** |
+| AMZN | **252.17** | **−1.87%** |
+| MSFT | **492.48** | **−0.30%** |
+| SPCX | **148.20** | **−3.43%** |
 
 ---
 
-## 8. Pre-staged plan for 7:00 AM PT / 8 AM battery
+## 2. GICS 11 + industry sleeves
 
-1. Recalibrate NVDA 220/230 debit. Lead confirm-fire-kill **9:30–10:00 ET**. Need **go before 9:30**.
-2. If NVDA debit > $4.00, CRWD then CRM. Skip OKTA unless it dumps. VEEV only if 1–3 skipped.
-3. MS: abort still live. Do not add. Cushion **1.9%**.
-4. No HOOD / SMCI / MRVL put credit. No Agentic debit.
-5. After Thu close: rewrite MRVL for **Fri** first-30. Stand down new credits into Warsh.
-6. NBT: WPM 155/165 after Warsh; ANET 200/210 **Thu Sep 3** after AVGO/HPE. GLW stays dead.
+| ETF | Last | % |
+|---|---|---|
+| **XLE** | 65.36 | **+0.90%** lead |
+| XLK | 187.96 | +0.05% |
+| XLV | 166.83 | −0.18% |
+| XLF | 57.18 | −0.22% |
+| XLC | 111.11 | −0.37% |
+| XLB | 51.68 | −0.51% |
+| XLU | 43.06 | −0.90% |
+| XLP | 83.23 | −0.95% |
+| XLRE | 43.48 | −0.97% |
+| XLY | 112.77 | −1.07% |
+| **XLI** | 172.10 | **−1.33%** lag |
+| **GDX** | 100.09 | **+1.71%** industry lead |
+| XOP | 194.45 | +0.28% |
+| SMH | 573.96 | +0.04% |
+| IGV | 102.34 | −0.32% |
+| **KRE** | 73.39 | **−1.24%** industry lag |
 
-Sources (still canonical for overwrite next run): `catalyst_cards.md` · `next_day_prep.md` · `momentum_watchlist.md` · `news_sweep.md` · `agent_learning_log.md`.
+---
+
+## 3. Book health
+
+| Account | Position | GTC | Abort |
+|---|---|---|---|
+| Personal ••••5611 | **1× Sep 18 ORCL 155C long / 165C short** @ **$4.80**. Mid **$5.05**. Spot **$163.49** | **None** | Close **<$155** or mid **≥ $9.60** → same-session BTC. **No add** into Thu AMC |
+| Personal | Dust NIO/MU/MARA/HOOD/MED/NNE/WDAY/SKIL/**HPE**/SMH/SMCI/QNT/OKLO (all **<1 sh**) | n/a | Do not add |
+| Agentic ••••1451 | **100 MARA** @ **$9.72** + short Sep 18 **12C** credit **$0.66**, mark **$0.63**. Cash **$176.31** | **None** | BTC if stock **>$13** into expiry. Do not sell puts. Cannot take a debit |
+
+Personal cash **~$61,683**. Options mark **~$502**. Agentic value **$1,304**. **No orders until go.**
+
+---
+
+## 4–7. Four-model + whale + event
+
+`daily.py` not used this pass (prior whale n/a). **Whale Watch ran** `whale_check.py` on ORCL/NAVN/ADBE/AVAV/MARA/HPE. STKK/STNOW ⚪ — live tape + fundamentals used instead of stale cache. 3Good does not veto debits. No credit through prints.
+
+Calendar UNION: Nasdaq `earnings_radar.md` ∪ RH `get_earnings_calendar` ∪ fundamentals ∪ investor-day search.
+
+---
+
+## 8–9. IBD + desk sources (Playwright)
+
+WSJ signed in (**koteswararao Venkata**). IBD 50 / Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS / IPO / Funds / MarketTrend **opened**. IBD 50 as-of **9/8** (50 rows, not empty). MW + Barron's opened (Barron's signed in). RSS floor ran (`feeds_ok=True`; WSJ RSS stale — homepage used).
+
+**Reddit SOCIAL-ONLY opened:** r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors. Never Reddit-alone TAKE.
+
+**Investor / analyst days:** ORCL Investor Day **Oct 28** Las Vegas. **HPE Networking Investor Day Wed Sep 30** Sunnyvale (announced Sep 3) — missed card. NVDA Goldman Communacopia **Thu 8:50 AM PT**. NAVN Goldman **Thu 8:10 AM PT**.
+
+**`{TICKER} earnings`:** NAVN tonight AMC · AVAV tonight AMC · ORCL Thu AMC est **$1.67** · ADBE Thu AMC est **$5.84** · SAIL printed **$0.09 vs $0.08** · TCOM Tue 9/15 est **$0.91**.
+
+WSJ leads: 10-year yield jump after Treasury buyback; Anthropic researcher quit; Apple foldable **$1,999**; META **+6.2%**. Barron's: yields at highs; oil **$100**; CHWY dump; SIG rip. MW: PPI/CPI this week; oil in 401(k).
+
+---
+
+## 10. Direction × IV
+
+No new credit into prints / PPI / CPI / FOMC. Debits only: ORCL already filled; NAVN/AVAV/ADBE last-90. HPE 55/60 now **high-IV post-print** but **already bumped** → STAND not a put-credit.
+
+---
+
+## 12. Output / cash / leftover
+
+Agentic cash **$176.31** cannot take these debits. Personal **1×**. **No go.**
+
+**STAND / chase / leftover-banned:** HPE chase · META +6.2% · HOOD/WPM/JNJ/ANET unused leftover · SNOW prior gap · SAIL not ±7%.

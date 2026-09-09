@@ -3,7 +3,7 @@
 _Tracking upcoming IPOs for Robinhood IPO Access allocations. Allocations at the offer price
 are an **advantaged entry** (not a chase) — see the STNOW IPO-allocation branch._
 _Personal account: IPO Access = **Yes**. Flip-vs-hold decided **case-by-case** (ask each time)._
-_Last updated: June 12, 2026._
+_Last updated: September 1, 2026 (FULL CHECK S-1 clock). Still **no public S-1** for Anthropic or OpenAI — confidential drafts only (Jun 1 / Jun 8). No 3–5 week IPO Access countdown._
 
 > ⚠️ Educational / personal notes — not financial advice. Verify dates before acting.
 

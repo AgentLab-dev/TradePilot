@@ -3,9 +3,44 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: August 26, 2026._
+_Last updated: September 9, 2026 (Wed FULL CHECK ~11:30 AM PT, last-90 open)._
 
 ---
+
+### 2026-09-09 — HPE bump missed after Sep 2 beat-and-dump  [MISS]
+
+- **What happened:** HPE printed **Wed Sep 2 AMC $1.11 vs $0.91** (rev **$12.21B**, FY26 EPS guide **$3.75–$3.85**, FY27 **13–17%**). Ranked **#1** that morning (`daily_top5_2026-09-02.csv`, Sep 18 **55/60**, cap **$1.50**). Last-90 **did not fill** (no **go**; no HPE option orders). AH **$49.16 (−5.2% vs RTH $51.83)** — **inside ±7%**, so `post-print-gap-capture` said manage the card, not STAND-and-forget. We still **killed** it (`next_25_print_2026-09-02.md` “HPE −5.2%”) and parked it **⬛ DONE** with SNOW. **Thu Sep 3** opened **$47.60**, tagged **$45.70**, closed **$54.44** while MS/BofA backed the FY27 order/backlog story and HPE **announced Networking Investor Day Sep 30**. Fri NFP **$52.00**. Labor Day closed. **Tue Sep 8** closed **$56.03 (+7.75% vs Fri)** — MarketWatch “outperforms on a poor tape.” **Wed Sep 9** last **$57.88 (+3.30% vs Tue / +11.31% vs Fri)**. 55/60 mid now **$2.46** (would have been ~**+124%** vs a **$1.10** fill). Whale today 🟢 **+2**, 58C vol/OI **3.3**. **Not on IBD 50 / Sector Leaders / Big Cap 20.** Dust **0.018 sh** only.
+- **Root cause:** PPS-T1 **DONE** after a dump was treated as “name is dead,” not “write the reclaim + investor-day cards.” That is the **SNDK 8/13** hole on a hardware analog: beat + raise + IR date were knowable **Sep 3 7:45 AM**, and Sep 3’s **$45.70 → $54.44** close was the first-30 window. Leftover-five recycle then occupied Tue/Wed ranking so HPE never re-scored. Anti-chase **correctly** blocks chasing **after** Tue’s **+7.75%**; it does **not** excuse missing the Sep 3 reclaim.
+- **Rule / fix:** After a category print that **beats and raises** but dumps **inside ±7% AH**, keep a **T+1 reclaim card** (first 15–30 vs gap VWAP / RTH open) **and** run the investor-day query the same night. Do not convert PPS-T1 DONE into “never look again.” If the name later prints a **≥+7% session** unfilled, **STAND** that chase (today). Cap still binds: 55/60 **$2.46 > $1.50**.
+- **Status:** written into today’s FULLCHECK / NBT / cards / print_monitor. **No go. No HPE fill.** Next test is whether Sep 30 IR gets a card **before** the day.
+
+### 2026-09-09 — Leftover-five held; ORCL filled early; book has no GTC  [PROCESS]
+- **What happened:** Wed FULL CHECK during RTH. Last unused five were **HOOD · WPM · ORCL-arm · JNJ · ANET**. HOOD debit and MS 210/200 are **closed**. Personal now holds **ORCL 155/165 @ $4.80** from **Tue Sep 8** (ahead of the written Wed last-90 clock). IBD 50 live as-of **9/8**. `whale_check.py` Nasdaq chain empty. **No GTC** on ORCL or MARA CC.
+- **Rule / fix:** (1) Recycle ban still applies to unused names even when GDX/ANET look live — unique sleeve must be a **new** ticker. (2) An early fill moves the name to **MANAGE**, not a leftover arm. (3) Missing GTC is a book-health fail line — write abort, wait for **go**, do not invent a resting order. (4) IBD as-of last RTH after a Monday holiday is the published list; still open the page today.
+- **Status:** written into today’s files. No **go**. Next test is NAVN last-90 if the user says go before 4:00 ET.
+
+### 2026-09-03 — ZS last-90 no fill; HOOD flatten still 2×; live IBD kills IBKR recycle  [PROCESS]
+- **What happened:** ZS printed **$1.19 vs $0.88** (7-for-7). Last-90 ARM existed. No **go**. AH **$174.84 (−1.9% vs RTH)** — not a 25% miss. HOOD 105/115 ×2 still open after a **+16.6%** RTH (mid **$8.10** vs **$3.45**); Thu first-30 flatten-1 did not fire. Live IBD 50 **as of 9/3** dropped **IBKR**; NEM/IBKR first-30 leftovers were already through the long strike.
+- **Rule / fix:** (1) Last-90 still needs **go before 2:30 ET**, not a 4:20 PM FULL CHECK. (2) A manage-flatten on a debit that is already **>2×** is the same-session ticket as an abort — do not wait for the next FULL CHECK. (3) SelfIDB50 uses **today’s** IBD 50, not the 8/27 cache — IBKR is off.
+- **Status:** adopted in tonight’s files. Next test is HOOD flatten-1 after NFP if the user says **go**.
+
+### 2026-09-02 — Evening reshuffle: do not recycle leftover five  [PROCESS]
+- **What happened:** User rejected a leftover five (ZS/NAVN/SNOW/ANET/HPE). Forced a full-universe rescreen. Thursday plan is **ZS · ORCL · NEM · JNJ · IBKR**.
+- **Rule / fix:** After a printed day, do not rank last night’s unused names unless they **uniquely win** a sleeve after a live re-check. Allowed **one** print-clock leftover (ZS Thu last-90). NAVN stays next-25 **board**, not a fill. SNOW AH ≥+7% = STAND, no T+1 chase.
+- **Status:** files written. No **go**. Next test is ZS last-90 Thu if the user says go.
+
+### 2026-09-02 — SNOW analog underweighted; HPE-only had no second ticket  [MISS]
+
+- **What happened:** SNOW printed Wed AMC. RH actual **$0.62 vs $0.26**, Street **62c vs 45c**, product **$1.49B (+37%)**, FY27 product guide **$6.07B** (raise). RTH last **$306.19**. AH last **$373.88 (+22.1% vs RTH)**; AH high **$380.50 (+24.3%)**. Not 25%. ~1.7× Sep 4 EM **±12.7%**. User: **do not chase Thursday.**
+- **Root cause:** (1) User **HPE-only** last-90 — SNOW was guesstimate only. (2) PPS-T1 EM gate: Sep 4 **±12.7%** / Sep 18 **±14.2%** both <15% → ARM/STAND. (3) Skill miss: monster band **10%** despite **6-for-6** and last print **+36%** (May 27 close $175.26 → May 28 $239.20). Analog ≥1.5× EM was treated as nothing to capture. HPE last-90 **did not fill** (no HPE options on personal or Agentic; no 9/2 option orders).
+- **Rule / fix:** `print-analog-vs-em` — analog ≥1.5× EM → **ARM + written second-name ticket**, not TAKE and not STAND-and-forget. Guesstimate monster **cannot be <20%** if last print ≥+20% and category still AI/data. `post-print-gap-capture` — AH ≥+7% **STAND AH**; do not chase. `next-25-print-screen` — screen the **next** name. Primary now **NAVN** (Mar print **+43%**). Second-name **ZS** (clock, not 25% analog).
+- **Status:** adopted tonight. Next test is NAVN Tue Sep 8 last-90 with a written ticket, **go** before fill.
+
+### 2026-08-26 — PPS: two strategies, two flags (OKTA T−7/T−1 miss)  [RULE]
+
+- **What happened:** OKTA was already ALWAYS / cyber / IBD and gapped **+21% AH**. We had no week monitor and no into-print OTM ticket. After-print ATM behind NVDA is neither strategy.
+- **Rule / fix:** **PPS** (`pre-print-screen`) is two separate strategies. **PPS-T7** (`t7.md`): 2–7d category names, daily WSJ/MW/peer/EM, **no fill**, flag 🟢 ON / 🟡 THIN / ⚪ / ⬛ DONE. **PPS-T1** (`t1.md`): 0d last-90-min OTM debit if EM% ≥15% and beat/theme fire, flag 🟢 TAKE / 🟡 ARM / 🔴 STAND / ⚪ / ⬛ MISS. Both flags on every ranked table. Board: `print_monitor.md`. Live: PANW/DELL/AVGO/HPE/NTAP/SNOW = PPS-T7 🟢 ON. MRVL = PPS-T1 🔴 STAND. OKTA = PPS-T1 ⬛ MISS.
+- **Status:** adopted tonight. Next test is a T−7 ON row that later prints TAKE, with **go** before 4:00 ET.
 
 ### 2026-08-26 — Session rollup: first-30 go miss, whale skip, 4-model flags, NBT  [MISS / RULE]
 
@@ -251,10 +286,11 @@ _Last updated: August 26, 2026._
 
 ## 🔝 Tomorrow's first-check (top of the next session)
 
-> **Mon Aug 17:** Lead from `catalyst_cards.md`. Confirm XLE still leads → **XOM Sep 160/165
-> call debit ≤$2.20** only if first 15–30 min holds Friday’s low. **FN AMC** same-session debit
-> if the post-print range holds. Book: **MS abort $210 / mid ≥$4.50**. Do not chase SNDK/AMAT.
-> Fri FULLCHECK: `Documents/fullcheck_2026-08-14.md`.
+> **Fri Sep 4:** Lead from `catalyst_cards.md`. **NFP 8:30 ET — no debit/credit into the number.** After NFP: **flatten 1× HOOD** 105/115 (mid **$8.10**). **WPM** 160/170 if GLD/GDX hold. **JNJ** 280/290 if XLV holds. **ANET** 195/205 only on a **$191** hold. **ORCL T7 — no fill.** **ZS / SNOW / LULU STAND.** MARA personal **$11C expires** (ITM). MS GTC **$1.25**. Labor Day **Mon Sep 7**. Combined: `FULLCHECK.md`.
+
+> **Tue Sep 1 pre-open:** Lead from `catalyst_cards.md`. **No go before 9:30 ET** (no first-30 debit). **MS manage** (pre **$211.40**, abort **$210 / mid ≥ $4.50**, GTC **$1.25**). **MDB** PPS-T1 last-90 **490/500** cap **$4** RTH if EM still ≥15%. **NBT pair killed** (WPM pre **$146.19**). Combined: `FULLCHECK.md`.
+
+> **Mon Aug 31:** Lead from `catalyst_cards.md`. **MS manage** (cushion **2.2%**, mid **~$2.08**, abort **$210 / mid ≥ $4.50**, GTC **$1.25**). Recalibrate **PANW / DELL** PPS-T1 last-90 (Fri close Sep 4 ATM EM **±9.3% / ±11.2%** — below 15% TAKE; do not fill on Friday morning EM). **WPM** first-30 only if holds **$153** (GLD **−3.3%** after Warsh). No new credit. Combined: `FULLCHECK.md`.
 
 
 

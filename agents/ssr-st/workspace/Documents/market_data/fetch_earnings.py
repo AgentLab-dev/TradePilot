@@ -100,14 +100,18 @@ def main():
              "**Not sufficient alone** — UNION Robinhood `get_earnings_calendar` "
              "and search investor/analyst days. Nasdaq omitted XE on 2026-08-13._\n",
              "> 🔴 **sell-gate**: do not let any credit spread expire after this date "
-             "(the AVGO / MU rule). 🟢 **directional**: pre-earnings debit/long watch.\n",
+             "(the AVGO / MU rule). 🟢 **directional**: pre-earnings debit/long watch. "
+             "🟡 **PPS-T7**: category name 2–7d out — week monitor, no fill "
+             "(`pre-print-screen` / `print_monitor.md`). PPS-T1 is the 0d fill.\n",
              "| Ticker | Report date | Days away | Session | Flags |",
              "|---|---|---|---|---|"]
     if hits:
         for sym, d, away, t in hits:
             tt = {"time-pre-market": "BMO", "time-after-hours": "AMC"}.get(t, t or "?")
-            lines.append(f"| **{sym}** | {d} | {away}d | {tt} | "
-                         f"🔴 sell-gate · 🟢 directional |")
+            flags = "🔴 sell-gate · 🟢 directional"
+            if 2 <= away <= 7:
+                flags += " · 🟡 PPS-T7"
+            lines.append(f"| **{sym}** | {d} | {away}d | {tt} | {flags} |")
     else:
         lines.append("| _none in window_ | – | – | – | – |")
     lines.append(f"\n_{len(hits)} name(s) reporting in the next {days} days. "

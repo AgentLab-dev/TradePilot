@@ -30,7 +30,8 @@ UNIVERSE = {
     "core":       ["ORCL", "HOOD", "NNE", "NTAP", "XE", "OKLO"],
     "ntap_peers": ["ANET", "HPE", "PSTG", "DELL", "SMCI", "WDC", "STX", "IBM", "SNDK"],
     "other":      ["GDX", "DDOG", "AVGO", "SNOW"],
-    "growth_screen": ["ZS", "VEEV", "MNDY"],
+    "growth_screen": ["ZS", "VEEV", "MNDY", "OKTA"],
+    "cyber":      ["PANW", "FTNT"],  # CRWD in spx_swing; OKTA/ZS in growth_screen
     "spx_swing": ["NOW", "AMZN", "META", "CRWD"],
     "mangos":     ["NVDA", "GOOGL", "MSFT"],  # AI-leadership basket (META/AMZN/SPCX already above)
     "watch_only": ["SPCX"],
