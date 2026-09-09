@@ -1,77 +1,36 @@
 ---
-name: reconnect-dow-jones-desk-portals
+name: Reconnect Dow Jones desk portals
 description: >-
-  Reconnect Dow Jones SSO in box Chrome when WSJ, MarketWatch, or IBD are signed
-  out. Identity hr@solutionlabs.ai. Never store passwords. Hand the box for
-  password / 2FA; skip a portal if it still fails; then run desk-sources-capture.
-  Use on FULL CHECK / NEWS when the access line would otherwise be SKIP for
-  IBD, WSJ, or MW.
+  use this when any assistant needs WSJ MarketWatch IBD Barron's and Dow Jones
+  SSO is signed out — reconnect shared box Chrome so all agents can use those
+  news portals
 ---
-
 # Reconnect Dow Jones desk portals
 
-Desk sources need a live SSO. When WSJ, MarketWatch, or IBD show **Sign In**,
-reconnect **before** you mark the whole stack SKIP. Then recapture.
+Use when **any** assistant needs WSJ, MarketWatch, IBD, or Barron's and those portals show signed-out / paywall / SSO login, or HTTP 401. Restores the shared Dow Jones session in box Chrome so desk/news capture can continue. Shared across all of this user's agents (same computer / Chrome logins).
 
-Pipeline: [`../../NEWS_DAY_PIPELINE.md`](../../NEWS_DAY_PIPELINE.md).
-Next skill: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md).
-Pack playbook: `agents/ssr-st/skills/news-portals/SKILL.md` + `ibd-wsj-capture`.
-
-## When
-
-- Access line would be `WSJ SKIP` / `MW SKIP` / `IBD SKIP` for Sign In / SSO
-- FULL CHECK or Five-new NBT before ranking
-- Evening wrap news watch
-- User says reconnect / SSO / "WSJ signed out" / "IBD login"
-
-Do **not** ask the user to paste a password in chat.
-
-## Identity
-
-- Account: **`hr@solutionlabs.ai`**
-- Browser: **box Chrome** (the Grok Bot / desk box), not a random new profile
-- Shared Dow Jones SSO covers **WSJ + MarketWatch**; IBD (`research.investors.com`
-  / `myibd.investors.com`) often rides the same session after WSJ is live
-- Newsletter `ibdsilentlogin=true` alone does **not** count as signed in
+## Assumptions
+- Box Chrome is shared by every agent on this machine.
+- Account email is typically `hr@solutionlabs.ai` (confirm if a different Dow Jones login is in use).
+- **Never store or type passwords in skills/logs.** If password/2FA is required, hand the box to the user for that step only, then continue.
 
 ## Steps
+1. Open Chrome. Prefer an existing WSJ / MarketWatch / IBD tab if open.
+2. Go to WSJ Markets: `https://www.wsj.com/market-data`
+3. Check signed-in state: profile menu shows the subscriber name (not “Sign In”). If signed in, jump to step 7.
+4. If signed out: open Sign In → Dow Jones SSO `sso.accounts.dowjones.com` login page.
+5. Enter the desk email (default `hr@solutionlabs.ai`). Enter password only via user handoff if the field is empty — do not invent credentials. Click **Sign In**. Wait for redirect back to WSJ (homepage or market-data).
+6. Confirm SSO carries across the Dow Jones hat links (silent-login is OK):
+   - IBD: `https://research.investors.com/stock-lists/ibd-50/` (table rows visible, not auth wall)
+   - MarketWatch: `https://www.marketwatch.com/`
+   - Barron's: `https://www.barrons.com/` (optional)
+7. Report per portal: **OK signed-in** / **SIGNED OUT** / **BLOCKED** / **SKIPPED**.
+8. If any portal still fails after one reauth attempt: **skip it**, continue with portals that work, and note skips.
 
-1. **Detect signed-out** — Header **Sign In** / **Subscribe**, or IBD tables missing
-   / "Register now". Signed in = account/profile and list tables present.
-2. **Open box Chrome** on WSJ (`https://www.wsj.com/`) first. Then MarketWatch
-   (`https://www.marketwatch.com/`). Then IBD MarketTrend or IBD 50
-   (`https://research.investors.com/…`).
-3. **Never store passwords.** No `portals.json` dump, no chat paste, no git, no
-   Sheet cell. Cookies stay in the box Chrome profile.
-4. **Hand the box** for password / 2FA. Tell the user to take the Chrome window,
-   complete SSO as `hr@solutionlabs.ai`, finish 2FA, then say **done**. Do not
-   brute-force the Sign In form. Do not click through bot checks blindly.
-5. **Re-check each portal.** Signed-in WSJ does not guarantee IBD tables. Confirm
-   IBD 50 rows before calling IBD `OK`.
-6. **Skip if still failing** — One honest try + user handoff. If 2FA, bot-check,
-   or SSO still fails, mark that portal `SKIP` with why. Do **not** loop. Do not
-   invent headlines from stale RSS as if the portal were `OK`.
-7. **Then desk sources capture** — Load `desk-sources-capture` immediately.
-   Standing order still IBD → WSJ → MW → Whale → Reddit. Print the access line.
+## Do not
+- Paste passwords into chat or skill files.
+- Stall the whole task on one dead portal.
+- Treat Barron's as required if WSJ+MW+IBD are enough.
 
-## Access line after reconnect
-
-```
-IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
-```
-
-Example after a partial reconnect: `IBD OK | WSJ OK | MW OK | Whale OK | Reddit SKIP | ApeWisdom OK`
-
-If WSJ reconnects and IBD still fails: `IBD SKIP (SSO tables) | WSJ OK | …` and
-SelfIDB50 / NBT universe falls back to FFTY + `rs_screen.py` **only** with IBD
-marked `SKIP`.
-
-## Hard rules
-
-1. **Never store passwords.** Never type them from memory into chat.
-2. **Hand the box** for password / 2FA. User says **done**.
-3. **Skip the portal if it still fails.** Continue the capture.
-4. **Then run desk-sources-capture.** Reconnect without recapture is a miss.
-5. Do not create a new Chrome profile every run — use box Chrome.
-6. Do not ask the user to paste IBD tables.
-7. Pack commands under `agents/ssr-st/commands/NEWS.md` + `IBDWSJCAPTURE.md` stay.
+## After success
+Hand off to **Desk sources capture** (or the caller's news pull) for IBD lists / WSJ·MW headlines / Whale / Reddit SOCIAL-ONLY.

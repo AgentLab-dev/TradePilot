@@ -42,6 +42,10 @@ FULL CHECK, NBT, and tickets are **read-only until the user says go**. Surface t
 
 **CREDITS** is the rates sleeve. Keep it separate from the equity-options book. Do not bleed equity event-gate exceptions into CREDITS, or CREDITS duration/rates logic into equity NBT.
 
+## Shared news-portal skills
+
+News-portal skills (**Reconnect Dow Jones desk portals**, **Desk sources capture**) are shared for every assistant — any agent may use the Dow Jones / IBD / WSJ / MW / Reddit capture path on the shared box Chrome session.
+
 ## Delivery
 
 Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback.
