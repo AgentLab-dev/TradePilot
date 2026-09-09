@@ -1,38 +1,52 @@
-# News sweep — Wed 2026-08-26 ~5:45 PM PT (FULL CHECK)
+# News sweep — Wed 2026-09-09 11:30 PDT
 
-_Public RSS failed this run (feeds empty/blocked). Live tape is the signed-in WSJ homepage + IBD lists captured earlier this session. Skill: `news-portals` + `ibd-wsj-capture`._
+_Playwright homepages (signed in) + public RSS floor. Skill: `news-portals`._
 
-## WSJ homepage (live, signed in — earlier this session)
+## WSJ homepage (signed in, Playwright ~11:27 PT)
 
-- **Nvidia Reports Blowout Quarter, Says Demand for AI Chips Is Getting Even Hotter** — lead. Live: Chip Giant’s Shares Climb.
-- CIA Chief’s Surprise Moscow Trip Was to Warn Russia Not to Attack NATO
-- U.S. and Canada Are Bracing for Prolonged Trade Dispute
-- Fed’s Cook Says She Never Committed Fraud
-- FDA Approves Drug for Pancreatic Cancer in Milestone for Treatment
-- Tape: DJIA **53463.88** −0.21% · S&P **7675.70** −0.02% · Nasdaq **26130.20** −0.08% · 10Y **4.651%** · VIX **15.21**
+- 10-Year Yield Jumps as Treasury’s Buyback Plan Disappoints Investors
+- Anthropic Researcher Quits Over ‘Out-of-Control’ AI Fears
+- Six Charts That Explain How Americans Really Feel About the Economy
+- Apple Debuts New Foldable iPhone Duo, New CEO and New (Higher) Prices — foldable starts **$1,999**
+- META **+6.17%** on the WSJ tape strip. Vertiv **−9.65%**. Crude **$96.18 (+3.4%)**. Gold **$4,465.80**
+- States That Gave Data Centers Billions in Tax Breaks Are Now Ripping Up the Deals
 
-IBD lists: `ibd_stock_lists.md` (auto-capture same session, as of 8/26). Cross-list **ANET · AU · IBKR · WPM**.
+## Barron's homepage (signed in, Playwright)
 
-## Investor / analyst / capital-markets days (required query)
+- Treasury Yields Rise to New Highs After $6 Billion Buyback Announcement
+- Live: Dow Drops as Iran War Fuels Inflation Fears
+- Oil Prices Hit $100 Again as U.S. and Iran Trade More Strikes
+- Chewy Stock Tumbles as Sales Guidance Not Enough
+- Why Signet Jewelers Stock Is Having Its Best Day in Over a Year
+- Foldable iPhone Is Apple's Biggest Test in Years
 
-- **SNDK** Investor Day: **Thu Aug 13, 2026** — done.
-- **INTU** Investor Day: **Thu Sep 17, 2026** (Intuit IR, announced Feb 11, 2026).
-- **MRVL** Investor Day: **Tue Oct 6, 2026** (Marvell IR, announced with the Q2 call).
-- **NVDA:** no investor day this week. Earnings call was Wed 8/26 AMC.
-- **None this week** on book, SMH/memory, or mapped peers.
+## MarketWatch RSS (live)
 
-# News sweep — RSS floor (Wed 2026-08-26 17:41 PDT)
+- Fed rate hike hinges on two key inflation reports in the next two days (PPI/CPI)
+- Oil at $100? Why you should always have energy stocks in your 401(k)
+- Treasury will buy more government bonds than previously announced. The market remains ‘underwhelmed.’
 
-_Public RSS. Feeds returned empty this run._
+## Reddit SOCIAL-ONLY (Playwright, no login)
 
-## WSJ Markets
-_empty or blocked_
+Opened + scanned: r/algotrading · r/Quant · r/stocks · r/investing · r/StockMarket · r/wallstreetbets · r/options · r/semiconductors. Optional r/pennystocks. **No Reddit-alone TAKE.** No HPE / NAVN earnings thread used as a ticket.
 
-## WSJ US Business
-_empty or blocked_
+## Investor / analyst / capital-markets day (required query)
 
-## MarketWatch top
-_empty or blocked_
+- **HPE Networking Investor Day Wed Sep 30** Sunnyvale 8:30 AM PT (Business Wire **Sep 3 7:45 AM**) — missed until this run
+- ORCL Investor Day **Oct 28** Las Vegas
+- NVDA Goldman Communacopia **Thu Sep 10 8:50 AM PT**
+- NAVN Goldman **Thu Sep 10 8:10 AM PT** (do not chase)
 
-## Yahoo Finance
-_empty or blocked_
+## `{TICKER} earnings`
+
+- **NAVN earnings** — tonight AMC, call 2:00 PM PT
+- **AVAV earnings** — tonight AMC, call 4:30 ET
+- **ORCL earnings** — Thu AMC, est **$1.67**
+- **ADBE earnings** — Thu AMC, est **$5.84**
+- **HPE earnings** — last print Sep 2 **$1.11 vs $0.91**; next **Dec 3** unverified
+- **TCOM earnings** — Tue Sep 15 AMC, est **$0.91**
+- **SAIL earnings** — printed BMO **$0.09 vs $0.08**
+
+---
+
+_Public RSS floor (WSJ RSS is months stale — homepage above is the live lead)._
