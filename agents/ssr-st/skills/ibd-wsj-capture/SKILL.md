@@ -29,7 +29,7 @@ On FULL CHECK this repo has no `desk-sources-capture` folder. Load this skill pl
 - `ibd_stock_lists.md` is not dated today.
 - The agent asked the user to paste list pages.
 
-WSJ + MarketWatch + Barron's capture on this skill still feeds step 9; fail conditions for those pages live in `news-portals`.
+WSJ + MarketWatch + Barron's capture on this skill still feeds step 9; fail conditions for those pages live in `news-portals`. Reddit SOCIAL-ONLY is a `news-portals` / NEWS check — this skill does not scrape Reddit.
 
 ## Login / open (exact URLs — WSJ first)
 
