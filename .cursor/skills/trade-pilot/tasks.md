@@ -26,9 +26,10 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 ```
 - [ ] Run the 12 steps in agents/ssr-st/commands/FULLCHECK.md
 - [ ] Step 8: `ibd-wsj-capture` live IBD lists (no paste); SelfIDB50 FFTY only if Sign In still blocks after Take Control
-- [ ] Step 9 news: load `news-portals` + `ibd-wsj-capture`. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; RSS is the floor, not a substitute
+- [ ] Step 9 news: load `news-portals` + `ibd-wsj-capture`. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; RSS is the floor, not a substitute. Then Reddit SOCIAL-ONLY (required, additional): open + scan r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors (public, no login). Never Reddit-alone TAKE.
 - [ ] Fail if IBD 50 is not live today (as-of not today / empty tables) unless Sign In blocked after Take Control; fail if Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS / IPO / Funds URLs were not opened; fail if the agent asked for a paste
 - [ ] Fail if WSJ, header IBD, MarketWatch, or Barron's was not actually opened
+- [ ] Fail if the required Reddit SOCIAL-ONLY check was skipped (open + scan; no login). Curl/API without a browser open does not count
 - [ ] Fail if the investor-day / analyst-day / capital-markets-day query was not run on book + SMH/memory/AI + READTHROUGH peers
 - [ ] Fail if a 0d/1d name has no `{TICKER} earnings` line (OKTA 8/26), or a PPS-T7 ON name has no ticker-earnings line
 - [ ] Fail if calendar UNION is missing a leg: Nasdaq `earnings_radar` ∪ Robinhood `get_earnings_calendar` ∪ fundamentals ∪ investor-day

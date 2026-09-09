@@ -1,6 +1,6 @@
-# Command: NEWS (IBD / WSJ / MW / Barron's)
+# Command: NEWS (IBD / WSJ / MW / Barron's / Reddit SOCIAL-ONLY)
 
-Trigger: `NEWS`, `WSJ`, `MW`, `MarketWatch`, `Barron's`, login to WSJ, `IBD lists`.
+Trigger: `NEWS`, `WSJ`, `MW`, `MarketWatch`, `Barron's`, login to WSJ, `IBD lists`, Reddit.
 
 Read-only. Load `news-portals` + `ibd-wsj-capture`. Never paste passwords.
 
@@ -14,4 +14,14 @@ Read-only. Load `news-portals` + `ibd-wsj-capture`. Never paste passwords.
 3. `python3 agents/ssr-st/workspace/Documents/market_data/news_portals.py` (RSS floor)
 4. Required query: `"investor day" OR "analyst day" OR "capital markets day"`
 5. Required: `{TICKER} earnings` on every 0d/1d name and every PPS-T7 2–7d category name.
-6. On **FULL CHECK**, steps 8–9 treat the above as **fail conditions** (see `FULLCHECK.md`). RSS-only WSJ does not count. Zapier has no WSJ-family app.
+6. **Reddit SOCIAL-ONLY (required, additional — does not replace the four).** Public browse is enough. Optional logged-in home (`/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan every required sub (copied from Grok Bot `docs/grokbot-desk/NEWS_DAY_PIPELINE.md`):
+   - https://www.reddit.com/r/algotrading/
+   - https://www.reddit.com/r/Quant/
+   - https://www.reddit.com/r/stocks/
+   - https://www.reddit.com/r/investing/
+   - https://www.reddit.com/r/StockMarket/
+   - https://www.reddit.com/r/wallstreetbets/
+   - https://www.reddit.com/r/options/
+   - https://www.reddit.com/r/semiconductors/
+   Optional (do not replace the required set): r/spacs, r/pennystocks, ApeWisdom, SwaggyStocks. Tag SOCIAL-ONLY — miss-catch D / buzz only; **never Reddit-alone TAKE**.
+7. On **FULL CHECK**, steps 8–9 treat the above as **fail conditions** (see `FULLCHECK.md`). RSS-only WSJ does not count. Skipping the Reddit check fails NEWS / FULL CHECK. Zapier has no WSJ-family app.

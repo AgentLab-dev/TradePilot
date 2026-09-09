@@ -23,12 +23,13 @@ The 12-step battery. Read-only by default — surfaces tickets, waits for go.
    - Capture the rest of the Stock Lists: Sector Leaders, Big Cap 20, Spotlight, New Highs, RS at New High, IPO Leaders, Funds Buying. Fail if a listed URL was not opened.
    - Open MarketTrend (signed-in when possible). MarketTrend **%** itself is optional if the page loaded.
    - Overwrite `ibd_stock_lists.md` dated today. Fail if the agent asked the user to paste.
-9. Desk sources — IBD / WSJ / MarketWatch / Barron's (`news-portals` + `ibd-wsj-capture`). Skipping any of these is a failed FULL CHECK. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open MW and Barron's from the same Dow Jones hat if needed. Open these (exact URLs, WSJ first):
+9. Desk sources — IBD / WSJ / MarketWatch / Barron's **plus Reddit SOCIAL-ONLY** (`news-portals` + `ibd-wsj-capture`). Skipping any of these is a failed FULL CHECK. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open MW and Barron's from the same Dow Jones hat if needed. Open these (exact URLs, WSJ first):
    - https://www.wsj.com/
    - IBD from the WSJ header (fallback only: https://www.investors.com/?ibdsilentlogin=true)
    - https://www.marketwatch.com/?mod=WSJ_NavHat&mod=WSJ_NavHat
    - https://www.barrons.com/?mod=WSJ_NavHat&mod=WSJ_NavHat
    - Fail if any of the four was not opened (Playwright MCP, optional Cursor Browser Tab, or Safari/Chrome tail). RSS-only does not count (WSJ RSS is months stale).
+   - **Reddit SOCIAL-ONLY (required, additional).** Public; no login. Open + scan: https://www.reddit.com/r/algotrading/ · https://www.reddit.com/r/Quant/ · https://www.reddit.com/r/stocks/ · https://www.reddit.com/r/investing/ · https://www.reddit.com/r/StockMarket/ · https://www.reddit.com/r/wallstreetbets/ · https://www.reddit.com/r/options/ · https://www.reddit.com/r/semiconductors/. Optional: r/spacs, r/pennystocks, ApeWisdom, SwaggyStocks. Fail if the Reddit check is skipped. Curl/API without a browser open does not count. Never Reddit-alone TAKE (miss-catch D / buzz only). IBD capture does not scrape Reddit.
    - Run `news_portals.py` RSS floor every run.
    - Required query: `"investor day" OR "analyst day" OR "capital markets day"` on book + SMH/memory/AI + READTHROUGH peers (SNDK 8/13). Fail if this query was not run.
    - Required: `{TICKER} earnings` on every **0d/1d** name (OKTA 8/26 — homepage was NVDA). Fail if a 0d/1d name has no `{TICKER} earnings` line.

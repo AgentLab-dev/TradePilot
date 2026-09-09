@@ -18,6 +18,36 @@ Login lives in the browser. These URLs are for the agent, not for storing creden
 | Investopedia calendar | https://www.investopedia.com/ | Macro calendar backup |
 | IBD MarketTrend | https://research.investors.com/markettrend.aspx | After IBD Sign In. Capture lists via `ibd-wsj-capture`. |
 
+## Reddit SOCIAL-ONLY (required NEWS / FULL CHECK step 9)
+
+Copied from Grok Bot desk pipeline (`docs/grokbot-desk/NEWS_DAY_PIPELINE.md` + `docs/grokbot-desk/skills/desk-sources-capture/SKILL.md` on AgentLab-dev/TradePilot). **Added** after the four WSJ-header portals. Does **not** replace WSJ → header IBD → MW → Barron's.
+
+Public pages work. Optional login at `https://www.reddit.com/?feed=home` via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in this file or chat. Pass = open each required URL in Playwright / browser and scan hot posts. Fail NEWS / FULL CHECK if this check is skipped. Curl/API 403 without a browser open does not count. Tag **SOCIAL-ONLY** — miss-catch D / buzz only; **never Reddit-alone TAKE**.
+
+### Required (open + scan every NEWS / FULL CHECK)
+
+| Sub | URL | When |
+|---|---|---|
+| r/algotrading | https://www.reddit.com/r/algotrading/ | Quant / systems flow, data pipelines |
+| r/Quant | https://www.reddit.com/r/Quant/ | Institutional quant / microstructure |
+| r/stocks | https://www.reddit.com/r/stocks/ | Broad equity / earnings / names |
+| r/investing | https://www.reddit.com/r/investing/ | Macro / Fed / sector rotation |
+| r/StockMarket | https://www.reddit.com/r/StockMarket/ | Daily movers / charts / calendars |
+| r/wallstreetbets | https://www.reddit.com/r/wallstreetbets/ | Retail momentum / squeeze / unusual volume (noise) |
+| r/options | https://www.reddit.com/r/options/ | IV spikes / straddles / order-flow color |
+| r/semiconductors | https://www.reddit.com/r/semiconductors/ | Chip / AI-hardware color before prints |
+
+### Optional (do not replace the required set)
+
+| Source | URL | When |
+|---|---|---|
+| r/spacs | https://www.reddit.com/r/spacs/ | Speculative / micro-cap color |
+| r/pennystocks | https://www.reddit.com/r/pennystocks/ | Speculative / micro-cap color |
+| ApeWisdom | https://apewisdom.io/ | Aggregated ticker mention velocity |
+| SwaggyStocks | https://swaggystocks.com/ | WSB mention / options sentiment |
+
+If a required sub 403s after a **browser** open attempt, mark that sub `SKIP` with the reason. Skipping the whole Reddit check still **fails** NEWS / FULL CHECK.
+
 ## Public RSS (news_portals.py)
 
 | Source | Feed |

@@ -2,14 +2,14 @@
 name: news-portals
 description: >-
   Logs into and reads IBD, WSJ, MarketWatch, and Barron's (desk-sources set),
-  plus Yahoo Finance and other FULL CHECK news portals. Use on FULL CHECK
-  step 9, evening wrap news watch, WSJ, MW, IBD, Barron's, investor-day
-  search, or when the user asks to login to a news site. Prefers MCP, then
-  Cursor browser login, then Safari/Chrome already-signed-in tabs (headless
-  tail), then public RSS. Whale Watch flow stays Robinhood MCP.
+  plus Reddit SOCIAL-ONLY, Yahoo Finance, and other FULL CHECK news portals.
+  Use on FULL CHECK step 9, evening wrap news watch, WSJ, MW, IBD, Barron's,
+  Reddit, investor-day search, or when the user asks to login to a news site.
+  Prefers MCP, then Cursor browser login, then Safari/Chrome already-signed-in
+  tabs (headless tail), then public RSS. Whale Watch flow stays Robinhood MCP.
 ---
 
-# News portals (IBD · WSJ · MW · Barron's)
+# News portals (IBD · WSJ · MW · Barron's · Reddit SOCIAL-ONLY)
 
 FULL CHECK step 9 and evening wrap **news watch** must read headlines, not guess
 behind a paywall. There is **no WSJ / MarketWatch / IBD / Barron's MCP**. Zapier
@@ -72,6 +72,7 @@ browser_snapshot
 - After WSJ Sign In, open IBD from the WSJ header (that hop is the autologin). Then MarketWatch and Barron's from the same header (`?mod=WSJ_NavHat`). Do not skip Barron's.
 - After IBD Sign In, Stock Lists / MarketTrend capture is `ibd-wsj-capture` (research.investors.com). Skip the profile overlay if it appears; stay on the list page (do not follow Skip to investors.com until tables are captured).
 - Yahoo `https://finance.yahoo.com/` — usually no login.
+- **Reddit SOCIAL-ONLY (required NEWS / FULL CHECK step 9 check, additional to the four).** Public browse is enough. Optional logged-in home (`https://www.reddit.com/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan the required subs (see [portals.md](portals.md)). Never Reddit-alone TAKE.
 - Unlock when finished.
 
 Do **not** brute-force the Sign In form. WSJ-family sites use SSO + bot checks.
@@ -110,21 +111,22 @@ Do not wait until after AMC.
 
 ## Portals
 
-See [portals.md](portals.md) for URLs. Login once at WSJ, then header-hop IBD (autologin), then MarketWatch and Barron's from the same hat. Yahoo / Reuters / CNBC are backup. Whale Watch = Robinhood, not unusualwhales.com.
+See [portals.md](portals.md) for URLs. Login once at WSJ, then header-hop IBD (autologin), then MarketWatch and Barron's from the same hat. Then open the required Reddit SOCIAL-ONLY subs (public browse, or logged-in home via `.env` `REDDIT_USER` to clear the signup overlay). Yahoo / Reuters / CNBC are backup. Whale Watch = Robinhood, not unusualwhales.com.
 
 ## Secrets
 
-`agents/ssr-st/secrets/portals.json` is gitignored. Prefer repo `.env` (`WSJ_USER` / `IBD_USER` / `WSJ_PASSWORD` / `IBD_PASSWORD`) or keyring (`tradepilot` / `wsj-password`). Login lives in the Cursor browser or `storage_state.json` + `browser-profile/` after `tradepilot portal-capture --login`. Never paste a password in chat. See `agents/ssr-st/workspace/Documents/portal_login.md`.
+`agents/ssr-st/secrets/portals.json` is gitignored. Prefer repo `.env` (`WSJ_USER` / `IBD_USER` / `REDDIT_USER` / `WSJ_PASSWORD` / `IBD_PASSWORD` / `REDDIT_PASSWORD`) or keyring (`tradepilot` / `wsj-password`). Login lives in the Cursor browser or `storage_state.json` + `browser-profile/` after `tradepilot portal-capture --login`. Never paste a password in chat. See `agents/ssr-st/workspace/Documents/portal_login.md`.
 
 ## FULL CHECK / evening wrap
 
-Load this skill on step 9 / news watch. Run RSS. If a named article is paywalled, use ladder 1 or 2. Then the investor-day query. Do not skip news because Sign In is showing.
+Load this skill on step 9 / news watch. Run RSS. If a named article is paywalled, use ladder 1 or 2. Then the investor-day query. Then the Reddit SOCIAL-ONLY open+scan. Do not skip news because Sign In is showing.
 
-On FULL CHECK this is a **fail condition**, not a best-effort. There is no `desk-sources-capture` folder — this skill plus `ibd-wsj-capture` is that job.
+On FULL CHECK this is a **fail condition**, not a best-effort. There is no `desk-sources-capture` folder — this skill plus `ibd-wsj-capture` is that job. Reddit lives here, not in IBD capture.
 
 ### Fail the FULL CHECK if
 
 - The four portals were not actually opened after the WSJ header SSO hop (WSJ → header IBD → header MarketWatch / Barron's). RSS-only does not count — WSJ public RSS is often months stale.
+- The Reddit SOCIAL-ONLY check was skipped. Pass = each **required** sub opened in Playwright / browser and hot posts scanned. Login is optional (`.env` `REDDIT_USER` / `REDDIT_PASSWORD` for `/?feed=home` overlay). Curl/API 403 without a browser open does not count. Never Reddit-alone TAKE (miss-catch D / buzz only). Optional subs (r/spacs, r/pennystocks) and ApeWisdom / SwaggyStocks do not replace the required set.
 - `"investor day" OR "analyst day" OR "capital markets day"` was not run on book + SMH/memory/AI + READTHROUGH peers (SNDK 8/13).
 - A **0d/1d** name has no `{TICKER} earnings` line on WSJ/MW/IR (OKTA 8/26 — homepage was NVDA).
 - A **PPS-T7 ON** (2–7d category) name has no `{TICKER} earnings` line.
