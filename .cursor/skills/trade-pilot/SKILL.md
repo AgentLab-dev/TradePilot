@@ -21,10 +21,12 @@ Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load t
 
 | User is doing | Load first | Then |
 |---|---|---|
-| FULL CHECK / tape / book / options | `trading-continuous-learning` | Command file under `agents/ssr-st/commands/` |
+| FULL CHECK / tape / book / options | `trading-continuous-learning` | Command file under `agents/ssr-st/commands/` · steps 8–9 **require** `news-portals` + `ibd-wsj-capture` (fail if skipped; no `desk-sources-capture` folder) |
 | Health Check / STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | matching command file |
-| Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` | `catalyst_cards.md` |
-| WSJ / MW / IBD lists / news login | `news-portals` + `ibd-wsj-capture` | Cursor browser; optional `tradepilot portal-capture` (never paste passwords) |
+| Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` + `pre-print-screen` | `catalyst_cards.md` · `print_monitor.md` |
+| WSJ / MW / IBD lists / news login | `news-portals` + `ibd-wsj-capture` | Playwright MCP: WSJ then IBD header; optional Browser Tab / `tradepilot portal-capture` (never paste passwords) |
+| guesstimate / HPE print / last-90 EM / liquidity | `print-ah-guesstimate` + `pps-t1-em-recalibrate` + `option-chain-liquidity-gate` + `print-analog-vs-em` | Robinhood chain; WSJ/MW/IBD; no go |
+| missed print / AH +7% / “up 25%” / next similar | `post-print-gap-capture` + `next-25-print-screen` + `print-analog-vs-em` | STAND the gap; screen next analog; no chase |
 | FQC-ARR / EDAEM / ARR close | `fqc-arr-supervisor` + `arr-quarter-close` | `agents/arr-analyst/commands/FQC_ARR.md` |
 | Google Sites / publish universe | `google-sites-publisher` | `tradepilot sites-publish` |
 | dbt / Snowflake / Sigma / Salesforce (ARR) | matching arr-analyst skill | workspace rules under `.cursor/rules/` |
@@ -52,5 +54,5 @@ Cursor slash commands for the same triggers live in `.cursor/commands/`.
 ## MCP
 
 - Trading: Robinhood at `https://agent.robinhood.com/mcp/trading` (project `.cursor/mcp.json`). Read-only until **go**.
-- News: no WSJ/MarketWatch MCP. Use `news-portals` (Cursor browser login, then Safari/Chrome tail, then RSS).
+- News: no WSJ / MarketWatch / IBD / Barron's content MCP. Playwright is the Tools & MCP server in `.cursor/mcp.json` and is valid for login. Built-in Browser Tab is **Settings → Browser & Network** (optional; do not require Tools & MCP → Browser On). **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then Safari/Chrome tail, then RSS.
 - ARR: Snowflake / dbt / Salesforce / Sigma only when that domain is in play and those servers exist in the session. Do not pre-auth them on a trading turn.

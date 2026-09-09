@@ -1,7 +1,22 @@
 {
+  // Same as repo-root .cursor/mcp.json.
+  // Built-in Browser Tab: Cursor Settings → Browser & Network → Browser Automation (optional).
+  // Playwright is the Tools & MCP server (declared below).
+  // News SSO: log in once at WSJ, then IBD from the WSJ header (autologins IBD + MW + Barron's).
+  // Do not start at ibdsilentlogin unless the WSJ header IBD link is missing.
+  //   https://www.wsj.com/
+  //   IBD from WSJ header (fallback only: https://www.investors.com/?ibdsilentlogin=true)
+  //   https://www.marketwatch.com/?mod=WSJ_NavHat&mod=WSJ_NavHat
+  //   https://www.barrons.com/?mod=WSJ_NavHat&mod=WSJ_NavHat
   "mcpServers": {
     "robinhood": {
+      "type": "http",
       "url": "https://agent.robinhood.com/mcp/trading"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
     }
   }
 }

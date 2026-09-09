@@ -58,18 +58,18 @@ mode is permanently on — every session reads the log, every notable event writ
 
 ### `FULL CHECK` — the 12-step spec (run in order)
 
-1. **Tape / macro** — SPY · QQQ · SMH · VXX · 10Y live; regime read.
-2. **Cross-sector gate** — rank all 11 GICS ETFs (no tech-first bias); identify leaders/laggards.
-3. **Book health check** — every open position: cushion %, short-leg delta, hold/manage/close call, GTC status.
-4. **Health Check model (4-model composite)** — STKK + STNOW + Three Good + Whale → direction × IV score per candidate.
-5. **Event gate (two outputs, not one)** — earnings + CPI/PPI/PCE/FOMC + **investor / analyst / capital-markets days** before the next expiry. Output (a) is the hard "no new credit sells into X" line. Output (b) is a **T+0/T+1 catalyst card** for every named event (take / arm / stand-down **with structure, trigger, same-day exit**) per `catalyst-overnight-plan`. **"No XE anything" / "don't chase" is not output (b).** Fail the FULLCHECK if any 0d/1d event has no card. Calendar = Nasdaq radar ∪ Robinhood `get_earnings_calendar` ∪ fundamentals next-earnings on book/watch/peers ∪ web search for investor days (radar missed XE 8/13; investor days never appear on radar).
-6. **STKK** (trend/historicals) + **STNOW** (fundamentals) + **Three Good** on top candidates.
-7. **Whale Watch** — option volume vs OI on busy strikes for candidates + book names (fresh institutional flow; disregard on a live catalyst — flow is prior-session/stale).
-8. **SelfIDB50 + IBD lists** — load `ibd-wsj-capture`. Pull live IBD 50 / Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS / IPO / Funds in the Cursor browser. **Do not ask the user to paste.** FFTY + `rs_screen.py` only if Sign In blocks the tables. Anti-chase still applies.
-9. **WSJ + MarketWatch** — load `news-portals` + `ibd-wsj-capture` (MCP → Cursor browser login → Safari/Chrome tail → RSS). Headline / regime / catalyst read. **Required query every run:** `"investor day" OR "analyst day" OR "capital markets day"` on book + SMH/memory/AI + READTHROUGH peers (the 8/13 SNDK miss).
-10. **Route** each survivor through the direction × IV matrix (bull+lowIV→call debit · bull+highIV→put credit · bear+highIV→call credit · bear+lowIV→put debit · range+highIV→iron condor).
+1. **Tape / macro** — SPY · QQQ · SMH · VXX · 10Y live; regime read; **MANGOS** pulse (META·NVDA·GOOGL·SPCX + proxies AMZN/MSFT). Fail if MANGOS is omitted or left n/a with no live-quote fallback.
+2. **Cross-sector gate** — rank all 11 GICS ETFs (no tech-first bias) **and** industry sleeves (GDX · IGV · SMH · XOP · KRE); identify leaders/laggards. Fail if only the 11 GICS ETFs are ranked (gold/miners vs XLB, 9/3).
+3. **Book health check** — every open position: cushion %, short-leg delta, hold/manage/close call, GTC status, abort. Fail if any open position lacks a GTC status and abort line (abort fired → same-session BTC, not "watch").
+4. **Health Check model (4-model composite)** — STKK + STNOW + Three Good + Whale → direction × IV score per candidate. Fail if any candidate / NBT / book row omits STKK · STNOW · 3Good · Whale (3Good does not veto a debit).
+5. **Event gate + miss-fix skills:** (a) no new credit into X. (b) T+0/T+1 catalyst card per `catalyst-overnight-plan`. (c) **PPS-T7** flag + week monitor per `pre-print-screen/t7.md` for category names 2–7d out. (d) **PPS-T1** flag + into-print score per `pre-print-screen/t1.md` for 0d/1d. (e) last-90 EM recapture (`pps-t1-em-recalibrate`) — whale IV×√T is not EM. (f) 0d AMC guesstimate (`print-ah-guesstimate`). (g) analog ≥1.5× EM → ARM + second-name ticket (`print-analog-vs-em`). (h) AH ≥±7% unfilled → STAND, screen next (`post-print-gap-capture` + `next-25-print-screen`). (i) every debit passes `option-chain-liquidity-gate`. Fail if the ranked table omits **PPS-T7** or **PPS-T1**, if a ≥+7% AH name is ranked as a chase, or if analog has no second-name card. Calendar = Nasdaq radar ∪ Robinhood `get_earnings_calendar` ∪ fundamentals ∪ investor-day search.
+6. **STKK** (trend/historicals) + **STNOW** (fundamentals) + **Three Good** on top candidates. Fail if a finalist skips this pass because Health Check already ran, or if 3Good vetoes a call debit.
+7. **Whale Watch** — option volume vs OI on busy strikes for candidates + book names (fresh institutional flow; disregard on a live catalyst — flow is prior-session/stale). Fail if `daily.py` whale n/a is treated as skip — run `whale_check.py` on candidates + book + NBT (8/26).
+8. **SelfIDB50 + IBD lists** — load `ibd-wsj-capture` (this repo’s desk-sources path is `news-portals` + `ibd-wsj-capture`; there is no `desk-sources-capture` folder). **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Pull live IBD 50 / Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS at New High / IPO Leaders / Funds Buying. Playwright MCP is valid; Cursor Browser Tab is optional. Open MarketTrend (page required; % optional). **Do not ask the user to paste.** Overwrite `ibd_stock_lists.md` dated today. FFTY + `rs_screen.py` only if Sign In still blocks after Take Control / **done**. Anti-chase still applies. **Fail if** IBD 50 is not live today (and Sign In was not the blocker), if a listed Stock List URL was not opened, or if the agent asked for a paste.
+9. **WSJ + MarketWatch + Barron's** — load `news-portals` + `ibd-wsj-capture` (Playwright MCP → optional Cursor Browser Tab → Safari/Chrome tail → RSS). Same SSO as step 8: WSJ first, then IBD from the WSJ header; then MW / Barron's from the Dow Jones hat if needed. RSS is the floor, not a substitute (WSJ RSS is months stale). Headline / regime / catalyst read. **Required query every run:** `"investor day" OR "analyst day" OR "capital markets day"` on book + SMH/memory/AI + READTHROUGH peers (the 8/13 SNDK miss). **Also required:** `{TICKER} earnings` on every 0d/1d name (the 8/26 OKTA miss — homepage was NVDA) **and** on every PPS-T7 2–7d category name. Calendar UNION from step 5 still applies here: Nasdaq radar ∪ Robinhood `get_earnings_calendar` ∪ fundamentals ∪ investor-day. **Fail if** WSJ, header IBD, MW, or Barron's was not actually opened, if the investor-day query was not run, if a 0d/1d name has no `{TICKER} earnings` line, if a PPS-T7 ON name has no ticker-earnings line, or if any calendar-UNION leg is missing. Zapier has no WSJ/MW app — not a substitute. Do not skip news because Sign In is showing.
+10. **Route** each survivor through the direction × IV matrix (bull+lowIV→call debit · bull+highIV→put credit · bear+highIV→call credit · bear+lowIV→put debit · range+highIV→iron condor). Fail if a credit (put or call) is routed through a print / CPI / PCE / FOMC window.
 11. **Backtest** — run `python3 market_data/backtest_strategies.py --md` on any *new* proposed structure before promoting it; only advance if it improves expectancy (RoR).
-12. **Output** — ranked plan (🟢 take · 🟡 arm/wait-for-trigger · 🔴 stand-down), each with structure/strikes/sizing/entry-trigger/stop-target; split options-book vs $1k agentic sleeve; **lead with today's catalyst cards** (confirm / fire / kill from overnight `catalyst_cards.md`); write/overwrite `catalyst_cards.md` + `next_day_prep.md` + `momentum_watchlist.md`. **Read-only by default: surface action tickets, wait for the user's go.**
+12. **Output** — ranked plan (🟢 take · 🟡 arm/wait-for-trigger · 🔴 stand-down), each with structure/strikes/sizing/entry-trigger/stop-target **and flags STKK · STNOW · 3Good · Whale · PPS-T7 · PPS-T1**; split options-book vs $1k agentic sleeve; **lead with today's catalyst cards**; write/overwrite `catalyst_cards.md` + `next_day_prep.md` + `momentum_watchlist.md` + `print_monitor.md`. Fail if any ranked row omits STKK · STNOW · 3Good · Whale. Fail if the five recycle last session's unused names without a live unique-sleeve win (rewrite `NBT.md`; leftover five 9/2). Fail if Sheet or BQ `daily_top5` is skipped or prior `is_latest=Y` rows are not flipped to N. **Read-only by default: surface action tickets, wait for the user's go.**
 
 ## Session-start ritual (do this on the first "check" of the day)
 
@@ -151,7 +151,8 @@ Triggers that REQUIRE a new entry:
     MU +5.8% did not trip the old 7% gate while SNDK was +15%). Investor days / guidance days
     count as catalysts. The Whale flag uses *prior-session* volume, so it's **stale on a live
     catalyst — disregard it** and read the live tape + IV. Map: **MU**→SNDK/WDC/STX/NTAP/semis ·
-    **NVDA**→AVGO/AMD/TSM/SMCI/CRWV · **AVGO**→NVDA/AMD/MRVL · **TSLA**→RIVN/CHPT. Catch it *on*
+    **NVDA**→AVGO/AMD/TSM/SMCI/CRWV · **AVGO**→NVDA/AMD/MRVL · **TSLA**→RIVN/CHPT ·
+    **CRWD**→OKTA/PANW/ZS/FTNT/NET/S. Catch it *on*
     the catalyst day — chasing the next day is where the loss is (SNDK +22% on 6/25 → −10.5% on 6/26).
 2c. **T+1 catalyst card (the XE / SNDK 8/13 miss):** every FULLCHECK and evening wrap must
     output an armed ticket (or explicit stand-down **with the structure you would have used**)
@@ -160,6 +161,14 @@ Triggers that REQUIRE a new entry:
     Anti-chase applies at **entry after the move**; it does **not** cancel overnight arming.
     If a leftover short put sits into the print, **close it T−1**. Nasdaq `earnings_radar` ∩
     universe is not sufficient — UNION Robinhood calendar + fundamentals + investor-day search.
+2d. **PPS-T7 (pre-print screen, week monitor):** category names 2–7d from a print
+    (ALWAYS ∪ history groups ∪ book ∪ IBD ∪ industry map) get a daily WSJ/MW/peer/EM
+    watch on `print_monitor.md`. **No fill.** Flag **PPS-T7** 🟢 ON / 🟡 THIN / ⚪ / ⬛ DONE.
+2e. **PPS-T1 (pre-print screen, into-print fill):** separate strategy. On 0d / last 90 min,
+    cheap OTM debit if EM% ≥15% and beat/theme/cluster fire (OKTA would have been 160/170).
+    Flag **PPS-T1** 🟢 TAKE / 🟡 ARM / 🔴 STAND / ⚪ / ⬛ MISS. Do not buy ATM a week early
+    (8/9 2-week reject). Do not rank by mega-cap. Whale does not veto. OKTA 8/26 was
+    PPS-T7 never-on and PPS-T1 ⬛ MISS.
 3. **Don't chase a post-earnings gap as a HOLD or with a credit sell** — high IV crush after
     the print is a put-spread-on-a-hold setup, not a call you sleep in. A **same-day defined-risk
     debit armed T−1 and confirmed in the first 15–30 min** is allowed. Unarmed chase after the

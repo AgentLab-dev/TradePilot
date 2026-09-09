@@ -2,17 +2,21 @@
 
 Login lives in the browser. These URLs are for the agent, not for storing credentials.
 
-## Homepages (Cursor browser / Safari tail)
+## Homepages — WSJ header SSO (do not fill four passwords)
+
+**SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open MW and Barron's from the same Dow Jones hat if needed (`?mod=WSJ_NavHat`).
 
 | Portal | Home | Notes |
 |---|---|---|
-| WSJ | https://www.wsj.com/ | Paywall. Sign In in header when logged out. Markets: https://www.wsj.com/market-data |
-| MarketWatch | https://www.marketwatch.com/ | Often same Dow Jones SSO as WSJ |
+| WSJ | https://www.wsj.com/ | Login first. Header **Sign In** if logged out. |
+| IBD | WSJ header **IBD** | Autologin hop. Lands on investors.com. Table proof: research.investors.com IBD 50. |
+| MarketWatch | Header **MarketWatch** (`?mod=WSJ_NavHat`) | Already in after the IBD header hop. |
+| Barron's | Header **Barron's** (`?mod=WSJ_NavHat`) | Already in after the IBD header hop. |
 | Yahoo Finance | https://finance.yahoo.com/ | Public headlines; login optional |
 | CNBC | https://www.cnbc.com/ | Backup |
 | Reuters | https://www.reuters.com/business/ | Backup |
 | Investopedia calendar | https://www.investopedia.com/ | Macro calendar backup |
-| IBD MarketTrend | https://research.investors.com/markettrend.aspx | Paid. Sign In top-right. Newsletter `ibdsilentlogin=true` does **not** carry into the Cursor browser. Big Picture + IBD-50 lists after login. |
+| IBD MarketTrend | https://research.investors.com/markettrend.aspx | After IBD Sign In. Capture lists via `ibd-wsj-capture`. |
 
 ## Public RSS (news_portals.py)
 
@@ -36,16 +40,9 @@ WSJ `RSSMarketsMain` / `WSJcomUSBusiness` can lag by months. Do not treat those 
 | Unusual Whales | No MCP in this repo. Do not scrape it unless the user names it and is signed in via ladder 1–2. |
 | IBD 50 | After IBD Sign In: auto-capture via `ibd-wsj-capture` (Stock Lists URLs). SelfIDB50 (`FFTY` + `rs_screen.py`) is fallback only. |
 
-## First-time WSJ login (user)
+## First-time login (user)
 
-1. Agent opens https://www.wsj.com/ in the Cursor browser (side).
-2. User clicks **Take Control** → **Sign In** (password manager / 2FA).
-3. User says **done**.
-4. Agent snapshots Markets. Session should stick for later tabs in that browser.
-
-## First-time IBD login (user)
-
-1. Agent opens https://research.investors.com/markettrend.aspx (or the myibd Sign In URL).
-2. User clicks **Take Control** → signs in at myibd.investors.com (password manager / 2FA).
-3. User says **done**.
-4. Agent reloads MarketTrend. Signed in if **Sign In** is gone and The Big Picture is not truncated with **Register now!**.
+1. Agent opens **WSJ** and signs in (`.env` or Take Control / 2FA). Never paste a password in chat.
+2. Agent clicks **IBD** in the WSJ header (autologin). Then **MarketWatch** and **Barron's** from the same hat.
+3. If 2FA/captcha: user Take Control on the **WSJ** tab, then says **done**.
+4. Agent snapshots all four. Session should stick for later tabs, including IBD Stock Lists.
