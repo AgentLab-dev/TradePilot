@@ -41,11 +41,17 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 - [ ] Fail if only the 11 GICS ETFs are ranked (need industry sleeves: GDX/IGV/SMH)
 - [ ] Fail if any open position lacks a GTC status and abort line
 - [ ] Fail if any ranked / NBT / book row omits STKK · STNOW · 3Good · Whale
-- [ ] Fail if `daily.py` whale n/a skips Whale Watch — run `whale_check.py` (8/26)
+- [ ] Fail if `daily.py` whale n/a skips Whale Watch — run `whale_check.py` on candidates + book + NBT **and** IBD/sleeve unique names, not only 0d/1d prints (8/26)
 - [ ] Fail if a credit is routed through a print / CPI / PCE / FOMC window
 - [ ] Fail if the five recycle last session's unused names (NBT rewrite 9/2)
+- [ ] Fail if leftover-five is only a ban list while unique-sleeve winners sit on the board (AUGO/ECO 9/9) — unique-sleeve must occupy a five slot
+- [ ] Fail if STKK/STNOW are ⚪ stale-cache on every ranked row (HPE 9/2) — refresh cache; ⚪ is a skip, not a pass
+- [ ] Fail if STKK/STNOW/3Good/Whale ran only on 0d/1d prints — they must run on a fresh universe (IBD 50 + sleeves + NEWS tickers + book)
+- [ ] Fail if the five is all prints + book manage. Mix: at most two 0d/1d print ARMs; at least two non-calendar names (STKK/STNOW/3Good/Whale/IBD 50/list leadership/GDX·IGV·SMH·XOP·KRE) not on tonight/tomorrow’s calendar; open-book MANAGE may take one slot
+- [ ] Fail if an IBD 50 / Sector Leader / Big Cap 20 / PPS-T7 ON / ALWAYS name has neither TICKET nor SKIP (`list-to-ticket`) — board / watching is a fail (OKTA/SNOW/CRM/HPE)
+- [ ] Near 10:00 AM PT or 3:00 PM PT: write `daily_lessons/YYYY-MM-DD.md` — listed names up/down, what helped the move, next-pick strategy (`daily-mover-lesson`)
 - [ ] Fail if Sheet or BQ is skipped or prior `is_latest=Y` rows are not flipped to N
-- [ ] Load miss-fix skills on step 5: `pps-t1-em-recalibrate` · `print-ah-guesstimate` · `print-analog-vs-em` · `option-chain-liquidity-gate` · `post-print-gap-capture` · `next-25-print-screen`
+- [ ] Load miss-fix skills on step 5: `pps-t1-em-recalibrate` · `print-ah-guesstimate` · `print-analog-vs-em` · `option-chain-liquidity-gate` · `post-print-gap-capture` · `next-25-print-screen` · `list-to-ticket` · `daily-mover-lesson`
 - [ ] End with take / arm / stand-down, split options book vs Agentic sleeve
 - [ ] Overwrite catalyst_cards.md, next_day_prep.md, momentum_watchlist.md
 - [ ] Upsert daily_top5; write Google Sheet AND BigQuery (`is_latest=Y` on the new date only; `N` on older rows)
@@ -57,6 +63,19 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 ```
 - [ ] After close. No orders.
 - [ ] Catalyst cards + next_day_prep.md
+- [ ] Write `## Consolidated` on `daily_lessons/YYYY-MM-DD.md` (what helped listed moves + next-pick strategy)
+- [ ] Append HOLE rows to agent_learning_log.md
+```
+
+## Trading — daily lesson (10 AM / 3 PM PT)
+
+```
+- [ ] Quote known list + sleeve ETFs (not the whole market)
+- [ ] For each listed name that moved: % , industry, **what helped the move**
+- [ ] TICKET / SKIP / HOLE (`list-to-ticket`)
+- [ ] One next-pick strategy that shares the cause — not the already-ripped name
+- [ ] Write `agents/ssr-st/workspace/Documents/daily_lessons/YYYY-MM-DD.md`
+- [ ] Wait for go
 ```
 
 ## Sites — publish universe

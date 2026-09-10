@@ -3,9 +3,16 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: September 9, 2026 (Wed FULL CHECK ~11:30 AM PT, last-90 open)._
+_Last updated: September 10, 2026 (Thu 10 AM lesson)._
 
 ---
+
+### 2026-09-10 — List movers: print vs industry; next pick is ECO / DELL not AVAV  [LESSON]
+
+- **What happened:** Thu ~10:51 AM PT. **NAVN −22%** on a beat-and-raise + BoomPop (sold). **AVAV +9.4%** on a Q1 beat (already ≥+7%). Listed hardware followed **SMH −2.0%** (DELL −3.6%, HPE −5.5%, MU −4.9%). Gold/copper followed **GDX −2.5%** (ERO −7.9%). Energy followed **XOP +0.9% / oil +5–6%** (ECO +1.7%, WT +1.8%). IGV flat — software did not follow NAVN.
+- **What helped:** Prints moved **single names**. Sleeve tape moved **list names with no print**. AAPL +3.1% was iPhone Duo product news, not a list strategy.
+- **Rule / fix:** Daily lesson = known list + industry + **what helped**, then a next-pick that **shares the live cause**. Do not reuse AVAV/NAVN. Skills: `list-to-ticket`, `daily-mover-lesson`. File: `daily_lessons/2026-09-10.md`.
+- **Status:** Next pick **ECO** (oil/XOP) then **DELL** (SMH pullback ARM). ORCL manage, no add. **No go.**
 
 ### 2026-09-09 — HPE bump missed after Sep 2 beat-and-dump  [MISS]
 

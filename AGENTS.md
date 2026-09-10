@@ -15,7 +15,8 @@ Short-term / options income. Originally `ssr-analyst`.
 
 - Skills: `agents/ssr-st/skills/` (also linked from `.cursor/skills/`)
 - News portals: `news-portals` + `ibd-wsj-capture` (WSJ / IBD Stock Lists auto-capture in Cursor browser — no paste). Optional laptop bot: `tradepilot portal-capture` (never paste passwords in chat)
-- Commands: FULL CHECK, Health Check, STNOW, STKK, Three Good, SelfIDB50, Whale Watch, NEWS / WSJ / MW, IBD lists, Evening wrap, daily.py
+- Commands: FULL CHECK, Health Check, STNOW, STKK, Three Good, SelfIDB50, Whale Watch, NEWS / WSJ / MW, IBD lists, Evening wrap, DAILY LESSON, LIST TO TICKET, daily.py
+- Daily lesson: 10:00 AM PT and 3:00 PM PT snapshots + one consolidated lesson (`daily-mover-lesson`). List names need a TICKET or SKIP (`list-to-ticket`).
 - Workspace: `agents/ssr-st/workspace/`
 - Learning log: `agents/ssr-st/workspace/Documents/agent_learning_log.md`
 - Primary skill: `trading-continuous-learning`

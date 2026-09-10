@@ -1,0 +1,16 @@
+---
+description: Weekday 10 AM PT and 3 PM PT mover capture plus one consolidated daily lesson. Closes the list-but-no-ticket hole.
+alwaysApply: false
+---
+
+# Daily lesson cadence
+
+On a US cash-session weekday, if the user is in a trading turn near **10:00 AM PT** or **3:00 PM PT** (or says daily lesson / movers / what ripped):
+
+1. Load `daily-mover-lesson` and write/update `agents/ssr-st/workspace/Documents/daily_lessons/YYYY-MM-DD.md`.
+2. Quote the **known list** (IBD / T7 / five / NEWS) and sleeve ETFs. Record what went up or down.
+3. For each mover: **what exactly helped** (print, industry tape, news, or tape-only), then TICKET / SKIP / HOLE (`list-to-ticket`).
+4. Next pick must **share that cause**. Do not reuse a name that already ripped ≥+7%.
+5. Evening wrap adds **one** `## Consolidated` lesson. HOLE rows go into `agent_learning_log.md` the same day.
+
+Do not chase a name already ≥+7% AH. Do not treat IBD/T7 membership as a go. Wait for **go** before orders.
