@@ -51,6 +51,7 @@ Good rows:
 - Hard NBT replaced GLW with WPM/ANET (all-four + EM > 15%)
 - Whale step cannot skip when `daily.py` prints n/a — run `whale_check.py`
 - Stood down into untested print / Warsh / CPI
+- Print read-through: printer beat/raise or AH ≥+5% → ticket unripped sleeve peer for next RTH first-30 (ORCL 9/10 → HPE/DELL; printer priced funding, peers priced BOM)
 
 Not a feature:
 

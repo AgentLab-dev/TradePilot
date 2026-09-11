@@ -21,14 +21,15 @@ Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load t
 
 | User is doing | Load first | Then |
 |---|---|---|
-| FULL CHECK / tape / book / options | `trading-continuous-learning` | Command file under `agents/ssr-st/commands/` · steps 8–9 **require** `news-portals` + `ibd-wsj-capture` (fail if skipped; no `desk-sources-capture` folder) |
+| FULL CHECK / tape / book / options | `trading-continuous-learning` + `print-readthrough-t1` | Command file under `agents/ssr-st/commands/` · steps 8–9 **require** `news-portals` + `ibd-wsj-capture` (fail if skipped; no `desk-sources-capture` folder). Fail if a 0d AMC/BMO has no mapped-peer table. |
+| NBT / Five-new | `five-new-nbt` + `print-readthrough-t1` | Hard five + mapped-peer table. Fail NBT if a 0d AMC/BMO has no if-then peers. |
 | Health Check / STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | matching command file |
-| Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` + `pre-print-screen` + `daily-mover-lesson` | `catalyst_cards.md` · `print_monitor.md` · `daily_lessons/YYYY-MM-DD.md` |
-| Daily lesson / 10 AM / 3 PM / what ripped | `daily-mover-lesson` + `list-to-ticket` | `daily_lessons/YYYY-MM-DD.md` — listed names up/down, what helped, next pick |
+| Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` + `print-readthrough-t1` + `pre-print-screen` + `daily-mover-lesson` | `catalyst_cards.md` · `print_monitor.md` · `daily_lessons/YYYY-MM-DD.md` |
+| Daily lesson / 10 AM / 3 PM / what ripped | `daily-mover-lesson` + `list-to-ticket` + `print-readthrough-t1` | `daily_lessons/YYYY-MM-DD.md` — listed names up/down, what helped, next pick. Fail if a 0d AMC/BMO has no mapped-peer table. |
 | Listed name with no ticket / board only | `list-to-ticket` | TICKET or SKIP the same session; HOLE if it already ripped |
 | WSJ / MW / IBD lists / news login | `news-portals` + `ibd-wsj-capture` | Playwright MCP: WSJ then IBD header; optional Browser Tab / `tradepilot portal-capture` (never paste passwords) |
 | guesstimate / HPE print / last-90 EM / liquidity | `print-ah-guesstimate` + `pps-t1-em-recalibrate` + `option-chain-liquidity-gate` + `print-analog-vs-em` | Robinhood chain; WSJ/MW/IBD; no go |
-| missed print / AH +7% / “up 25%” / next similar | `post-print-gap-capture` + `next-25-print-screen` + `print-analog-vs-em` | STAND the gap; screen next analog; no chase |
+| missed print / AH +7% / “up 25%” / next similar | `post-print-gap-capture` + `next-25-print-screen` + `print-analog-vs-em` + `print-readthrough-t1` | STAND the gap; screen next analog; ticket unripped peers for next open |
 | FQC-ARR / EDAEM / ARR close | `fqc-arr-supervisor` + `arr-quarter-close` | `agents/arr-analyst/commands/FQC_ARR.md` |
 | Google Sites / publish universe | `google-sites-publisher` | `tradepilot sites-publish` |
 | dbt / Snowflake / Sigma / Salesforce (ARR) | matching arr-analyst skill | workspace rules under `.cursor/rules/` |
@@ -37,7 +38,7 @@ Canonical skill bodies live under `agents/*/skills/`. `.cursor/skills/<name>` is
 
 ## Commands (user-typed)
 
-Trading: `FULL CHECK`, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, `IBD lists`, evening wrap, `DAILY LESSON`, `LIST TO TICKET`, `daily.py`.
+Trading: `FULL CHECK`, `NBT` / Five-new, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, `IBD lists`, evening wrap, `DAILY LESSON`, `LIST TO TICKET`, `PRINT READ-THROUGH`, `daily.py`. Every daily publish after a 0d AMC/BMO must include `print-readthrough-t1`.
 
 ARR: `FQC-ARR`, run ARR ticket, EDAEM-xxxx through the 10-role DAG.
 

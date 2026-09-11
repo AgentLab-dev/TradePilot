@@ -36,7 +36,8 @@ A skipped source must say why (SSO, outage, no MCP, blocked). Do not invent a fi
 
 1. Write `/workspace/desk_sources_YYYY-MM-DD.md` (or overwrite today's file).
 2. Run **FULL CHECK** + **Five new NBT** against that capture.
-3. Pack playbook remains `agents/ssr-st/commands/NEWS.md` + `IBDWSJCAPTURE.md`.
+3. After any 0d AMC/BMO, emit `print-readthrough-t1` on that publish. Fail if the mapped-peer table is missing.
+4. Pack playbook remains `agents/ssr-st/commands/NEWS.md` + `IBDWSJCAPTURE.md` + `NBT.md` + `PRINT_READTHROUGH.md`.
 
 ## Delivery
 

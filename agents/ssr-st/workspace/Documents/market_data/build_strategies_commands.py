@@ -9,7 +9,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSV_OUT = os.path.normpath(os.path.join(HERE, "..", "strategies_commands.csv"))
 JSON_OUT = os.path.normpath(os.path.join(HERE, "..", "strategies_commands.json"))
-DATE = "2026-09-10"
+DATE = "2026-09-11"
 
 HEADERS = [
     "Sl.No",
@@ -784,6 +784,19 @@ ROWS = [
         "daily_lessons/YYYY-MM-DD.md (one file: 10:00, 15:00, Consolidated). HOLE rows in agent_learning_log.md.",
         "Yes — any TICKET waits for go",
         "agents/ssr-st/skills/daily-mover-lesson/SKILL.md; agents/ssr-st/commands/DAILYLESSON.md",
+    ),
+    r(
+        57,
+        "Skill",
+        "print-readthrough-t1",
+        "1",
+        "Printer → unripped peers next-open if-then",
+        "Every daily publish after a 0d AMC/BMO: FULL CHECK, NBT, wrap, 10 AM / 8 PM lessons, iMessage. User says read-through / sympathy / what goes up tomorrow.",
+        "AMC beat/raise or AH ≥ +5% → TICKET 2–3 unripped sleeve peers for next RTH first-30. Peer already ≥ +7% or T+2 after the rip → SKIP. “No peer print tomorrow” is not a skip (ORCL 9/10 wrap → HPE/DELL Fri). Printer can fade while peers rip (funding vs BOM).",
+        "Fail FULL CHECK / NBT / wrap / lessons / iMessage if a 0d print has no mapped-peer table. Fail if you arm a peer already ≥ +7%.",
+        "Print read-through T+1 table on cards + next_day_prep + iMessage. If <PRINTER> beats → go <PEER> first 15–30. If miss → STAND.",
+        "Yes — TICKET waits for go",
+        "agents/ssr-st/skills/print-readthrough-t1/SKILL.md; agents/ssr-st/commands/PRINT_READTHROUGH.md; agents/ssr-st/commands/NBT.md",
     ),
 ]
 

@@ -16,6 +16,7 @@ does **not** invent models. It ranks what FULL CHECK / NBT already measured.
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Upstream: [`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md),
 [`../five-new-nbt/SKILL.md`](../five-new-nbt/SKILL.md),
+[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
 [`../miss-catch-sleeves/SKILL.md`](../miss-catch-sleeves/SKILL.md),
 [`../sheet-latest-update/SKILL.md`](../sheet-latest-update/SKILL.md).
 
@@ -46,6 +47,8 @@ Refuse to rank if today's desk-sources access line is missing.
    take unless the user already said go on a MANAGE flatten.
 6. **One-name rule** — Delivery `#1` is a single name. Do not ask the user to
    pick among five equals. The other four stay 🟡 arm / 🔴 stand-down with clocks.
+   After a 0d AMC/BMO beat/raise or AH ≥ +5%, `#1` may be the unripped peer
+   from `print-readthrough-t1`. Fail the rank if that table is required and missing.
 7. **Clocks** — First-30 is 9:30–10:00 ET. No go before 9:30 = miss (DE/WMT/INTU).
    Same-session flatten on catalyst debits. Do not rank a first-30 ticket after
    the clock is dead.

@@ -3,9 +3,29 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: September 10, 2026 (Thu 10 AM lesson)._
+_Last updated: September 11, 2026 (ORCL 155/165 flattened)._
 
 ---
+
+### 2026-09-11 — ORCL Soft-ARM flattened on abort  [PROCESS]
+
+- **What happened:** Fri ~9:25 AM PT closed **1×** Sep 18 **155/165** credit **$2.22** ($222). Opened Tue Sep 8 debit **$4.80**. Legs: sell 155C **$3.33** / buy 165C **$1.11**. Spot was under **$155**. Realized **−$258**.
+- **Rule / fix:** Abort last **<$155** fired. Do not hold a crushed printer debit because peers ripped. Do not replace with HPE/DELL chase. Next print-readthrough is TCOM Tue AMC, not a new ORCL add.
+- **Status:** ORCL options flat on personal. CRM 2× 250/255 still open with working GTC. **No go.**
+
+### 2026-09-11 — Skill `print-readthrough-t1`  [RULE]
+
+- **What happened:** Thu wrap ran; HPE/DELL card was missing. Added a mandatory mapped-peer if-then after every 0d AMC/BMO.
+- **Rule / fix:** AMC beat/raise or AH ≥ +5% → ticket 2–3 **unripped** sleeve peers for **next RTH first-30**. Fail **every daily publish** (FULL CHECK, NBT, wrap, lessons, iMessage) if the table is missing. T+2 after the peer already ≥ +7% stays STAND. Printer can fade while peers rip (ORCL funding vs HPE/DELL BOM).
+- **Status:** skill + NBT command + fail line on all daily-publish commands. Mon Sep 14 is T+2 on ORCL — no HPE/DELL chase. Next live use: **TCOM Tue Sep 15 AMC** → Wed first-30 on BKNG/EXPE if beat.
+
+### 2026-09-11 — Thu 18:30 wrap ran; HPE/DELL sympathy card missing from that write  [MISS]
+
+- **What happened:** User got the Thu evening scheduled messages. Fri HPE **+10.5%** / DELL **+11.3%** on ORCL beat/raise. No Friday-morning **go** on hardware.
+- **What the live desk actually wrote (checked):** Sheet `TradePilot-26Q3` rows 67–77, `execution_date` **2026-09-10 18:30 PT**. Wrap ran. Ranked #1–#3: **ORCL MANAGE** (beat/raise, AH +4.13% to ~159.3, Soft-watch, hold filled 155/165, no add) · **RH SOFT-ARM** (AH +6.48%, EM 15.93, Soft first-30 Fri on go) · **ADBE STAND**. Also NAVN/AVAV/SAIL/BRZE/CHWY/SNDK STAND, MS MANAGE, CREDITS STAND. `new-feature` 2026-09-10 row: “WATCH Soft-promote” = RH Soft first-30 / ORCL Soft-watch / ADBE STAND. **No HPE row. No DELL row.** Last HPE on the Sheet is **2026-09-02**. Last DELL is **2026-08-31**. Laptop `catalyst_cards.md` / `next_day_prep.md` stayed Wed Sep 9 because Grok Bot writes the Sheet, not this checkout.
+- **Root cause:** The run happened. The **card** did not. After a 0d AMC beat/raise, wrap wrote printer + other AMC names (RH/ADBE) and skipped the sleeve analog: *ORCL beats → go HPE or DELL first-30 Friday; miss → STAND.*
+- **Rule / fix:** Fail the 6 PM wrap if a named 0d AMC has no T+1 **mapped-peer** card with structure + first-30 (`catalyst-overnight-plan` + `list-to-ticket`). Do not chase HPE/DELL now (≥+7%). Next dated HPE card remains Networking IR **Sep 30**.
+- **Status:** confirmed from Thu 18:30 Sheet + new-feature, not from local markdown. **Wrap ran. Card missed. No HPE fill.**
 
 ### 2026-09-10 — List movers: print vs industry; next pick is ECO / DELL not AVAV  [LESSON]
 

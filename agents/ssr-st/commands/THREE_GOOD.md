@@ -6,3 +6,4 @@ Bull put credit spread below 10-week weekly support. IV ≥ ~50%, event gate, cr
 
 Skill: `agents/ssr-st/skills/three-good-put-credit/SKILL.md`
 Spec: `agents/ssr-st/workspace/Documents/three_good_put_credit_strategy.md`
+If this run is a daily publish and a 0d AMC/BMO is live, also emit `print-readthrough-t1`.

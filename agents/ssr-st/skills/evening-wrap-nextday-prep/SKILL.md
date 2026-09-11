@@ -54,6 +54,10 @@ market is closed, so it places **no orders**; it produces analysis and stages to
    Both flags on the output table. Board: `print_monitor.md`.
    "No XE anything" is not a card. Anti-chase does not cancel overnight
    arming. Skill: `catalyst-overnight-plan`.
+   **Print read-through (`print-readthrough-t1`):** after every 0d AMC/BMO, write
+   2–3 mapped-peer if-then cards for **next RTH first-30**. Fail the wrap if that
+   table is missing (ORCL 9/10 wrap ran, HPE/DELL card did not). SKIP rows count.
+   Do not arm a peer already ≥ +7%.
 7. **Regime read** — one-line verdict: risk-[REDACTED] / risk-[REDACTED] / rotation, and what would flip it.
 8. **Oversold-bounce offense scan** — the counter to playing only defense into a washout (see
    `agent_learning_log.md` 2026-07-21). Whale watch catches *single-name* flow; it is blind to a
