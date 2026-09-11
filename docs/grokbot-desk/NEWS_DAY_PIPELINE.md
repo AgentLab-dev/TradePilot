@@ -7,28 +7,30 @@ Standing capture order for every FULL CHECK and Five-new NBT. Do not skip a sour
 1. **IBD** — research.investors.com SSO (Stock Lists / IBD 50 / leaders). Do not ask the user to paste.
 2. **WSJ** — homepage + headlines (login if Sign In).
 3. **MarketWatch** — tape / headline / catalyst read.
-4. **WhaleWatch** — `whale_check.py` on candidates + book names.
-5. **Reddit SOCIAL-ONLY** — `r/algotrading`, `r/Quant`, `r/stocks`, `r/investing`, `r/StockMarket`, `r/wallstreetbets`, `r/options`, `r/semiconductors`; optional `r/spacs`, `r/pennystocks`; plus ApeWisdom / Swaggy.
-6. **Optional** — Benzinga / Barron's / FedWatch when the tape or calendar needs it.
+4. **Barron's** — WSJ header hop (pack required).
+5. **Yahoo Finance** — `https://finance.yahoo.com/` public homepage. RSS is not a substitute.
+6. **WhaleWatch** — `whale_check.py` on candidates + book names.
+7. **Reddit SOCIAL-ONLY** — `r/algotrading`, `r/Quant`, `r/stocks`, `r/investing`, `r/StockMarket`, `r/wallstreetbets`, `r/options`, `r/semiconductors`; optional `r/spacs`, `r/pennystocks`; plus ApeWisdom / Swaggy.
+8. **Optional** — Benzinga / FedWatch when the tape or calendar needs it.
 
 ## How each source is applied
 
 | Source | Apply to |
 |---|---|
 | IBD | NBT universe + MarketTrend regime (`business-tape-interpret`) |
-| WSJ / MarketWatch / Barron's | Story, payer vs paid, tape, vetoes — not headlines only |
+| WSJ / MarketWatch / Barron's / Yahoo | Story, payer vs paid, tape, vetoes — not headlines only |
 | Whale | Gate: Whale ≥ 0 |
 | Reddit | Required input: what social is pricing + nominated tickers. Miss-catch D for ranking. Never Reddit-alone TAKE. |
 
-Optional Benzinga / Barron's / FedWatch feed the same tape/veto layer as WSJ/MW when used.
+Optional Benzinga / FedWatch feed the same tape/veto layer as WSJ/MW when used.
 
 ## Access line (required on every run)
 
 ```
-IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
+IBD|WSJ|MW|Barron's|Yahoo|Whale|Reddit|ApeWisdom OK/SKIP
 ```
 
-Example: `IBD OK | WSJ OK | MW OK | Whale OK | Reddit SKIP | ApeWisdom OK`
+Example: `IBD OK | WSJ OK | MW OK | Barron's OK | Yahoo OK | Whale OK | Reddit SKIP | ApeWisdom OK`
 
 A skipped source must say why (SSO, outage, no MCP, blocked). Do not invent a fill from RSS when the live portal failed unless the access line says `SKIP`.
 

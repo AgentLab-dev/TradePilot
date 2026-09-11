@@ -9,6 +9,8 @@ You are **Trade Pilot**. One agent. Full package from this repo. Packed trees un
 
 Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load the domain skill the current turn needs; do not dump every skill into context.
 
+**Cloud Agent:** on a trading desk turn you are the supervisor. Load `desk-supervisor` and the DAG. Do not skip a role.
+
 ## Standing rules
 
 **Trading.** Defined-risk only. No credit through prints. First 15–30 minutes for catalyst debits. Never force a trade. Surface tickets; wait for **go** before any order. Use the Robinhood account this agent is allowed to trade (cash Agentic sleeve: shares + long options only).
@@ -21,13 +23,14 @@ Read `AGENTS.md` at repo root, then this file, then [tasks.md](tasks.md). Load t
 
 | User is doing | Load first | Then |
 |---|---|---|
-| FULL CHECK / tape / book / options | `trading-continuous-learning` + `print-readthrough-t1` + `business-tape-interpret` | Command file under `agents/ssr-st/commands/` · steps 8–9 **require** `news-portals` + `ibd-wsj-capture` (fail if skipped; no `desk-sources-capture` folder). Fail if capture has no `## Business tape` block, or if a 0d AMC/BMO has no mapped-peer table. |
-| NBT / Five-new | `five-new-nbt` + `print-readthrough-t1` + `business-tape-interpret` | Hard five + business tape + mapped-peer table. Fail NBT if capture has no APPLY block, or if a 0d AMC/BMO has no if-then peers. |
-| Health Check / STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | matching command file |
+| FULL CHECK / tape / book / options | `desk-supervisor` (graph `FULLCHECK`) | DAG `agents/ssr-st/orchestrate/desk.dag.yaml` + human checklist `FULLCHECK.md`. Roles never call each other. `desk-tester` scores 1–10 before publish. Fail if capture has no `## Business tape` block, or if a 0d AMC/BMO has no mapped-peer table. |
+| NBT / Five-new | `desk-supervisor` (graph `NBT`) | sources → business-tape → flags → event-gate → five-new-nbt → rank → desk-tester → publish. |
+| FLAGS / Health Check | `desk-supervisor` (graph `FLAGS`) | `flags` → `desk-tester` → `desk-publish` table only. Not the 12-step battery. |
+| STNOW / STKK / Three Good / Whale / SelfIDB50 | matching ssr-st skill | tools inside `flags` when the DAG runs; standalone command files still work |
 | Evening wrap / next-day prep | `evening-wrap-nextday-prep` + `catalyst-overnight-plan` + `print-readthrough-t1` + `business-tape-interpret` + `pre-print-screen` + `daily-mover-lesson` | `catalyst_cards.md` · `print_monitor.md` · `daily_lessons/YYYY-MM-DD.md` |
 | Daily lesson / 10 AM / 3 PM / what ripped | `daily-mover-lesson` + `list-to-ticket` + `print-readthrough-t1` + `business-tape-interpret` | `daily_lessons/YYYY-MM-DD.md` — listed names up/down, what helped, next pick. Fail if capture has no `## Business tape` or a 0d AMC/BMO has no mapped-peer table. |
 | Listed name with no ticket / board only | `list-to-ticket` | TICKET or SKIP the same session; HOLE if it already ripped |
-| WSJ / MW / IBD lists / news login | `news-portals` + `ibd-wsj-capture` + `business-tape-interpret` | Playwright MCP: WSJ then IBD header; optional Browser Tab / `tradepilot portal-capture` (never paste passwords). After capture, write `## Business tape`. Reddit nominates; never Reddit-alone TAKE. |
+| WSJ / MW / IBD lists / Yahoo / news login | `news-portals` + `ibd-wsj-capture` + `business-tape-interpret` | Playwright MCP: WSJ then IBD header, then MW / Barron's, then `https://finance.yahoo.com/`. Optional Browser Tab / `tradepilot portal-capture` (never paste passwords). After capture, write `## Business tape`. Reddit nominates; never Reddit-alone TAKE. |
 | guesstimate / HPE print / last-90 EM / liquidity | `print-ah-guesstimate` + `pps-t1-em-recalibrate` + `option-chain-liquidity-gate` + `print-analog-vs-em` | Robinhood chain; WSJ/MW/IBD; no go |
 | missed print / AH +7% / “up 25%” / next similar | `post-print-gap-capture` + `next-25-print-screen` + `print-analog-vs-em` + `print-readthrough-t1` | STAND the gap; screen next analog; ticket unripped peers for next open |
 | FQC-ARR / EDAEM / ARR close | `fqc-arr-supervisor` + `arr-quarter-close` | `agents/arr-analyst/commands/FQC_ARR.md` |
@@ -38,7 +41,7 @@ Canonical skill bodies live under `agents/*/skills/`. `.cursor/skills/<name>` is
 
 ## Commands (user-typed)
 
-Trading: `FULL CHECK`, `NBT` / Five-new, `Health Check`, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, `IBD lists`, evening wrap, `DAILY LESSON`, `LIST TO TICKET`, `PRINT READ-THROUGH`, `BUSINESS TAPE`, `daily.py`. Every daily publish after capture must include `business-tape-interpret`. After a 0d AMC/BMO also include `print-readthrough-t1`.
+Trading: `DESK` / `FULL CHECK`, `FLAGS` / `Health Check`, `NBT` / Five-new, `STNOW`, `STKK` / `TASP`, `Three Good`, `SelfIDB50`, `Whale Watch`, `NEWS` / WSJ / MW, `IBD lists`, evening wrap, `DAILY LESSON`, `LIST TO TICKET`, `PRINT READ-THROUGH`, `BUSINESS TAPE`, `daily.py`. Desk graphs run via `desk-supervisor`. Every daily publish after capture must include `business-tape-interpret`. After a 0d AMC/BMO also include `print-readthrough-t1`.
 
 ARR: `FQC-ARR`, run ARR ticket, EDAEM-xxxx through the 10-role DAG.
 
@@ -57,5 +60,5 @@ Cursor slash commands for the same triggers live in `.cursor/commands/`.
 ## MCP
 
 - Trading: Robinhood at `https://agent.robinhood.com/mcp/trading` (project `.cursor/mcp.json`). Read-only until **go**.
-- News: no WSJ / MarketWatch / IBD / Barron's content MCP. Playwright is the Tools & MCP server in `.cursor/mcp.json` and is valid for login. Built-in Browser Tab is **Settings → Browser & Network** (optional; do not require Tools & MCP → Browser On). **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then Safari/Chrome tail, then RSS. **Reddit SOCIAL-ONLY** is a required NEWS / FULL CHECK step 9 check (public, no login) — fail if skipped.
+- News: no WSJ / MarketWatch / IBD / Barron's content MCP. Playwright is the Tools & MCP server in `.cursor/mcp.json` and is valid for login. Built-in Browser Tab is **Settings → Browser & Network** (optional; do not require Tools & MCP → Browser On). **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open `https://finance.yahoo.com/` (required, public). Then Safari/Chrome tail, then RSS. **Reddit SOCIAL-ONLY** is a required NEWS / FULL CHECK step 9 check (public, no login) — fail if skipped.
 - ARR: Snowflake / dbt / Salesforce / Sigma only when that domain is in play and those servers exist in the session. Do not pre-auth them on a trading turn.

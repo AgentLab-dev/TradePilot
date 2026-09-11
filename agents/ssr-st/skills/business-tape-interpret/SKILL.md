@@ -36,6 +36,7 @@ Do not wait to be asked. If you opened the portals, you owe APPLY.
 | **WSJ** | Homepage + Markets + Heard on the Street | Who is paying vs who is getting paid. Rates, dollar, oil, named dumps. |
 | **MW** | Homepage + Market Pulse + earnings | Tape, movers, calendar confirmation. |
 | **Barron's** | Homepage (weekend: Up & Down) | Same layer as WSJ. Not a fourth universe. |
+| **Yahoo** | https://finance.yahoo.com/ | Public movers, earnings calendar, named headlines. No login. Not a substitute for Heard / MarketTrend. |
 | **0d print** | IR 8-K / call color | Income statement **and** cash flow / capex / guide / mix. Beat ≠ the trade. |
 | **Reddit** | All eight required subs | What social is pricing + nominated tickers. Miss-catch D. **Never Reddit-alone TAKE.** |
 

@@ -15,6 +15,7 @@ a Reddit list. Not a "maybe later" watchlist.
 
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Pipeline: [`../../NEWS_DAY_PIPELINE.md`](../../NEWS_DAY_PIPELINE.md).
+Supervisor graph `NBT`: [`../desk-supervisor/SKILL.md`](../desk-supervisor/SKILL.md).
 Must load first: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md),
 [`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md),
 [`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
@@ -34,7 +35,7 @@ A name is a **hard NBT** only if **all** of these hold:
 2. **All-four** — STKK + STNOW + Three Good + Whale shown as regular columns
 3. **Whale ≥ 0** (from `whale_check.py`; `daily.py` n/a is not a pass)
 4. **EM > 15%**
-5. **Desk sources applied** — IBD feeds universe; WSJ/MW/Barron's + Reddit feed `business-tape-interpret` (regime, payer vs paid, nominated). Capture without that block is a fail.
+5. **Desk sources applied** — IBD feeds universe; WSJ/MW/Barron's/Yahoo + Reddit feed `business-tape-interpret` (regime, payer vs paid, nominated). Capture without that block is a fail.
 6. **Event names pass `event-gate-test`** — no credit into an untested print;
    AH ≤ −5% is STAND, not an NBT take
 

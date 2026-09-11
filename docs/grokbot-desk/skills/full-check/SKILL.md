@@ -25,8 +25,11 @@ Must load: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md
 [`../sheet-latest-update/SKILL.md`](../sheet-latest-update/SKILL.md),
 [`../imessage-desk-post/SKILL.md`](../imessage-desk-post/SKILL.md),
 [`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
-[`../business-tape-interpret/SKILL.md`](../business-tape-interpret/SKILL.md).
+[`../business-tape-interpret/SKILL.md`](../business-tape-interpret/SKILL.md),
+[`../desk-supervisor/SKILL.md`](../desk-supervisor/SKILL.md),
+[`../desk-tester/SKILL.md`](../desk-tester/SKILL.md).
 Pack command (unchanged): `agents/ssr-st/commands/FULLCHECK.md`.
+Machine order: graph `FULLCHECK` in `agents/ssr-st/orchestrate/desk.dag.yaml`. Health Check standalone is graph `FLAGS`, not this battery.
 
 ## When
 
@@ -40,7 +43,7 @@ Check inside FULL CHECK** means the 12-step battery, not a mute 4-flag dump.
 ## 12-step battery (in order)
 
 1. **Desk sources first** — Load `desk-sources-capture`. Standing order:
-   IBD lists → WSJ → MarketWatch → `whale_check.py` → Reddit SOCIAL-ONLY
+   IBD lists → WSJ → MarketWatch → Barron's → Yahoo `https://finance.yahoo.com/` → `whale_check.py` → Reddit SOCIAL-ONLY
    (plus ApeWisdom/Swaggy). Write `/workspace/desk_sources_YYYY-MM-DD.md`.
    Print the access line. **Do not rank without it.** If WSJ/MW/IBD are signed
    out, load `reconnect-dow-jones-desk-portals`, then recapture.

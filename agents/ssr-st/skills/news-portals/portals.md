@@ -12,7 +12,7 @@ Login lives in the browser. These URLs are for the agent, not for storing creden
 | IBD | WSJ header **IBD** | Autologin hop. Lands on investors.com. Table proof: research.investors.com IBD 50. |
 | MarketWatch | Header **MarketWatch** (`?mod=WSJ_NavHat`) | Already in after the IBD header hop. |
 | Barron's | Header **Barron's** (`?mod=WSJ_NavHat`) | Already in after the IBD header hop. |
-| Yahoo Finance | https://finance.yahoo.com/ | Public headlines; login optional |
+| Yahoo Finance | https://finance.yahoo.com/ | **Required** public homepage. No SSO. RSS does not replace this open. |
 | CNBC | https://www.cnbc.com/ | Backup |
 | Reuters | https://www.reuters.com/business/ | Backup |
 | Investopedia calendar | https://www.investopedia.com/ | Macro calendar backup |
@@ -20,7 +20,7 @@ Login lives in the browser. These URLs are for the agent, not for storing creden
 
 ## Reddit SOCIAL-ONLY (required NEWS / FULL CHECK step 9)
 
-Copied from Grok Bot desk pipeline (`docs/grokbot-desk/NEWS_DAY_PIPELINE.md` + `docs/grokbot-desk/skills/desk-sources-capture/SKILL.md` on AgentLab-dev/TradePilot). **Added** after the four WSJ-header portals. Does **not** replace WSJ → header IBD → MW → Barron's.
+Copied from Grok Bot desk pipeline (`docs/grokbot-desk/NEWS_DAY_PIPELINE.md` + `docs/grokbot-desk/skills/desk-sources-capture/SKILL.md` on AgentLab-dev/TradePilot). **Added** after WSJ → header IBD → MW → Barron's → Yahoo. Does **not** replace those five homepages.
 
 Public pages work. Optional login at `https://www.reddit.com/?feed=home` via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in this file or chat. Pass = open each required URL in Playwright / browser and scan hot posts. Fail NEWS / FULL CHECK if this check is skipped. Curl/API 403 without a browser open does not count. Tag **SOCIAL-ONLY** — miss-catch D / buzz only; **never Reddit-alone TAKE**.
 
@@ -75,4 +75,5 @@ WSJ `RSSMarketsMain` / `WSJcomUSBusiness` can lag by months. Do not treat those 
 1. Agent opens **WSJ** and signs in (`.env` or Take Control / 2FA). Never paste a password in chat.
 2. Agent clicks **IBD** in the WSJ header (autologin). Then **MarketWatch** and **Barron's** from the same hat.
 3. If 2FA/captcha: user Take Control on the **WSJ** tab, then says **done**.
-4. Agent snapshots all four. Session should stick for later tabs, including IBD Stock Lists.
+4. Agent opens Yahoo Finance `https://finance.yahoo.com/` (public).
+5. Agent snapshots all five. Session should stick for later tabs, including IBD Stock Lists.
