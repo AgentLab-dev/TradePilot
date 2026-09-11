@@ -106,3 +106,4 @@ changed materially.
 5. **Prep, don't predict theater** — concrete levels and if-then triggers, not vague calls.
 6. **Run offense AND defense** — every wrap answers both "what breaks my book?" and "what oversold-bounce am I armed for?" Defense-only into a washout is the logged 2026-07-21 miss.
 7. **Keep it re-usable** — overwrite `next_day_prep.md` **and** `catalyst_cards.md` each evening so the morning loops read current files.
+8. **Daily lesson** — load `daily-mover-lesson`. Merge 10:00 + 15:00 + AH into **one** `## Consolidated` on `daily_lessons/YYYY-MM-DD.md`: listed names up/down, **what helped the move**, process hole, next-pick strategy. Append HOLE rows to `agent_learning_log.md`. Fail the wrap if Consolidated is missing.

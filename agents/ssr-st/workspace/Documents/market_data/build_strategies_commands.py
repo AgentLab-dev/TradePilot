@@ -9,7 +9,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSV_OUT = os.path.normpath(os.path.join(HERE, "..", "strategies_commands.csv"))
 JSON_OUT = os.path.normpath(os.path.join(HERE, "..", "strategies_commands.json"))
-DATE = "2026-09-09"
+DATE = "2026-09-10"
 
 HEADERS = [
     "Sl.No",
@@ -467,9 +467,9 @@ ROWS = [
         "0",
         "Overview — no orders",
         "After US after-hours (~6 PM PT). User asks evening wrap / next-day prep / EOD.",
-        "Close the loop on today and pre-stage tomorrow. Market is closed — no orders. Writes next_day_prep.md + catalyst_cards.md. Load news-portals + ibd-wsj-capture + catalyst-overnight-plan + pre-print-screen.",
-        "Fail the wrap if a named T+1 event has no catalyst card (XE/SNDK 8/13). Defense-only into a washout is the 2026-07-21 miss — run offense AND defense.",
-        "Overwrite next_day_prep.md and catalyst_cards.md. Pointer in agent_learning_log.md if the plan changed.",
+        "Close the loop on today and pre-stage tomorrow. Market is closed — no orders. Writes next_day_prep.md + catalyst_cards.md + daily_lessons/YYYY-MM-DD.md Consolidated. Load news-portals + ibd-wsj-capture + catalyst-overnight-plan + pre-print-screen + daily-mover-lesson.",
+        "Fail the wrap if a named T+1 event has no catalyst card (XE/SNDK 8/13). Fail if Consolidated is missing. Defense-only into a washout is the 2026-07-21 miss — run offense AND defense.",
+        "Overwrite next_day_prep.md and catalyst_cards.md. Consolidated lesson: what helped listed moves + next-pick strategy. Pointer in agent_learning_log.md if the plan changed.",
         "No — wrap never places orders",
         "agents/ssr-st/commands/EVENING_WRAP.md; agents/ssr-st/skills/evening-wrap-nextday-prep/SKILL.md",
     ),
@@ -758,6 +758,32 @@ ROWS = [
         "Dated lesson after notable events. At least one vetted idea or explicit stand-down. Wait for go.",
         "Yes — required before any order",
         "agents/ssr-st/skills/trading-continuous-learning/SKILL.md; Documents/agent_learning_log.md",
+    ),
+    r(
+        55,
+        "Skill",
+        "list-to-ticket",
+        "1",
+        "Listed name → TICKET or SKIP same day",
+        "FULL CHECK step 10–12, daily lesson, evening wrap. IBD 50 / Sector Leaders / Big Cap 20 / PPS-T7 ON / ALWAYS / NEWS sleeve leaders.",
+        "List membership is not a go. Every listed name gets a written TICKET (structure, cap, clock) or SKIP (named gate) the same session. Board / watching is a fail (OKTA 8/26, SNOW 9/2, CRM board, HPE reclaim).",
+        "Fail FULL CHECK if a listed name has neither TICKET nor SKIP. After ≥+7% AH, STAND the ripped name and log HOLE if no pre-move ticket.",
+        "TICKET or SKIP line on print_monitor / cards / daily lesson. HOLE rows in agent_learning_log.md.",
+        "Yes — TICKET waits for go",
+        "agents/ssr-st/skills/list-to-ticket/SKILL.md; agents/ssr-st/commands/LISTTOTICKET.md",
+    ),
+    r(
+        56,
+        "Command",
+        "DAILY LESSON",
+        "0",
+        "10 AM / 3 PM + one consolidated lesson",
+        "Weekday 10:00 AM PT and 3:00 PM PT, or user says daily lesson / what ripped. Evening wrap writes Consolidated.",
+        "Quote known list + sleeve ETFs. For each listed name that moved: % , industry, what exactly helped the move (print / industry tape / news / tape-only). One next-pick strategy that shares that cause. Do not chase ≥+7% gaps. Do not rank penny 40% spikes as the next pick.",
+        "Fail if a listed name moved ≥+10% / ≤−10% with no what-helped line. Fail if next pick is the already-ripped name. Fail evening wrap if Consolidated is missing.",
+        "daily_lessons/YYYY-MM-DD.md (one file: 10:00, 15:00, Consolidated). HOLE rows in agent_learning_log.md.",
+        "Yes — any TICKET waits for go",
+        "agents/ssr-st/skills/daily-mover-lesson/SKILL.md; agents/ssr-st/commands/DAILYLESSON.md",
     ),
 ]
 
