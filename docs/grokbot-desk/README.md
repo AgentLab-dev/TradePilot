@@ -24,6 +24,7 @@ stay where they are.
 | [`skills/desk-sources-capture/`](skills/desk-sources-capture/SKILL.md) | IBD → WSJ → MW → Whale → Reddit SOCIAL-ONLY; access line; never Reddit-alone TAKE |
 | [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; event-gate T+1 prints; print-readthrough-t1 peer table; Sheet if book changed; deliver |
 | [`skills/print-readthrough-t1/`](skills/print-readthrough-t1/SKILL.md) | After 0d AMC/BMO, if-then first-30 on unripped sleeve peers (ORCL→HPE miss) |
+| [`skills/business-tape-interpret/`](skills/business-tape-interpret/SKILL.md) | After capture, APPLY block: regime, payer vs paid, Reddit nominated (never alone TAKE) |
 | [`skills/event-gate-test/`](skills/event-gate-test/SKILL.md) | NEWS+4Q+10w; AH≤−5% first-30 veto; Soft-EM complement; `EVENT-GATE TEST` line |
 | [`skills/five-new-nbt/`](skills/five-new-nbt/SKILL.md) | 5 NEW all-four + EM>15%; print-readthrough T+1; sources; gate; miss-catch; Sheet; wait for go |
 | [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK / Health Check battery; sources first; NBT + print-readthrough; Sheet; deliver |

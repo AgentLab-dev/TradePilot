@@ -54,6 +54,9 @@ market is closed, so it places **no orders**; it produces analysis and stages to
    Both flags on the output table. Board: `print_monitor.md`.
    "No XE anything" is not a card. Anti-chase does not cancel overnight
    arming. Skill: `catalyst-overnight-plan`.
+   **Business tape (`business-tape-interpret`):** after capture, write `## Business tape`
+   (regime, payer vs paid, Reddit nominated). Fail the wrap if capture ran and the
+   block is missing.
    **Print read-through (`print-readthrough-t1`):** after every 0d AMC/BMO, write
    2–3 mapped-peer if-then cards for **next RTH first-30**. Fail the wrap if that
    table is missing (ORCL 9/10 wrap ran, HPE/DELL card did not). SKIP rows count.

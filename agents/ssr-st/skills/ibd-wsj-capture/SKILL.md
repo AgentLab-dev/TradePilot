@@ -25,7 +25,7 @@ On FULL CHECK this repo has no `desk-sources-capture` folder. Load this skill pl
 
 - **IBD 50** was not opened, or the table is empty / as-of is not today, unless Sign In still blocks after Take Control / **done** (then FFTY + `rs_screen.py` is the only fallback).
 - Any of these Stock List URLs was not opened: Sector Leaders, Big Cap 20, Spotlight, New Highs, RS at New High, IPO Leaders, Funds Buying.
-- MarketTrend was not opened (signed-in when possible). MarketTrend **%** itself is optional if the page loaded.
+- MarketTrend was not opened (signed-in when possible). MarketTrend **%** is required for `business-tape-interpret` regime unless SKIP with a reason.
 - `ibd_stock_lists.md` is not dated today.
 - The agent asked the user to paste list pages.
 

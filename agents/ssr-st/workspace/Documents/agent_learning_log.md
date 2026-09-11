@@ -3,9 +3,15 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: September 11, 2026 (ORCL 155/165 flattened)._
+_Last updated: September 11, 2026 (business-tape-interpret)._
 
 ---
+
+### 2026-09-11 — Skill `business-tape-interpret`  [RULE]
+
+- **What happened:** Capture skills already opened WSJ/IBD/MW/Barron's/Reddit. Apply was missing: ORCL wrap used beat/raise and skipped FCF vs BOM. Reddit was tagged SOCIAL-ONLY and treated as skippable color instead of required nominations.
+- **Rule / fix:** After every capture, write `## Business tape` (regime, payer vs paid, sleeve, veto, Reddit nominated). Fail the daily publish if that block is missing. Reddit nominates; never Reddit-alone TAKE. 0d print needs IS vs CFS, which feeds `print-readthrough-t1`.
+- **Status:** skill + command + fail line on FULL CHECK / NBT / wrap / NEWS / lessons.
 
 ### 2026-09-11 — ORCL Soft-ARM flattened on abort  [PROCESS]
 

@@ -17,7 +17,8 @@ Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Pipeline: [`../../NEWS_DAY_PIPELINE.md`](../../NEWS_DAY_PIPELINE.md).
 Must load first: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md),
 [`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md),
-[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md).
+[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
+[`../business-tape-interpret/SKILL.md`](../business-tape-interpret/SKILL.md).
 
 ## When
 
@@ -33,7 +34,7 @@ A name is a **hard NBT** only if **all** of these hold:
 2. **All-four** — STKK + STNOW + Three Good + Whale shown as regular columns
 3. **Whale ≥ 0** (from `whale_check.py`; `daily.py` n/a is not a pass)
 4. **EM > 15%**
-5. **Desk sources applied** — IBD feeds universe; WSJ/MW feed tape/vetoes
+5. **Desk sources applied** — IBD feeds universe; WSJ/MW/Barron's + Reddit feed `business-tape-interpret` (regime, payer vs paid, nominated). Capture without that block is a fail.
 6. **Event names pass `event-gate-test`** — no credit into an untested print;
    AH ≤ −5% is STAND, not an NBT take
 
@@ -45,9 +46,11 @@ as 🟡 arm / 🔴 stand-down. They do not fill a hard slot.
 
 ## Miss-catch D
 
-Reddit / ApeWisdom / Swaggy are **Miss-catch D only**. A social cluster can nominate
-a name for the all-four + EM > 15% test. **Never Reddit alone TAKE.** If a social
-name fails all-four or EM, log it as miss-catch D and move on.
+Reddit / ApeWisdom / Swaggy are **required input** and **Miss-catch D** for ranking.
+A social cluster **nominates** a name for the all-four + EM > 15% test. **Never
+Reddit alone TAKE.** If it fails all-four or EM, it stays D. If it passes, it
+leaves D and may enter the five as NEW. Fail NBT if Reddit was scanned and the
+Nominated line is missing (write `none` if the scan was clean).
 
 ## Steps
 
@@ -57,6 +60,7 @@ name fails all-four or EM, log it as miss-catch D and move on.
 3. Veto from **WSJ / MW** tape (regime, named dumps, macro prints).
 4. Run all-four + EM on survivors. Keep Whale ≥ 0 and EM > 15%.
 5. `EVENT-GATE TEST` every event name. STAND / skip first-30 if AH ≤ −5%.
+5a. **Business tape** — Load `business-tape-interpret`. Fail NBT if capture ran and `## Business tape` is missing.
 5b. **Print read-through T+1** — every 0d AMC/BMO gets a mapped-peer if-then table. Fail NBT if missing (ORCL 9/10 wrap → no HPE/DELL). Do not put a crushed printer in the hard five because peers ripped.
 6. Pick **five NEW** hard names. Different industries when the book is already stacked.
 7. Write Sheet latest — **full columns mandatory** (`is_latest=Y`, flags, EM,
@@ -77,10 +81,13 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 ## EVENT-GATE TEST
 - EVENT-GATE TEST <TICKER>: …
 
+## Business tape (required after capture)
+Regime: … | Story: … | Payer vs paid: … | Reddit: … | Nominated: …
+
 ## Print read-through T+1 (required if any 0d AMC/BMO)
 | Printer | Result / AH | Peer | Peer % | Verdict | Structure | Clock |
 
-## Miss-catch D (Reddit / ApeWisdom — not TAKE)
+## Miss-catch D (Reddit nominated — not a lone TAKE)
 ## Sheet latest (full columns written)
 ## Wait for go
 ```

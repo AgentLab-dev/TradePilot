@@ -26,10 +26,10 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 ```
 - [ ] Run the 12 steps in agents/ssr-st/commands/FULLCHECK.md
 - [ ] Step 8: `ibd-wsj-capture` live IBD lists (no paste); SelfIDB50 FFTY only if Sign In still blocks after Take Control
-- [ ] Step 9 news: load `news-portals` + `ibd-wsj-capture`. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; RSS is the floor, not a substitute. Then Reddit SOCIAL-ONLY (required, additional): open + scan r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors (public, no login). Never Reddit-alone TAKE.
+- [ ] Step 9 news: load `news-portals` + `ibd-wsj-capture` + `business-tape-interpret`. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; RSS is the floor, not a substitute. Then Reddit (required input): open + scan r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors. Write `## Business tape` (regime, payer vs paid, Nominated). Never Reddit-alone TAKE.
 - [ ] Fail if IBD 50 is not live today (as-of not today / empty tables) unless Sign In blocked after Take Control; fail if Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS / IPO / Funds URLs were not opened; fail if the agent asked for a paste
 - [ ] Fail if WSJ, header IBD, MarketWatch, or Barron's was not actually opened
-- [ ] Fail if the required Reddit SOCIAL-ONLY check was skipped (open + scan; no login). Curl/API without a browser open does not count
+- [ ] Fail if the required Reddit check was skipped (open + scan). Fail if capture ran and `## Business tape` is missing. Curl/API without a browser open does not count
 - [ ] Fail if the investor-day / analyst-day / capital-markets-day query was not run on book + SMH/memory/AI + READTHROUGH peers
 - [ ] Fail if a 0d/1d name has no `{TICKER} earnings` line (OKTA 8/26), or a PPS-T7 ON name has no ticker-earnings line
 - [ ] Fail if calendar UNION is missing a leg: Nasdaq `earnings_radar` ∪ Robinhood `get_earnings_calendar` ∪ fundamentals ∪ investor-day
@@ -51,7 +51,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 - [ ] Fail if an IBD 50 / Sector Leader / Big Cap 20 / PPS-T7 ON / ALWAYS name has neither TICKET nor SKIP (`list-to-ticket`) — board / watching is a fail (OKTA/SNOW/CRM/HPE)
 - [ ] Near 10:00 AM PT or 3:00 PM PT: write `daily_lessons/YYYY-MM-DD.md` — listed names up/down, what helped the move, next-pick strategy (`daily-mover-lesson`)
 - [ ] Fail if Sheet or BQ is skipped or prior `is_latest=Y` rows are not flipped to N
-- [ ] Load miss-fix skills on step 5: `pps-t1-em-recalibrate` · `print-ah-guesstimate` · `print-analog-vs-em` · `option-chain-liquidity-gate` · `post-print-gap-capture` · `next-25-print-screen` · `list-to-ticket` · `daily-mover-lesson` · `print-readthrough-t1`
+- [ ] Load miss-fix skills on step 5: `pps-t1-em-recalibrate` · `print-ah-guesstimate` · `print-analog-vs-em` · `option-chain-liquidity-gate` · `post-print-gap-capture` · `next-25-print-screen` · `list-to-ticket` · `daily-mover-lesson` · `print-readthrough-t1` · `business-tape-interpret`
 - [ ] End with take / arm / stand-down, split options book vs Agentic sleeve
 - [ ] Overwrite catalyst_cards.md, next_day_prep.md, momentum_watchlist.md
 - [ ] Upsert daily_top5; write Google Sheet AND BigQuery (`is_latest=Y` on the new date only; `N` on older rows)
@@ -63,6 +63,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 ```
 - [ ] After close. No orders.
 - [ ] Catalyst cards + next_day_prep.md
+- [ ] `business-tape-interpret` `## Business tape` after capture. Fail if missing.
 - [ ] `print-readthrough-t1` table after every 0d AMC/BMO (TICKET or SKIP per peer). Fail if missing.
 - [ ] Write `## Consolidated` on `daily_lessons/YYYY-MM-DD.md` (what helped listed moves + next-pick strategy)
 - [ ] Append HOLE rows to agent_learning_log.md
