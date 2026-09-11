@@ -16,7 +16,8 @@ a Reddit list. Not a "maybe later" watchlist.
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Pipeline: [`../../NEWS_DAY_PIPELINE.md`](../../NEWS_DAY_PIPELINE.md).
 Must load first: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md),
-[`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md).
+[`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md),
+[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md).
 
 ## When
 
@@ -56,6 +57,7 @@ name fails all-four or EM, log it as miss-catch D and move on.
 3. Veto from **WSJ / MW** tape (regime, named dumps, macro prints).
 4. Run all-four + EM on survivors. Keep Whale ≥ 0 and EM > 15%.
 5. `EVENT-GATE TEST` every event name. STAND / skip first-30 if AH ≤ −5%.
+5b. **Print read-through T+1** — every 0d AMC/BMO gets a mapped-peer if-then table. Fail NBT if missing (ORCL 9/10 wrap → no HPE/DELL). Do not put a crushed printer in the hard five because peers ripped.
 6. Pick **five NEW** hard names. Different industries when the book is already stacked.
 7. Write Sheet latest — **full columns mandatory** (`is_latest=Y`, flags, EM,
    structure, clocks, comments) on tab `TradePilot-26Q3`.
@@ -74,6 +76,9 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 
 ## EVENT-GATE TEST
 - EVENT-GATE TEST <TICKER>: …
+
+## Print read-through T+1 (required if any 0d AMC/BMO)
+| Printer | Result / AH | Peer | Peer % | Verdict | Structure | Clock |
 
 ## Miss-catch D (Reddit / ApeWisdom — not TAKE)
 ## Sheet latest (full columns written)

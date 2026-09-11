@@ -22,6 +22,10 @@ Re-arm only on **T+1 reclaim + go**: the name must reclaim the post-print range,
 
 If after-hours is **≥ +5%**, **arm** a defined-risk debit for the first 15–30 minutes. Still wait for **go**. Soft-EM is an arm, not an order.
 
+## Print read-through T+1
+
+After every 0d AMC/BMO, write 2–3 **unripped** sleeve peers for **next RTH first-30** (`print-readthrough-t1`). Beat/raise or AH ≥ +5% → if-then **go** on the peer. Fail **every daily publish** (FULL CHECK, NBT, wrap, lessons, iMessage) if that table is missing. Peer already ≥ +7% → STAND. Do not skip peers because they have no print tomorrow (ORCL 9/10 → HPE/DELL). Printer can fade while peers rip (ORCL funding vs HPE/DELL BOM).
+
 ## Hard NBT (EM > 15% + all-four)
 
 A hard Five-new NBT name requires **EM > 15%** and **all four** models agreeing (STKK + STNOW + Three Good + Whale). Missing any of the four is not a hard NBT.

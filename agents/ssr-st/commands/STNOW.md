@@ -6,3 +6,4 @@ Trigger: `STNOW` or `STNOW TICKER`.
 
 Skill: `agents/ssr-st/skills/stnow-360-check/SKILL.md`
 Spec: `agents/ssr-st/workspace/Documents/stnow_algorithm.md`
+If this run is a daily publish and a 0d AMC/BMO is live, also emit `print-readthrough-t1`.

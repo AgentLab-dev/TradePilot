@@ -19,13 +19,14 @@ stay where they are.
 
 | Skill | Role |
 |---|---|
-| [`skills/daily-desk-lessons/`](skills/daily-desk-lessons/SKILL.md) | Harvest lessons, ≥1 new-feature row, gate print picks, Sheet, next-best, deliver |
+| [`skills/daily-desk-lessons/`](skills/daily-desk-lessons/SKILL.md) | Harvest lessons, ≥1 new-feature row, gate print picks, print-readthrough T+1, Sheet, next-best, deliver |
 | [`skills/daily-new-feature/`](skills/daily-new-feature/SKILL.md) | ≥1 row/day on Sheet tab `new-feature` (`date \| new-feature \| strategy \| lesson`) |
 | [`skills/desk-sources-capture/`](skills/desk-sources-capture/SKILL.md) | IBD → WSJ → MW → Whale → Reddit SOCIAL-ONLY; access line; never Reddit-alone TAKE |
-| [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; event-gate T+1 prints; Sheet if book changed; deliver |
+| [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; event-gate T+1 prints; print-readthrough-t1 peer table; Sheet if book changed; deliver |
+| [`skills/print-readthrough-t1/`](skills/print-readthrough-t1/SKILL.md) | After 0d AMC/BMO, if-then first-30 on unripped sleeve peers (ORCL→HPE miss) |
 | [`skills/event-gate-test/`](skills/event-gate-test/SKILL.md) | NEWS+4Q+10w; AH≤−5% first-30 veto; Soft-EM complement; `EVENT-GATE TEST` line |
-| [`skills/five-new-nbt/`](skills/five-new-nbt/SKILL.md) | 5 NEW all-four + EM>15%; sources; gate; miss-catch; Sheet; wait for go |
-| [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK / Health Check battery; sources first; NBT + miss-catch; Sheet; deliver |
+| [`skills/five-new-nbt/`](skills/five-new-nbt/SKILL.md) | 5 NEW all-four + EM>15%; print-readthrough T+1; sources; gate; miss-catch; Sheet; wait for go |
+| [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK / Health Check battery; sources first; NBT + print-readthrough; Sheet; deliver |
 | [`skills/imessage-desk-post/`](skills/imessage-desk-post/SKILL.md) | Short iMessage to most recent sender; GChat TradePilot fallback as `hr@solutionlabs.ai` |
 | [`skills/miss-catch-sleeves/`](skills/miss-catch-sleeves/SKILL.md) | Sleeves A Soft-EM 10–15% / B T+1 clock / C MANAGE flatten / D known-catalyst |
 | [`skills/rank-next-best/`](skills/rank-next-best/SKILL.md) | Rank take/arm/stand-down; gate first; EM; Three Good ≠ call-debit veto; one-name; go |

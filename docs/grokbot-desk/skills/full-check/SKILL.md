@@ -23,7 +23,8 @@ Must load: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md
 [`../miss-catch-sleeves/SKILL.md`](../miss-catch-sleeves/SKILL.md),
 [`../rank-next-best/SKILL.md`](../rank-next-best/SKILL.md),
 [`../sheet-latest-update/SKILL.md`](../sheet-latest-update/SKILL.md),
-[`../imessage-desk-post/SKILL.md`](../imessage-desk-post/SKILL.md).
+[`../imessage-desk-post/SKILL.md`](../imessage-desk-post/SKILL.md),
+[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md).
 Pack command (unchanged): `agents/ssr-st/commands/FULLCHECK.md`.
 
 ## When
@@ -60,6 +61,8 @@ Check inside FULL CHECK** means the 12-step battery, not a mute 4-flag dump.
 9. **Five new NBT + miss-catch** — Load `five-new-nbt` and `miss-catch-sleeves`.
    Hard five = NEW + all-four + EM > 15%. Do not pad with EM ≤ 15%. Reddit /
    ApeWisdom = **miss-catch D only**. **Never Reddit alone TAKE.**
+   Load `print-readthrough-t1`. Fail the publish if a 0d AMC/BMO has no mapped-peer
+   table (ORCL 9/10 → no HPE/DELL).
 10. **Direction × IV route + rank** — Load `rank-next-best`. Event gate first, then
     Sheet plan, EM gates, STNOW green + whale ≥ 0, one-name rule, clocks.
 11. **Sheet latest update** — Load `sheet-latest-update`. Tab `TradePilot-26Q3`
@@ -82,6 +85,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 ## EVENT-GATE TEST (every T+0/T+1 and elevated-IV name)
 ## Four-model table (STKK · STNOW · 3Good · Whale)
 ## Five new NBT (hard five — NEW · all-four · EM>15%)
+## Print read-through T+1 (required if any 0d AMC/BMO)
 ## Miss-catch sleeves (A/B/C/D — not hard-five padding)
 ## Ranked plan
 - 🟢 take / 🟡 arm / 🔴 stand-down + structure + cap + clock
@@ -100,6 +104,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 6. **CREDITS = rates sleeve.** Separate from equity NBT. Do not bleed rules.
 7. **Never force a trade.** A logged stand-down counts.
 8. Do not delete `agents/ssr-st/commands/FULLCHECK.md` or the rest of that folder.
+9. **Print read-through table on every daily publish** after a 0d AMC/BMO. Fail if missing.
 
 ## Delivery
 

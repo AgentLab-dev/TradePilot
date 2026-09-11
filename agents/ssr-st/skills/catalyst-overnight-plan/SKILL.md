@@ -72,7 +72,8 @@ if the trigger printed** — so the morning agent can execute without reinventin
 | Known binary **tomorrow** (earnings BMO/AMC, investor day) | **PPS-T1** is the into-print ticket (`pre-print-screen/t1.md`): 1× OTM debit last 90 min if TAKE. **Catalyst first-30** is a separate fallback if PPS-T1 did not fill. Do not merge them. |
 | Category name **2–7d** from a print | **PPS-T7** only (`pre-print-screen/t7.md`): week monitor, no fill. Flag 🟢 ON. |
 | Bellwether already ripped **today** and a **new** peer event is **tomorrow** (MU rip + SNDK investor day) | Arm the **peer** for the open / first 30 min — this is still catalyst day for the peer, not T+1 chase. |
-| Bellwether ripped **today**, peer has **no** new event tomorrow | Do **not** arm the peer overnight. That is the 6/26 SNDK giveback (chase next day). |
+| Bellwether printed **AMC** (or BMO after first-30) **beat/raise or AH ≥ +5%**, mapped peer still **< +7%** | **Arm** that peer for **next RTH first-30** even if the peer has no print (`print-readthrough-t1`). ORCL Thu AMC → HPE/DELL Fri. “No peer event” is not a skip. |
+| Bellwether **and** peer already ripped **same RTH** ≥ +7% | Do **not** arm that peer for a later session. That is the 6/26 SNDK giveback (T+2 chase). |
 | Name already +7%+ **this morning** and you have **no** pre-armed card | Stand down. Anti-chase. Log the miss. Do not buy calls 90 minutes in. |
 | Leftover **short premium** into the print | **Close before the print.** Not optional. |
 
@@ -90,7 +91,7 @@ card the night before.
 - [ ] Every 0d/1d category name has a **PPS-T1** flag (TAKE / ARM / STAND / MISS / ⚪)
 - [ ] Ranked output table includes columns **PPS-T7** and **PPS-T1**
 - [ ] Web search for investor / analyst / capital-markets days on book + SMH/memory/AI + mapped peers
-- [ ] Every mapped peer of a name that moved ≥5% today is either on a card or explicitly "no new event → do not chase T+1"
+- [ ] Every 0d AMC/BMO has a `print-readthrough-t1` mapped-peer table (TICKET or SKIP per peer). Fail if the table is missing. “No peer event” is not a skip after a beat/raise.
 - [ ] Leftover short premium into a T+0/T+1 print has a **close** ticket
 - [ ] `catalyst_cards.md` written; `next_day_prep.md` has the same table
 - [ ] Morning FULLCHECK **leads** with those cards (confirm / fire / kill), not with "don't chase" after the rip

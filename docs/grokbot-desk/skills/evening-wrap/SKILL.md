@@ -37,6 +37,9 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 4. **Catalyst cards** — One take / arm / stand-down card **with structure, first-30
    trigger, same-day exit** per T+1 event. "No credit sell" is not a card. Fail the
    wrap if a named T+1 event has no card.
+   **Print read-through** — Load `print-readthrough-t1`. Every 0d AMC/BMO gets a
+   mapped-peer if-then table for next RTH first-30. Fail the wrap if the table is
+   missing (ORCL 9/10 18:30 write had no HPE/DELL). Best unripped peer may be iMessage `#1`.
 5. **Sheet latest** — Write tab `TradePilot-26Q3` **only if the book changed**. If you
    write, fill the **full** column set (`is_latest=Y`, flags, EM, structure, clocks,
    comments). Also write `new-feature` if a lesson landed (`daily-new-feature`).
@@ -59,6 +62,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 - EVENT-GATE TEST <TICKER>: NEWS=… | 4Q=… | 10w=… | AH=… | VERDICT=…
 
 ## Catalyst cards (structure + first-30 + same-day exit)
+## Print read-through T+1 (required after any 0d AMC/BMO)
 ## Sheet latest (written | skipped — no book change)
 ## Next-day prep
 ```
@@ -74,3 +78,4 @@ Also overwrite pack files when this checkout is the runtime: `catalyst_cards.md`
 4. **Offense and defense.** What breaks the book, and what Soft-EM / washout is armed.
 5. CREDITS rates sleeve stays separate.
 6. Do not delete `agents/ssr-st/commands/EVENING_WRAP.md`.
+7. **Print read-through table required** after any 0d AMC/BMO. Fail the wrap if it is missing.

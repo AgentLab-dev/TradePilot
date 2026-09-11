@@ -51,7 +51,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 - [ ] Fail if an IBD 50 / Sector Leader / Big Cap 20 / PPS-T7 ON / ALWAYS name has neither TICKET nor SKIP (`list-to-ticket`) — board / watching is a fail (OKTA/SNOW/CRM/HPE)
 - [ ] Near 10:00 AM PT or 3:00 PM PT: write `daily_lessons/YYYY-MM-DD.md` — listed names up/down, what helped the move, next-pick strategy (`daily-mover-lesson`)
 - [ ] Fail if Sheet or BQ is skipped or prior `is_latest=Y` rows are not flipped to N
-- [ ] Load miss-fix skills on step 5: `pps-t1-em-recalibrate` · `print-ah-guesstimate` · `print-analog-vs-em` · `option-chain-liquidity-gate` · `post-print-gap-capture` · `next-25-print-screen` · `list-to-ticket` · `daily-mover-lesson`
+- [ ] Load miss-fix skills on step 5: `pps-t1-em-recalibrate` · `print-ah-guesstimate` · `print-analog-vs-em` · `option-chain-liquidity-gate` · `post-print-gap-capture` · `next-25-print-screen` · `list-to-ticket` · `daily-mover-lesson` · `print-readthrough-t1`
 - [ ] End with take / arm / stand-down, split options book vs Agentic sleeve
 - [ ] Overwrite catalyst_cards.md, next_day_prep.md, momentum_watchlist.md
 - [ ] Upsert daily_top5; write Google Sheet AND BigQuery (`is_latest=Y` on the new date only; `N` on older rows)
@@ -63,6 +63,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 ```
 - [ ] After close. No orders.
 - [ ] Catalyst cards + next_day_prep.md
+- [ ] `print-readthrough-t1` table after every 0d AMC/BMO (TICKET or SKIP per peer). Fail if missing.
 - [ ] Write `## Consolidated` on `daily_lessons/YYYY-MM-DD.md` (what helped listed moves + next-pick strategy)
 - [ ] Append HOLE rows to agent_learning_log.md
 ```

@@ -156,6 +156,10 @@ Triggers that REQUIRE a new entry:
     **NVDA**→AVGO/AMD/TSM/SMCI/CRWV · **AVGO**→NVDA/AMD/MRVL · **TSLA**→RIVN/CHPT ·
     **CRWD**→OKTA/PANW/ZS/FTNT/NET/S. Catch it *on*
     the catalyst day — chasing the next day is where the loss is (SNDK +22% on 6/25 → −10.5% on 6/26).
+    **AMC exception (`print-readthrough-t1`):** if the bellwether prints **after the close**,
+    the **next RTH first-30** *is* catalyst day for unripped peers (ORCL Thu AMC → HPE/DELL
+    Fri). Fail the wrap if that if-then card is missing. T+2 after the peer already ≥ +7%
+    stays STAND.
 2c. **T+1 catalyst card (the XE / SNDK 8/13 miss):** every FULLCHECK and evening wrap must
     output an armed ticket (or explicit stand-down **with the structure you would have used**)
     for **each** earnings, investor day, and mapped-sympathy name in the next session. See

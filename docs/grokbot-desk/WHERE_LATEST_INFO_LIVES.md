@@ -8,7 +8,8 @@
 
 ## Playbook / code (GitHub)
 - Repo: https://github.com/AgentLab-dev/TradePilot (`main`)
-- Classic pack: `agents/ssr-st/commands/` — FULLCHECK.md, NEWS.md, WHALE.md, EVENING_WRAP.md, etc.
+- Classic pack: `agents/ssr-st/commands/` — FULLCHECK.md, NBT.md, NEWS.md, WHALE.md, EVENING_WRAP.md, PRINT_READTHROUGH.md, etc.
+- Daily publish fail: after a 0d AMC/BMO, FULL CHECK / NBT / wrap / lessons / iMessage must include the `print-readthrough-t1` mapped-peer table.
 - This PR adds: `docs/grokbot-desk/` — Grok Bot TradePilot skills + standing rules mirror
 
 ## Grok Bot runtime (not Git until mirrored)

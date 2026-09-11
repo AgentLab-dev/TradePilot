@@ -49,6 +49,9 @@ Rules for the copy:
 - No order tickets that look placeable (no "BUY NOW", no filled-in broker paste).
 - **No orders unless go.** If the user has not said go, end with `WAIT FOR GO`.
 - One name in the SMS (`#1`). Rest of the five lives in Grok Bot / GChat.
+- After a 0d AMC/BMO beat/raise or AH ≥ +5%, `#1` may be the **unripped peer**
+  from `print-readthrough-t1` (not the crushed printer). Fail the post if that
+  table was required and missing.
 - Do not paste Sheet URLs unless asked — the published view is already known.
 
 ## iMessage path (Mac)

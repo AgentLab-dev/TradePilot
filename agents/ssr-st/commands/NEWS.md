@@ -3,6 +3,7 @@
 Trigger: `NEWS`, `WSJ`, `MW`, `MarketWatch`, `Barron's`, login to WSJ, `IBD lists`, Reddit.
 
 Read-only. Load `news-portals` + `ibd-wsj-capture`. Never paste passwords.
+If a 0d AMC/BMO is live, also load `print-readthrough-t1` and emit the mapped-peer table on any daily publish.
 
 1. MCP check (no WSJ-family content MCP; Whale Watch = Robinhood). Playwright (`project-0-TradePilot-playwright`) is valid. Built-in Browser Tab is **Settings → Browser & Network** (optional). Do **not** require Tools & MCP → Browser (On).
 2. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open MW and Barron's from the same hat if needed. **Take Control** if Sign In; user says **done**.

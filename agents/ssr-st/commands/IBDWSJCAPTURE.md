@@ -12,3 +12,4 @@ Daily. Read-only. Load `agents/ssr-st/skills/ibd-wsj-capture/SKILL.md`.
 6. SelfIDB50 uses today's IBD 50; FFTY is fallback only if Sign In still blocks after Take Control.
 7. On **FULL CHECK** step 8 this is a fail condition: IBD 50 not live today, a listed Stock List URL not opened, or asking the user to paste. See `FULLCHECK.md`.
 8. Wait for **go**. Not an order.
+9. If this run is a daily publish and a 0d AMC/BMO is live, also emit `print-readthrough-t1`.
