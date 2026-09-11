@@ -24,7 +24,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 ## Trading — FULL CHECK
 
 ```
-- [ ] Run the 12 steps in agents/ssr-st/commands/FULLCHECK.md
+- [ ] Load `desk-supervisor` and run graph `FULLCHECK` (`agents/ssr-st/orchestrate/desk.dag.yaml`). Roles never call each other. `desk-tester` must score ≥6 before publish. Human checklist: agents/ssr-st/commands/FULLCHECK.md
 - [ ] Step 8: `ibd-wsj-capture` live IBD lists (no paste); SelfIDB50 FFTY only if Sign In still blocks after Take Control
 - [ ] Step 9 news: load `news-portals` + `ibd-wsj-capture` + `business-tape-interpret`. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; RSS is the floor, not a substitute. Then Reddit (required input): open + scan r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors. Write `## Business tape` (regime, payer vs paid, Nominated). Never Reddit-alone TAKE.
 - [ ] Fail if IBD 50 is not live today (as-of not today / empty tables) unless Sign In blocked after Take Control; fail if Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS / IPO / Funds URLs were not opened; fail if the agent asked for a paste

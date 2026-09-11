@@ -1,0 +1,106 @@
+# Trade Pilot desk DAG. Supervisor owns control flow; roles never call each other.
+# Graphs: FULLCHECK | FLAGS | NBT. Halt on status=fail.
+# Contract: RoleResult { role, status, summary, payload, artifacts }
+
+orchestration:
+  name: trade-pilot-desk
+  version: "1.0"
+  description: >
+    FULL CHECK / FLAGS / NBT desk graphs. Feature roles only. STKK/STNOW/3Good/Whale
+    compose inside flags. Writes that place orders pause for go.
+  mode: synchronous
+  owner: trade-pilot
+
+  inputs:
+    graph:
+      type: string
+      enum: [FULLCHECK, FLAGS, NBT]
+      default: FULLCHECK
+    tickers:
+      type: array
+      items: string
+      required: false
+    skip_roles:
+      type: array
+      items: string
+      required: false
+
+  state:
+    access_line: payload.access_line
+    business_tape: payload.business_tape
+    tape_macro: payload.tape_macro
+    book: payload.book
+    flags_table: payload.flags_table
+    event_gates: payload.event_gates
+    print_monitor: payload.print_monitor
+    readthrough: payload.readthrough
+    list_tickets: payload.list_tickets
+    nbt_five: payload.nbt_five
+    ranked_plan: payload.ranked_plan
+    strategy_test: payload.strategy_test
+
+  on_fail:
+    action: halt
+    desk-tester:
+      action: supervisor_recheck
+      max_retries: 1
+      then: publish_score_for_review
+
+  roles:
+    - desk-sources
+    - business-tape
+    - tape-macro
+    - book-health
+    - flags
+    - event-gate
+    - print-screen
+    - print-readthrough
+    - list-to-ticket
+    - five-new-nbt
+    - rank-next-best
+    - desk-tester
+    - desk-publish
+
+  graphs:
+    FULLCHECK:
+      order:
+        - desk-sources
+        - business-tape
+        - tape-macro
+        - book-health
+        - flags
+        - event-gate
+        - print-screen
+        - print-readthrough
+        - list-to-ticket
+        - five-new-nbt
+        - rank-next-best
+        - desk-tester
+        - desk-publish
+    FLAGS:
+      order:
+        - flags
+        - desk-tester
+        - desk-publish
+      publish: table_only
+    NBT:
+      order:
+        - desk-sources
+        - business-tape
+        - flags
+        - event-gate
+        - five-new-nbt
+        - rank-next-best
+        - desk-tester
+        - desk-publish
+      optional_when_0d_print:
+        - print-readthrough
+
+  pause:
+    - role: rank-next-best
+      when: ticket_live
+      reason: wait for go
+    - role: desk-publish
+      when: ticket_live
+      reason: wait for go
+      never: place_order_without_go

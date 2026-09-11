@@ -27,7 +27,7 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 ## Sweep (in order)
 
 1. **Close + AH tape** — book + SPY/QQQ/SMH/VXX/10Y + notable AH movers. State % vs prior close.
-2. **Desk sources capture** — IBD → WSJ → MW → `whale_check.py` → Reddit SOCIAL-ONLY.
+2. **Desk sources capture** — IBD → WSJ → MW → Barron's → Yahoo `https://finance.yahoo.com/` → `whale_check.py` → Reddit SOCIAL-ONLY.
    Write `desk_sources_YYYY-MM-DD.md`. Print the access line.
 3. **Event gate on T+1 prints** — Load `event-gate-test` for every T+1 earnings,
    investor / analyst / capital-markets day, and mapped peer. NEWS + 4Q + 10w.

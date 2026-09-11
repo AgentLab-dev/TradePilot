@@ -9,7 +9,7 @@ description: >-
   tabs (headless tail), then public RSS. Whale Watch flow stays Robinhood MCP.
 ---
 
-# News portals (IBD · WSJ · MW · Barron's · Reddit SOCIAL-ONLY)
+# News portals (IBD · WSJ · MW · Barron's · Yahoo · Reddit SOCIAL-ONLY)
 
 FULL CHECK step 9 and evening wrap **news watch** must read headlines, not guess
 behind a paywall. There is **no WSJ / MarketWatch / IBD / Barron's MCP**. Zapier
@@ -43,13 +43,15 @@ If a WSJ MCP appears later, use it and skip 1–2.
 | IBD (from WSJ header) | Header **IBD** → `myibd.investors.com/secure/signin.aspx?...&prompt=none` (lands on investors.com) |
 | MarketWatch | Header **MarketWatch** (`?mod=WSJ_NavHat`) |
 | Barron's | Header **Barron's** (`?mod=WSJ_NavHat`) |
+| Yahoo Finance | https://finance.yahoo.com/ (public; no SSO) |
 
 Then:
 
 1. Sign in on **WSJ only** (`.env` `WSJ_USER` / `WSJ_PASSWORD`, or Take Control / 2FA). Never paste the password in chat.
 2. Click **IBD** in the WSJ / Dow Jones header. Wait for autologin.
 3. Open MarketWatch and Barron's from the same header. Confirm no header **Sign In**.
-4. If 2FA or captcha: Take Control on the **WSJ** tab, then **done**.
+4. Open **Yahoo Finance** `https://finance.yahoo.com/` (public; no login). Pull movers, earnings calendar, named headlines.
+5. If 2FA or captcha: Take Control on the **WSJ** tab, then **done**.
 
 Optional laptop: copy `.env.example` → `.env` locally, then `tradepilot portal-capture --login`. Never paste secrets here.
 
@@ -71,7 +73,7 @@ browser_snapshot
 - **Signed out** if **Sign In** is in the WSJ header. Sign in there once; do not fill four portals separately.
 - After WSJ Sign In, open IBD from the WSJ header (that hop is the autologin). Then MarketWatch and Barron's from the same header (`?mod=WSJ_NavHat`). Do not skip Barron's.
 - After IBD Sign In, Stock Lists / MarketTrend capture is `ibd-wsj-capture` (research.investors.com). Skip the profile overlay if it appears; stay on the list page (do not follow Skip to investors.com until tables are captured).
-- Yahoo `https://finance.yahoo.com/` — usually no login.
+- Yahoo `https://finance.yahoo.com/` — **required** public homepage. No login. Not a backup.
 - **Reddit (required NEWS / FULL CHECK step 9 check, additional to the four).** Public browse is enough. Optional logged-in home (`https://www.reddit.com/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan the required subs (see [portals.md](portals.md)). Those pages are **input** for `business-tape-interpret` (what social is pricing + Nominated). Never Reddit-alone TAKE.
 - Unlock when finished.
 
@@ -111,7 +113,7 @@ Do not wait until after AMC.
 
 ## Portals
 
-See [portals.md](portals.md) for URLs. Login once at WSJ, then header-hop IBD (autologin), then MarketWatch and Barron's from the same hat. Then open the required Reddit SOCIAL-ONLY subs (public browse, or logged-in home via `.env` `REDDIT_USER` to clear the signup overlay). Yahoo / Reuters / CNBC are backup. Whale Watch = Robinhood, not unusualwhales.com.
+See [portals.md](portals.md) for URLs. Login once at WSJ, then header-hop IBD (autologin), then MarketWatch and Barron's from the same hat. Then open **Yahoo Finance** `https://finance.yahoo.com/`. Then the required Reddit SOCIAL-ONLY subs (public browse, or logged-in home via `.env` `REDDIT_USER` to clear the signup overlay). Reuters / CNBC stay backup. Whale Watch = Robinhood, not unusualwhales.com.
 
 ## Secrets
 
@@ -125,7 +127,7 @@ On FULL CHECK this is a **fail condition**, not a best-effort. There is no `desk
 
 ### Fail the FULL CHECK if
 
-- The four portals were not actually opened after the WSJ header SSO hop (WSJ → header IBD → header MarketWatch / Barron's). RSS-only does not count — WSJ public RSS is often months stale.
+- The five required homepages were not actually opened: WSJ → header IBD → header MarketWatch / Barron's **and** Yahoo `https://finance.yahoo.com/`. RSS-only does not count — WSJ public RSS is often months stale. Yahoo RSS does not replace the Yahoo homepage.
 - The Reddit check was skipped. Pass = each **required** sub opened in Playwright / browser and hot posts scanned. Login is optional (`.env` `REDDIT_USER` / `REDDIT_PASSWORD` for `/?feed=home` overlay). Curl/API 403 without a browser open does not count. Those pages are required **input** (nominated + what social is pricing). Never Reddit-alone TAKE. Optional subs (r/spacs, r/pennystocks) and ApeWisdom / SwaggyStocks do not replace the required set.
 - Capture ran and `## Business tape` is missing (`business-tape-interpret`).
 - `"investor day" OR "analyst day" OR "capital markets day"` was not run on book + SMH/memory/AI + READTHROUGH peers (SNDK 8/13).
@@ -134,4 +136,4 @@ On FULL CHECK this is a **fail condition**, not a best-effort. There is no `desk
 - Calendar UNION is missing a leg: Nasdaq `earnings_radar` ∪ Robinhood `get_earnings_calendar` ∪ fundamentals next-earnings ∪ investor-day search.
 - News was skipped because Sign In was showing. Stop and ask Take Control; homepage snapshot is still required signed-out.
 
-**Still optional:** Zapier WSJ-family (no app), Unusual Whales, laptop `tradepilot portal-capture`, Reuters/CNBC backup once the four are open, Yahoo homepage if the Yahoo RSS floor already ran. MarketTrend **%** is required for `business-tape-interpret` unless SKIP with a reason.
+**Still optional:** Zapier WSJ-family (no app), Unusual Whales, laptop `tradepilot portal-capture`, Reuters/CNBC backup once the five are open. MarketTrend **%** is required for `business-tape-interpret` unless SKIP with a reason.

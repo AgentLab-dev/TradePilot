@@ -1,6 +1,8 @@
 # Command: Health Check
 
-Trigger: `Health Check` (optionally with tickers).
+Trigger: `Health Check`, `FLAGS` (optionally with tickers).
+
+Supervisor: `agents/ssr-st/skills/desk-supervisor/SKILL.md` — graph `FLAGS` (`flags` → `desk-tester` → `desk-publish` table only). Not the 12-step FULL CHECK.
 
 4-model composite: STKK + STNOW + Three Good + Whale → one VERDICT per name.
 

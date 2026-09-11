@@ -27,7 +27,9 @@ stay where they are.
 | [`skills/business-tape-interpret/`](skills/business-tape-interpret/SKILL.md) | After capture, APPLY block: regime, payer vs paid, Reddit nominated (never alone TAKE) |
 | [`skills/event-gate-test/`](skills/event-gate-test/SKILL.md) | NEWS+4Q+10w; AH≤−5% first-30 veto; Soft-EM complement; `EVENT-GATE TEST` line |
 | [`skills/five-new-nbt/`](skills/five-new-nbt/SKILL.md) | 5 NEW all-four + EM>15%; print-readthrough T+1; sources; gate; miss-catch; Sheet; wait for go |
-| [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK / Health Check battery; sources first; NBT + print-readthrough; Sheet; deliver |
+| [`skills/desk-supervisor/`](skills/desk-supervisor/SKILL.md) | FULLCHECK / FLAGS / NBT DAG; roles never call each other; wait for go |
+| [`skills/desk-tester/`](skills/desk-tester/SKILL.md) | Backtest + strategy score 1–10 before publish; recross once; second fail publishes score for review |
+| [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK battery (human checklist); load desk-supervisor graph FULLCHECK |
 | [`skills/imessage-desk-post/`](skills/imessage-desk-post/SKILL.md) | Short iMessage to most recent sender; GChat TradePilot fallback as `hr@solutionlabs.ai` |
 | [`skills/miss-catch-sleeves/`](skills/miss-catch-sleeves/SKILL.md) | Sleeves A Soft-EM 10–15% / B T+1 clock / C MANAGE flatten / D known-catalyst |
 | [`skills/rank-next-best/`](skills/rank-next-best/SKILL.md) | Rank take/arm/stand-down; gate first; EM; Three Good ≠ call-debit veto; one-name; go |

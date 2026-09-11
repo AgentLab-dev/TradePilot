@@ -1,6 +1,6 @@
-# Command: NEWS (IBD / WSJ / MW / Barron's / Reddit SOCIAL-ONLY)
+# Command: NEWS (IBD / WSJ / MW / Barron's / Yahoo / Reddit SOCIAL-ONLY)
 
-Trigger: `NEWS`, `WSJ`, `MW`, `MarketWatch`, `Barron's`, login to WSJ, `IBD lists`, Reddit.
+Trigger: `NEWS`, `WSJ`, `MW`, `MarketWatch`, `Barron's`, `Yahoo`, login to WSJ, `IBD lists`, Reddit.
 
 Read-only. Load `news-portals` + `ibd-wsj-capture`. Never paste passwords.
 Load `business-tape-interpret` after capture and emit `## Business tape`. If a 0d AMC/BMO is live, also load `print-readthrough-t1` and emit the mapped-peer table on any daily publish.
@@ -11,11 +11,12 @@ Load `business-tape-interpret` after capture and emit `## Business tape`. If a 0
    - IBD from the WSJ header (fallback only: https://www.investors.com/?ibdsilentlogin=true)
    - https://www.marketwatch.com/?mod=WSJ_NavHat&mod=WSJ_NavHat
    - https://www.barrons.com/?mod=WSJ_NavHat&mod=WSJ_NavHat
-   Then IBD Stock Lists (`ibd-wsj-capture`). **Do not ask for a paste.**
+   - https://finance.yahoo.com/
+   Then IBD Stock Lists (`ibd-wsj-capture`). **Do not ask for a paste.** Yahoo is public; no SSO. RSS does not replace the homepage.
 3. `python3 agents/ssr-st/workspace/Documents/market_data/news_portals.py` (RSS floor)
 4. Required query: `"investor day" OR "analyst day" OR "capital markets day"`
 5. Required: `{TICKER} earnings` on every 0d/1d name and every PPS-T7 2–7d category name.
-6. **Reddit SOCIAL-ONLY (required, additional — does not replace the four).** Public browse is enough. Optional logged-in home (`/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan every required sub (copied from Grok Bot `docs/grokbot-desk/NEWS_DAY_PIPELINE.md`):
+6. **Reddit SOCIAL-ONLY (required, additional — does not replace the five).** Public browse is enough. Optional logged-in home (`/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan every required sub (copied from Grok Bot `docs/grokbot-desk/NEWS_DAY_PIPELINE.md`):
    - https://www.reddit.com/r/algotrading/
    - https://www.reddit.com/r/Quant/
    - https://www.reddit.com/r/stocks/

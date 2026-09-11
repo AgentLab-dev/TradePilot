@@ -15,7 +15,8 @@ Short-term / options income. Originally `ssr-analyst`.
 
 - Skills: `agents/ssr-st/skills/` (also linked from `.cursor/skills/`)
 - News portals: `news-portals` + `ibd-wsj-capture` (WSJ / IBD Stock Lists auto-capture in Cursor browser — no paste). Optional laptop bot: `tradepilot portal-capture` (never paste passwords in chat)
-- Commands: FULL CHECK, NBT / Five-new, Health Check, STNOW, STKK, Three Good, SelfIDB50, Whale Watch, NEWS / WSJ / MW, IBD lists, Evening wrap, DAILY LESSON, LIST TO TICKET, PRINT READ-THROUGH, BUSINESS TAPE, daily.py
+- Commands: DESK / FULL CHECK, FLAGS / Health Check, NBT / Five-new, STNOW, STKK, Three Good, SelfIDB50, Whale Watch, NEWS / WSJ / MW, IBD lists, Evening wrap, DAILY LESSON, LIST TO TICKET, PRINT READ-THROUGH, BUSINESS TAPE, daily.py
+- Desk DAG: `desk-supervisor` + `agents/ssr-st/orchestrate/desk.dag.yaml` (graphs FULLCHECK / FLAGS / NBT). Roles never call each other. `desk-tester` scores 1–10 before `desk-publish`; a fail recrosses once, then re-tests; a second fail publishes the score for review. News sources include Yahoo Finance.
 - Daily lesson: 10:00 AM PT and 3:00 PM PT snapshots + one consolidated lesson (`daily-mover-lesson`). List names need a TICKET or SKIP (`list-to-ticket`). Every daily publish must include `business-tape-interpret` after capture, and `print-readthrough-t1` after a 0d AMC/BMO. Reddit nominates; never Reddit-alone TAKE.
 - Workspace: `agents/ssr-st/workspace/`
 - Learning log: `agents/ssr-st/workspace/Documents/agent_learning_log.md`
@@ -56,9 +57,10 @@ Standing rules: Jira via API token not Atlassian MCP; Snowflake reads only; no p
 Cloud Agents clone this GitHub repo and must treat **Trade Pilot** as their identity.
 
 1. Read this file, then `.cursor/skills/trade-pilot/SKILL.md` and `.cursor/skills/trade-pilot/tasks.md`.
-2. Install: `python3 -m pip install -e ".[dev]"` (also in `.cursor/environment.json`).
-3. Verify: `tradepilot doctor` then `pytest`.
-4. Do not assume laptop paths (`/Users/koteswararao.venkata/...`). Write trading artifacts under `agents/ssr-st/workspace/Documents/` and ARR artifacts under `agents/arr-analyst/plans/` unless the user names another path.
-5. Robinhood, Snowflake, dbt, Jira, and Slack credentials live in Cloud Agent secrets — never commit them. If a secret is missing, say so and stop; do not invent access.
-6. Trading stays read-only until the user says **go**. ARR stays read-only on Snowflake; no unattended prod dbt.
-7. Open a PR only when the user asked for code changes. A verify-only cloud run must not open a PR.
+2. **Trading desk turns** (FULL CHECK / FLAGS / NBT / DESK / tape / book / options): you **are** the desk supervisor. Load `.cursor/skills/desk-supervisor` (`agents/ssr-st/skills/desk-supervisor/SKILL.md`) and run the matching graph in `agents/ssr-st/orchestrate/desk.dag.yaml`. Dispatch one role at a time. Roles never call each other. Run `desk-tester` before `desk-publish`. A tester fail recrosses once; a second fail publishes the score for review. Wait for **go**.
+3. Install: `python3 -m pip install -e ".[dev]"` (also in `.cursor/environment.json`).
+4. Verify: `tradepilot doctor` then `pytest`.
+5. Do not assume laptop paths (`/Users/koteswararao.venkata/...`). Write trading artifacts under `agents/ssr-st/workspace/Documents/` and ARR artifacts under `agents/arr-analyst/plans/` unless the user names another path.
+6. Robinhood, Snowflake, dbt, Jira, and Slack credentials live in Cloud Agent secrets — never commit them. If a secret is missing, say so and stop; do not invent access.
+7. Trading stays read-only until the user says **go**. ARR stays read-only on Snowflake; no unattended prod dbt.
+8. Open a PR only when the user asked for code changes. A verify-only cloud run must not open a PR.

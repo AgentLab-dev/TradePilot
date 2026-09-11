@@ -30,6 +30,8 @@ SSR_SKILLS = [
     "catalyst-overnight-plan",
     "print-readthrough-t1",
     "business-tape-interpret",
+    "desk-supervisor",
+    "desk-tester",
     "list-to-ticket",
     "daily-mover-lesson",
     "three-good-put-credit",
