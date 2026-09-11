@@ -87,5 +87,6 @@ Reddit SOCIAL-ONLY, `ibd_stock_lists.md`. % alone is not a lesson.
 - Next pick is the already-ripped name, or has no shared-cause sentence.
 - A HOLE row is not copied into `agent_learning_log.md` the same day.
 - A 0d AMC/BMO is live and the publish has no `print-readthrough-t1` mapped-peer table.
+- Capture ran and the publish has no `## Business tape` block (`business-tape-interpret`).
 
 No orders. Wait for **go** on any TICKET.

@@ -24,7 +24,8 @@ Must load: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md
 [`../rank-next-best/SKILL.md`](../rank-next-best/SKILL.md),
 [`../sheet-latest-update/SKILL.md`](../sheet-latest-update/SKILL.md),
 [`../imessage-desk-post/SKILL.md`](../imessage-desk-post/SKILL.md),
-[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md).
+[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
+[`../business-tape-interpret/SKILL.md`](../business-tape-interpret/SKILL.md).
 Pack command (unchanged): `agents/ssr-st/commands/FULLCHECK.md`.
 
 ## When
@@ -63,6 +64,8 @@ Check inside FULL CHECK** means the 12-step battery, not a mute 4-flag dump.
    ApeWisdom = **miss-catch D only**. **Never Reddit alone TAKE.**
    Load `print-readthrough-t1`. Fail the publish if a 0d AMC/BMO has no mapped-peer
    table (ORCL 9/10 → no HPE/DELL).
+   Load `business-tape-interpret`. Fail if capture ran and `## Business tape` is
+   missing. Reddit nominates; never Reddit-alone TAKE.
 10. **Direction × IV route + rank** — Load `rank-next-best`. Event gate first, then
     Sheet plan, EM gates, STNOW green + whale ≥ 0, one-name rule, clocks.
 11. **Sheet latest update** — Load `sheet-latest-update`. Tab `TradePilot-26Q3`
@@ -85,6 +88,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 ## EVENT-GATE TEST (every T+0/T+1 and elevated-IV name)
 ## Four-model table (STKK · STNOW · 3Good · Whale)
 ## Five new NBT (hard five — NEW · all-four · EM>15%)
+## Business tape (required after capture)
 ## Print read-through T+1 (required if any 0d AMC/BMO)
 ## Miss-catch sleeves (A/B/C/D — not hard-five padding)
 ## Ranked plan
@@ -98,13 +102,14 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 1. **Desk sources first.** No access line → no rank.
 2. **Event gate on every T+0/T+1 or elevated-IV name.** Beat ≠ green. AH ≤ −5%
    STAND / skip first-30; re-arm only T+1 reclaim + go.
-3. **Reddit never alone TAKE.**
+3. **Reddit never alone TAKE.** Reddit is required **input** (nominated + what social is pricing). Fail if the scan ran and the Reddit line is missing.
 4. **Sheet latest = full columns or do not write.**
 5. **Wait for go.** Read-only tickets. No orders in the delivery.
 6. **CREDITS = rates sleeve.** Separate from equity NBT. Do not bleed rules.
 7. **Never force a trade.** A logged stand-down counts.
 8. Do not delete `agents/ssr-st/commands/FULLCHECK.md` or the rest of that folder.
 9. **Print read-through table on every daily publish** after a 0d AMC/BMO. Fail if missing.
+10. **Business tape on every daily publish** after capture. Fail if missing.
 
 ## Delivery
 

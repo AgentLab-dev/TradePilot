@@ -58,8 +58,9 @@ giveback).
 
 Social or peer-radar names with a **known** catalyst already on the calendar
 (print, investor day, mapped sympathy). Source may be Reddit / ApeWisdom /
-Swaggy / WSJ. **Never Reddit alone TAKE.** D is a nomination for
-`event-gate-test` + all-four. If it fails, it stays D. If it passes hard NBT,
+Swaggy / WSJ. Reddit is **required input** on `business-tape-interpret` (what
+social is pricing + Nominated). **Never Reddit alone TAKE.** D is a nomination
+for `event-gate-test` + all-four. If it fails, it stays D. If it passes hard NBT,
 it **leaves** the sleeve and enters the five as NEW.
 
 ## Event gate before credit

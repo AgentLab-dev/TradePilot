@@ -29,6 +29,7 @@ SSR_SKILLS = [
     "evening-wrap-nextday-prep",
     "catalyst-overnight-plan",
     "print-readthrough-t1",
+    "business-tape-interpret",
     "list-to-ticket",
     "daily-mover-lesson",
     "three-good-put-credit",
