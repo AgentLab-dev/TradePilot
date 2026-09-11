@@ -11,6 +11,6 @@ On a US cash-session weekday, if the user is in a trading turn near **10:00 AM P
 2. Quote the **known list** (IBD / T7 / five / NEWS) and sleeve ETFs. Record what went up or down.
 3. For each mover: **what exactly helped** (print, industry tape, news, or tape-only), then TICKET / SKIP / HOLE (`list-to-ticket`).
 4. Next pick must **share that cause**. Do not reuse a name that already ripped ≥+7%.
-5. Evening wrap adds **one** `## Consolidated` lesson. Every daily publish (FULL CHECK, NBT, wrap, 10 AM / 8 PM lessons, iMessage) must include a `print-readthrough-t1` mapped-peer table after every 0d AMC/BMO. Fail if missing. HOLE rows go into `agent_learning_log.md` the same day.
+5. Evening wrap adds **one** `## Consolidated` lesson. Every daily publish (FULL CHECK, NBT, wrap, 10 AM / 8 PM lessons, iMessage) must include `business-tape-interpret` after capture and a `print-readthrough-t1` mapped-peer table after every 0d AMC/BMO. Fail if missing. Reddit nominates; never Reddit-alone TAKE. HOLE rows go into `agent_learning_log.md` the same day.
 
 Do not chase a name already ≥+7% AH. Do not treat IBD/T7 membership as a go. Wait for **go** before orders.

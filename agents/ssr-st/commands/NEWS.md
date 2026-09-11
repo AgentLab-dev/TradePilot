@@ -3,7 +3,7 @@
 Trigger: `NEWS`, `WSJ`, `MW`, `MarketWatch`, `Barron's`, login to WSJ, `IBD lists`, Reddit.
 
 Read-only. Load `news-portals` + `ibd-wsj-capture`. Never paste passwords.
-If a 0d AMC/BMO is live, also load `print-readthrough-t1` and emit the mapped-peer table on any daily publish.
+Load `business-tape-interpret` after capture and emit `## Business tape`. If a 0d AMC/BMO is live, also load `print-readthrough-t1` and emit the mapped-peer table on any daily publish.
 
 1. MCP check (no WSJ-family content MCP; Whale Watch = Robinhood). Playwright (`project-0-TradePilot-playwright`) is valid. Built-in Browser Tab is **Settings → Browser & Network** (optional). Do **not** require Tools & MCP → Browser (On).
 2. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open MW and Barron's from the same hat if needed. **Take Control** if Sign In; user says **done**.
@@ -24,5 +24,6 @@ If a 0d AMC/BMO is live, also load `print-readthrough-t1` and emit the mapped-pe
    - https://www.reddit.com/r/wallstreetbets/
    - https://www.reddit.com/r/options/
    - https://www.reddit.com/r/semiconductors/
-   Optional (do not replace the required set): r/spacs, r/pennystocks, ApeWisdom, SwaggyStocks. Tag SOCIAL-ONLY — miss-catch D / buzz only; **never Reddit-alone TAKE**.
-7. On **FULL CHECK**, steps 8–9 treat the above as **fail conditions** (see `FULLCHECK.md`). RSS-only WSJ does not count. Skipping the Reddit check fails NEWS / FULL CHECK. Zapier has no WSJ-family app.
+   Optional (do not replace the required set): r/spacs, r/pennystocks, ApeWisdom, SwaggyStocks. Those pages are **required input** (`business-tape-interpret`: what social is pricing + Nominated). Tag SOCIAL-ONLY for ranking — miss-catch D; **never Reddit-alone TAKE**.
+7. Write `## Business tape` (regime, payer vs paid, sleeve, veto, Reddit nominated). Fail NEWS if capture ran and the block is missing.
+8. On **FULL CHECK**, steps 8–9 treat the above as **fail conditions** (see `FULLCHECK.md`). RSS-only WSJ does not count. Skipping the Reddit check fails NEWS / FULL CHECK. Zapier has no WSJ-family app.

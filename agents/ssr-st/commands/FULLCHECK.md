@@ -21,7 +21,7 @@ The 12-step battery. Read-only by default — surfaces tickets, waits for go.
    - **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; Cursor Browser Tab is optional. If Sign In is showing, Take Control; user says **done**. Never paste passwords.
    - Open **IBD 50** in the Cursor browser. Fail if IBD 50 is not live today (as-of not today / empty tables) unless Sign In still blocks after Take Control / **done** — then FFTY + `rs_screen.py` is the only fallback.
    - Capture the rest of the Stock Lists: Sector Leaders, Big Cap 20, Spotlight, New Highs, RS at New High, IPO Leaders, Funds Buying. Fail if a listed URL was not opened.
-   - Open MarketTrend (signed-in when possible). MarketTrend **%** itself is optional if the page loaded.
+   - Open MarketTrend (signed-in when possible). MarketTrend **%** is required for `business-tape-interpret` regime (SKIP only with a reason).
    - Overwrite `ibd_stock_lists.md` dated today. Fail if the agent asked the user to paste.
 9. Desk sources — IBD / WSJ / MarketWatch / Barron's **plus Reddit SOCIAL-ONLY** (`news-portals` + `ibd-wsj-capture`). Skipping any of these is a failed FULL CHECK. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Then open MW and Barron's from the same Dow Jones hat if needed. Open these (exact URLs, WSJ first):
    - https://www.wsj.com/
@@ -47,9 +47,10 @@ The 12-step battery. Read-only by default — surfaces tickets, waits for go.
     - Fail if STKK/STNOW are ⚪ stale-cache on every ranked row (HPE 9/2). Refresh `fetch_history.py` or run `daily.py`; ⚪ is a skip, not a pass.
     - **List → ticket (`list-to-ticket`):** every IBD 50 / Sector Leader / Big Cap 20 / PPS-T7 ON / ALWAYS name gets **TICKET** or **SKIP (gate)** the same session. Fail if a listed name is only "board" / "watching" (OKTA/SNOW/CRM/HPE).
     - **Print read-through (`print-readthrough-t1`):** every 0d AMC/BMO has a mapped-peer if-then table for next RTH first-30. Fail if the table is missing (ORCL 9/10 wrap → no HPE/DELL).
+    - **Business tape (`business-tape-interpret`):** after capture, write `## Business tape` (regime, payer vs paid, sleeve, veto, Reddit nominated). Fail if portals opened and the block is missing. Reddit nominates; never Reddit-alone TAKE. A 0d print needs IS vs CFS.
     Leading with catalyst cards is the overnight plan, not a rule that the five is earnings-only.
 11. Backtest new structures
-12. Ranked plan 🟢 / 🟡 / 🔴 + write catalyst_cards.md, next_day_prep.md, momentum_watchlist.md. Fail if any ranked row omits STKK · STNOW · 3Good · Whale. Fail if the five recycle last session's unused names without a live unique-sleeve win **in the five** (rewrite `NBT.md`; leftover five 9/2). Fail the mix rules in step 10. Fail `list-to-ticket`. Fail `print-readthrough-t1` if a 0d AMC/BMO has no mapped-peer table on this publish (ORCL 9/10 → HPE/DELL). If the run is near **10:00 AM PT** or **3:00 PM PT**, also write/update `daily_lessons/YYYY-MM-DD.md` (`daily-mover-lesson`): listed names up/down, **what helped the move**, next-pick strategy.
+12. Ranked plan 🟢 / 🟡 / 🔴 + write catalyst_cards.md, next_day_prep.md, momentum_watchlist.md. Fail if any ranked row omits STKK · STNOW · 3Good · Whale. Fail if the five recycle last session's unused names without a live unique-sleeve win **in the five** (rewrite `NBT.md`; leftover five 9/2). Fail the mix rules in step 10. Fail `list-to-ticket`. Fail `business-tape-interpret` if capture ran and `## Business tape` is missing. Fail `print-readthrough-t1` if a 0d AMC/BMO has no mapped-peer table on this publish (ORCL 9/10 → HPE/DELL). If the run is near **10:00 AM PT** or **3:00 PM PT**, also write/update `daily_lessons/YYYY-MM-DD.md` (`daily-mover-lesson`): listed names up/down, **what helped the move**, next-pick strategy.
     Then upsert `daily_top5` and reload **both** Google Sheet and BigQuery `Daily_Top` (every batch writes both; `is_latest=Y` on the new date only):
     `python3 agents/ssr-st/workspace/Documents/market_data/create_daily_top5.py --from-csv <dated.csv> --csv --bq`
     Sheet = one tab **TradePilot-26Q3** (doc title the same); `date` + `execution_date` columns; `is_latest` Y/N. Never a new dated tab. `is_latest=Y` on that session_date, `N` on every older session. Never append without flipping the prior Y rows. Do not filter Looker on `latest_flag=Y`. Fail if Sheet or BQ is skipped, or prior `is_latest=Y` rows are not flipped to N.
@@ -66,4 +67,5 @@ Next 25% print: `agents/ssr-st/skills/next-25-print-screen/SKILL.md`
 List → ticket: `agents/ssr-st/skills/list-to-ticket/SKILL.md`
 Daily lesson: `agents/ssr-st/skills/daily-mover-lesson/SKILL.md`
 Print read-through: `agents/ssr-st/skills/print-readthrough-t1/SKILL.md`
+Business tape: `agents/ssr-st/skills/business-tape-interpret/SKILL.md`
 Loop: `agents/ssr-st/workspace/strategy_battery_loop.sh`

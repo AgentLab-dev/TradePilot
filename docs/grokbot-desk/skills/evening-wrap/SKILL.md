@@ -37,6 +37,8 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 4. **Catalyst cards** — One take / arm / stand-down card **with structure, first-30
    trigger, same-day exit** per T+1 event. "No credit sell" is not a card. Fail the
    wrap if a named T+1 event has no card.
+   **Business tape** — Load `business-tape-interpret`. Fail the wrap if capture ran
+   and `## Business tape` is missing (regime, payer vs paid, Reddit nominated).
    **Print read-through** — Load `print-readthrough-t1`. Every 0d AMC/BMO gets a
    mapped-peer if-then table for next RTH first-30. Fail the wrap if the table is
    missing (ORCL 9/10 18:30 write had no HPE/DELL). Best unripped peer may be iMessage `#1`.

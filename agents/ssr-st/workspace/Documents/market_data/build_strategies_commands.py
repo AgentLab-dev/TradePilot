@@ -798,6 +798,19 @@ ROWS = [
         "Yes — TICKET waits for go",
         "agents/ssr-st/skills/print-readthrough-t1/SKILL.md; agents/ssr-st/commands/PRINT_READTHROUGH.md; agents/ssr-st/commands/NBT.md",
     ),
+    r(
+        58,
+        "Skill",
+        "business-tape-interpret",
+        "1",
+        "Apply capture: regime, payer vs paid, Reddit nominated",
+        "Every daily publish after IBD/WSJ/MW/Barron's/Reddit capture. FULL CHECK step 9, NBT, wrap, NEWS, lessons.",
+        "Write ## Business tape (regime, story, payer vs paid, sleeve, veto, Reddit nominated). 0d print needs IS vs CFS. Reddit is required input; never Reddit-alone TAKE.",
+        "Fail FULL CHECK / NBT / wrap / lessons / NEWS if capture ran and the block is missing. Fail if a 🟢 take is Reddit-only.",
+        "Business tape block on news_sweep / desk_sources + the day's publish. Feeds print-readthrough-t1.",
+        "Yes — any TICKET waits for go",
+        "agents/ssr-st/skills/business-tape-interpret/SKILL.md; agents/ssr-st/commands/BUSINESS_TAPE.md",
+    ),
 ]
 
 

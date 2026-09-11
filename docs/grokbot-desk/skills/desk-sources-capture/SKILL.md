@@ -29,17 +29,18 @@ Open research.investors.com. Pull: IBD 50, Sector Leaders, Big Cap 20, New Highs
 ### 4) WhaleWatch
 - Run `whale_check.py` on book / finalists when available
 
-### 5) Reddit / social (SOCIAL-ONLY)
-Browser hot: r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors; optional r/spacs, r/pennystocks. Aggregators: ApeWisdom, SwaggyStocks. Tag **SOCIAL-ONLY** — never alone a TAKE. Skip if blocked.
+### 5) Reddit / social (required input; SOCIAL-ONLY for ranking)
+Browser hot: r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors; optional r/spacs, r/pennystocks. Aggregators: ApeWisdom, SwaggyStocks. Those pages are **valuable input** — write what social is pricing and nominated tickers into `business-tape-interpret`. Tag **SOCIAL-ONLY** for ranking — never alone a TAKE. Skip a sub only if blocked; skipping the whole check still fails.
 
 ### 6) Optional
 Benzinga earnings, Barron's, FedWatch when CREDITS/rates matter.
 
 ## Apply
-- IBD → SelfIDB50 / NBT universe
-- WSJ + MW → tape, catalysts, vetoes
+Load `business-tape-interpret`. Capture without `## Business tape` is a fail.
+- IBD → SelfIDB50 / NBT universe **and** MarketTrend regime
+- WSJ + MW + Barron's → story, payer vs paid, vetoes (not headlines only)
 - Whale → whale ≥0
-- Reddit → Miss-catch D / buzz screen only
+- Reddit → required nominations (miss-catch D). Never Reddit-alone TAKE.
 
 ## Access line
 `IBD: OK|SKIP · WSJ: OK|SKIP · MW: OK|SKIP · Whale: OK|SKIP · Reddit: OK|SKIP · ApeWisdom: OK|SKIP`

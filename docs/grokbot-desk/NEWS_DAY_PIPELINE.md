@@ -15,10 +15,10 @@ Standing capture order for every FULL CHECK and Five-new NBT. Do not skip a sour
 
 | Source | Apply to |
 |---|---|
-| IBD | NBT universe |
-| WSJ / MarketWatch | Tape + vetoes |
+| IBD | NBT universe + MarketTrend regime (`business-tape-interpret`) |
+| WSJ / MarketWatch / Barron's | Story, payer vs paid, tape, vetoes — not headlines only |
 | Whale | Gate: Whale ≥ 0 |
-| Reddit | Miss-catch D only (social color, not a ticket source) |
+| Reddit | Required input: what social is pricing + nominated tickers. Miss-catch D for ranking. Never Reddit-alone TAKE. |
 
 Optional Benzinga / Barron's / FedWatch feed the same tape/veto layer as WSJ/MW when used.
 
@@ -36,7 +36,7 @@ A skipped source must say why (SSO, outage, no MCP, blocked). Do not invent a fi
 
 1. Write `/workspace/desk_sources_YYYY-MM-DD.md` (or overwrite today's file).
 2. Run **FULL CHECK** + **Five new NBT** against that capture.
-3. After any 0d AMC/BMO, emit `print-readthrough-t1` on that publish. Fail if the mapped-peer table is missing.
+3. After capture, emit `business-tape-interpret` (`## Business tape`). Fail if missing. After any 0d AMC/BMO, also emit `print-readthrough-t1`. Fail if the mapped-peer table is missing.
 4. Pack playbook remains `agents/ssr-st/commands/NEWS.md` + `IBDWSJCAPTURE.md` + `NBT.md` + `PRINT_READTHROUGH.md`.
 
 ## Delivery

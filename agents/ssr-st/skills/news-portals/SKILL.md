@@ -72,7 +72,7 @@ browser_snapshot
 - After WSJ Sign In, open IBD from the WSJ header (that hop is the autologin). Then MarketWatch and Barron's from the same header (`?mod=WSJ_NavHat`). Do not skip Barron's.
 - After IBD Sign In, Stock Lists / MarketTrend capture is `ibd-wsj-capture` (research.investors.com). Skip the profile overlay if it appears; stay on the list page (do not follow Skip to investors.com until tables are captured).
 - Yahoo `https://finance.yahoo.com/` — usually no login.
-- **Reddit SOCIAL-ONLY (required NEWS / FULL CHECK step 9 check, additional to the four).** Public browse is enough. Optional logged-in home (`https://www.reddit.com/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan the required subs (see [portals.md](portals.md)). Never Reddit-alone TAKE.
+- **Reddit (required NEWS / FULL CHECK step 9 check, additional to the four).** Public browse is enough. Optional logged-in home (`https://www.reddit.com/?feed=home`) via gitignored `.env` `REDDIT_USER` / `REDDIT_PASSWORD` clears the signup overlay. Never put the password in docs or chat. Open + scan the required subs (see [portals.md](portals.md)). Those pages are **input** for `business-tape-interpret` (what social is pricing + Nominated). Never Reddit-alone TAKE.
 - Unlock when finished.
 
 Do **not** brute-force the Sign In form. WSJ-family sites use SSO + bot checks.
@@ -119,18 +119,19 @@ See [portals.md](portals.md) for URLs. Login once at WSJ, then header-hop IBD (a
 
 ## FULL CHECK / evening wrap
 
-Load this skill on step 9 / news watch. Run RSS. If a named article is paywalled, use ladder 1 or 2. Then the investor-day query. Then the Reddit SOCIAL-ONLY open+scan. Do not skip news because Sign In is showing.
+Load this skill on step 9 / news watch. Run RSS. If a named article is paywalled, use ladder 1 or 2. Then the investor-day query. Then the Reddit open+scan. Then `business-tape-interpret` (`## Business tape`). Do not skip news because Sign In is showing.
 
 On FULL CHECK this is a **fail condition**, not a best-effort. There is no `desk-sources-capture` folder — this skill plus `ibd-wsj-capture` is that job. Reddit lives here, not in IBD capture.
 
 ### Fail the FULL CHECK if
 
 - The four portals were not actually opened after the WSJ header SSO hop (WSJ → header IBD → header MarketWatch / Barron's). RSS-only does not count — WSJ public RSS is often months stale.
-- The Reddit SOCIAL-ONLY check was skipped. Pass = each **required** sub opened in Playwright / browser and hot posts scanned. Login is optional (`.env` `REDDIT_USER` / `REDDIT_PASSWORD` for `/?feed=home` overlay). Curl/API 403 without a browser open does not count. Never Reddit-alone TAKE (miss-catch D / buzz only). Optional subs (r/spacs, r/pennystocks) and ApeWisdom / SwaggyStocks do not replace the required set.
+- The Reddit check was skipped. Pass = each **required** sub opened in Playwright / browser and hot posts scanned. Login is optional (`.env` `REDDIT_USER` / `REDDIT_PASSWORD` for `/?feed=home` overlay). Curl/API 403 without a browser open does not count. Those pages are required **input** (nominated + what social is pricing). Never Reddit-alone TAKE. Optional subs (r/spacs, r/pennystocks) and ApeWisdom / SwaggyStocks do not replace the required set.
+- Capture ran and `## Business tape` is missing (`business-tape-interpret`).
 - `"investor day" OR "analyst day" OR "capital markets day"` was not run on book + SMH/memory/AI + READTHROUGH peers (SNDK 8/13).
 - A **0d/1d** name has no `{TICKER} earnings` line on WSJ/MW/IR (OKTA 8/26 — homepage was NVDA).
 - A **PPS-T7 ON** (2–7d category) name has no `{TICKER} earnings` line.
 - Calendar UNION is missing a leg: Nasdaq `earnings_radar` ∪ Robinhood `get_earnings_calendar` ∪ fundamentals next-earnings ∪ investor-day search.
 - News was skipped because Sign In was showing. Stop and ask Take Control; homepage snapshot is still required signed-out.
 
-**Still optional:** MarketTrend % numbers, Zapier WSJ-family (no app), Unusual Whales, laptop `tradepilot portal-capture`, Reuters/CNBC backup once the four are open, Yahoo homepage if the Yahoo RSS floor already ran.
+**Still optional:** Zapier WSJ-family (no app), Unusual Whales, laptop `tradepilot portal-capture`, Reuters/CNBC backup once the four are open, Yahoo homepage if the Yahoo RSS floor already ran. MarketTrend **%** is required for `business-tape-interpret` unless SKIP with a reason.

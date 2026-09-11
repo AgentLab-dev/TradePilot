@@ -18,7 +18,8 @@ picks. Do **not** place. Wait for **go**.
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Source map: [`../../WHERE_LATEST_INFO_LIVES.md`](../../WHERE_LATEST_INFO_LIVES.md).
 Companion skill: [`../daily-new-feature/SKILL.md`](../daily-new-feature/SKILL.md),
-[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md).
+[`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
+[`../business-tape-interpret/SKILL.md`](../business-tape-interpret/SKILL.md).
 
 ## When
 
@@ -47,6 +48,7 @@ Skip weekends/holidays unless a print or Sheet change happened.
 5. **Next-best picks** — Surface the current NBT / first-30 / stand-down list from
    Five-new NBT + overnight cards. Hard NBT still requires all-four + EM > 15%. Label
    🟢 take / 🟡 arm / 🔴 stand-down. Not an order.
+5a. **Business tape** — Load `business-tape-interpret`. Fail the lesson if capture ran and `## Business tape` is missing. Reddit nominates; never Reddit-alone TAKE.
 5b. **Print read-through T+1** — Load `print-readthrough-t1`. If any 0d AMC/BMO is live,
     emit the mapped-peer table. Fail the lesson publish if it is missing (ORCL 9/10 →
     no HPE/DELL).
@@ -74,6 +76,9 @@ Skip weekends/holidays unless a print or Sheet change happened.
 ## Next-best picks
 - 🟢 / 🟡 / 🔴 + structure + clock + wait for go
 
+## Business tape (required after capture)
+Regime: … | Story: … | Payer vs paid: … | Reddit: … | Nominated: …
+
 ## Print read-through T+1 (required if any 0d AMC/BMO)
 | Printer | Result / AH | Peer | Peer % | Verdict | Structure | Clock |
 
@@ -89,6 +94,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP (if a capture ran this session
 5. **Defined-risk only.** CREDITS rates sleeve stays separate from equity NBT.
 6. **Never force a trade to make a lesson look complete.** A logged stand-down counts.
 7. **Print read-through on every daily publish** after a 0d AMC/BMO. Fail if the mapped-peer table is missing.
+8. **Business tape on every daily publish** after capture. Fail if missing. Reddit nominates; never Reddit-alone TAKE.
 
 ## Sheet
 
