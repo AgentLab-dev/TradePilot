@@ -3,9 +3,43 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: September 11, 2026 (business-tape-interpret)._
+_Last updated: September 17, 2026 (desk-tester rubric patched)._
 
 ---
+
+### 2026-09-18 — HOOD +9.1% with no ticket; recycle ban became a blindfold  [MISS]
+
+- **What happened:** HOOD closed Fri **$119.82** (+9.1% vs Thu $109.81) alongside the crypto/fintech rip (MARA +13.7%). No HOOD ticket existed all week — it sat under the 9/02 + 9/09 recycle ban (HOOD·WPM·JNJ·ANET) and never got a single FLAGS row. Past HOOD trades were wins (+$198 8/20 puts; 105/115 debit went 2×+), which made the silence worse, not better.
+- **Trigger we should have caught:** the ban was supposed to stop *auto-promoting* stale leftovers, not stop *screening* them. A banned name with fresh all-four + EM>15% + liquid chain is a new name. Friday's +9.1% itself was unchaseable under anti-chase — the attainable edge was a Thu ARM we never evaluated because we never looked.
+- **Rule / fix:** Recycle bans expire: a banned name re-screens after 5 sessions or on any new catalyst, and banned names still get FLAGS rows (SKIP with a written gate) — never silence. Ban = no auto-promote without new edge.
+- **Status:** Rule adopted. HOOD re-screens Monday.
+
+### 2026-09-18 — MARA assigned +$294; MU/AMD STAND validated  [WIN]
+
+- **What happened:** MARA closed **$13.24** (+13.7%). No go on the 12C BTC, so the short finished ITM with assignment pending: shares called at $12 → +$228 stock + $66 premium = **+$294**. MU (+9.5% vs Wed) and AMD (+9.2%) both crossed the +7% kill lines — the morning STANDs saved a chase. ECO (−1.7%, BEARISH flip) and AMD (lean-bear flip) confirmed. Fresh close flags leave only MARA green (raw+4, BULLISH, IV 83%).
+- **Rule / fix:** Assignment on a covered call into the abort line is a clean win path when BTC gets no go — price it as an exit, not a failure. Monday: MARA put-credit ARM (book empty, puts allowed again), first-30 range-hold only.
+- **Status:** Agentic ≈ $1,376 cash Monday. Tester rubric (patched 9/17) holds. **No go.**
+
+### 2026-09-17 — Desk-tester rubric patched with today's learnings  [RULE]
+
+- **What happened:** Tester scored 8/10 with two ad-hoc −1s (stale cache, whale carried) that had no rubric rows. Whale re-ran fresh at 5:27 PM (full_network), so carry no longer fires. ETON stood down on liquidity, AMD EM labeled pending recheck — both correct calls the rubric never rewarded.
+- **Rule / fix:** Added four rows to `agents/ssr-st/skills/desk-tester/SKILL.md` (mirrored in `.cursor/skills/`): liquidity-gate fail −2, cache-stale-with-override −1, whale-carry −1, mixed-method EM −1. Re-scored today: **9/10** (cache −1 only).
+- **Status:** Skill + run report + prep updated. **No go.**
+
+---
+
+### 2026-09-17 — FOMC printed; only MU clears hard NEW  [PROCESS]
+
+- **What happened:** Warsh hiked Wed Sep 16. Thu bounce: QQQ **+1.7%**, SMH **+2.8%**. TCOM Tue beat (1.07 vs 0.91) stayed AH-flat; T+1 BKNG clock died Wednesday — no **go**, no fill. Hard NEW after close is **MU only** (EM 16.9%, whale +1, Oct 16 900/850 PCS liquid). ETON models pass, chain still dead. ECO unique occupies a five slot as STAND (EM 14.8%, RSI 94). TEM/SMCI/HPE already ≥+7%.
+- **Rule / fix:** Do not invent five 🟢. Agentic cash **$176** cannot size a $50-wide MU put credit. Credits are allowed again only on **Fri range-hold**, not tonight. Still no puts on MARA in Agentic.
+- **Status:** FULL CHECK published. Tester **8/10**. **No go.**
+- **5:15 PM confirm (Fri plan):** Official Thu closes settled (MARA 11.64, MU 977.50, AMD 545.09). Book unchanged: Agentic $1,327.31, cash $176.31, 12C mark ~$0.10 into Fri expiry. MU 900/850 mid $13.03 / cap $12.00. Whale re-run no-chain, carried. Tester **8/10**. **WAIT FOR GO.**
+
+### 2026-09-15 — CRM 2× 250/255 GTC filled +$236  [WIN]
+
+- **What happened:** Personal ••••5611 closed **2×** Sep 18 CRM **250/255** at credit **$3.00** ($600). Opened Fri Sep 11 debit **$1.82** ($364). Robinhood realized **+$236** (+64.8%). Legs on the close: sell 250C **$9.18** / buy 255C **$6.18**. Fill timestamp **Mon Sep 14 9:30:03 ET** (open) — GTC from Fri 7:41 AM PT. Abort last **<$242** never fired. CRM last now **$260.97**. Personal options **flat**. Cash **$62,140.82**.
+- **Rule / fix:** The **$3.00** take (~1.65× a $1.82 debit) worked. Do not recycle CRM: this morning FLAGS was **AVOID** (RANGE, RSI 82). Do not sell premium into **FOMC Wed Sep 16**. Next ticket is still TCOM last-90 ARM, wait **go**.
+- **Status:** CRM gone. Personal options empty. Agentic still MARA 100 + short Sep 18 12C. **No go.**
 
 ### 2026-09-11 — Skill `business-tape-interpret`  [RULE]
 
@@ -17,7 +51,7 @@ _Last updated: September 11, 2026 (business-tape-interpret)._
 
 - **What happened:** Fri ~9:25 AM PT closed **1×** Sep 18 **155/165** credit **$2.22** ($222). Opened Tue Sep 8 debit **$4.80**. Legs: sell 155C **$3.33** / buy 165C **$1.11**. Spot was under **$155**. Realized **−$258**.
 - **Rule / fix:** Abort last **<$155** fired. Do not hold a crushed printer debit because peers ripped. Do not replace with HPE/DELL chase. Next print-readthrough is TCOM Tue AMC, not a new ORCL add.
-- **Status:** ORCL options flat on personal. CRM 2× 250/255 still open with working GTC. **No go.**
+- **Status:** ORCL options flat on personal. CRM 2× 250/255 later closed Mon Sep 14 GTC **$3.00** (+$236). **No go.**
 
 ### 2026-09-11 — Skill `print-readthrough-t1`  [RULE]
 

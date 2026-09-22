@@ -1,6 +1,6 @@
 # Multi-Strategy Backtest
 
-_Generated 2026-07-07 18:17Z by `market_data/backtest_strategies.py` on the cached 2-year daily OHLCV (65 names). Spreads priced with Black-Scholes using trailing 20-day realized vol as sigma (no historical option chains exist). Weekly entries, 21-trading-day expiry, close-stop ON. v2 router adds a confirmation filter (price decisively beyond a sloping SMA50 + SMA20 agreement) and an event gate (no premium selling through a detected earnings/guidance gap)._
+_Generated 2026-09-18 00:16Z by `market_data/backtest_strategies.py` on the cached 2-year daily OHLCV (5 names). Spreads priced with Black-Scholes using trailing 20-day realized vol as sigma (no historical option chains exist). Weekly entries, 21-trading-day expiry, close-stop ON. v2 router adds a confirmation filter (price decisively beyond a sloping SMA50 + SMA20 agreement) and an event gate (no premium selling through a detected earnings/guidance gap)._
 
 > **Read RoR-expectancy, not win rate.** A high win rate with a big avg loss still bleeds (the HOOD lesson). `exp` = avg return-on-risk per trade; `$/ $1k` = dollars per $1,000 risked per trade.
 
@@ -8,23 +8,23 @@ _Generated 2026-07-07 18:17Z by `market_data/backtest_strategies.py` on the cach
 
 | Strategy | N | Win% | Avg win | Avg loss | Exp (RoR) | $/ $1k |
 |---|---|---|---|---|---|---|
-| Put credit (bull/highIV) | 5602 | 62.2% | +26.1% | -32.8% | +3.87% | $+39 |
-| Call debit (bull/lowIV) | 5602 | 39.3% | +142.3% | -64.8% | +16.52% | $+165 |
-| Call credit (bear/highIV) | 5602 | 48.2% | +21.6% | -32.7% | -6.51% | $-65 |
-| Put debit (bear/lowIV) | 5602 | 25.8% | +121.6% | -64.0% | -16.13% | $-161 |
-| Iron condor (range/highIV) | 5602 | 51.5% | +22.5% | -30.3% | -3.11% | $-31 |
-| Calendar (range/lowIV) | 5602 | 46.4% | +61.9% | -53.3% | +0.14% | $+1 |
+| Put credit (bull/highIV) | 439 | 55.6% | +34.7% | -32.9% | +4.68% | $+47 |
+| Call debit (bull/lowIV) | 439 | 44.4% | +137.1% | -65.7% | +24.39% | $+244 |
+| Call credit (bear/highIV) | 439 | 40.3% | +31.2% | -32.1% | -6.59% | $-66 |
+| Put debit (bear/lowIV) | 439 | 27.6% | +111.8% | -63.1% | -14.88% | $-149 |
+| Iron condor (range/highIV) | 439 | 49.0% | +24.1% | -27.8% | -2.38% | $-24 |
+| Calendar (range/lowIV) | 439 | 44.4% | +66.2% | -56.2% | -1.80% | $-18 |
 
 ## B) Routers vs baselines
 
 | Approach | N | Win% | Avg win | Avg loss | Exp (RoR) | $/ $1k |
 |---|---|---|---|---|---|---|
-| v1 naive router (no gate) | 5602 | 46.0% | +68.3% | -49.9% | +4.44% | $+44 |
-| **v2 router (confirm + event gate)** | 4056 | 49.3% | +66.6% | -48.3% | +8.32% | $+83 |
-| put-credit-only | 5602 | 62.2% | +26.1% | -32.8% | +3.87% | $+39 |
-| put-credit-only + event gate | 4639 | 64.3% | +25.5% | -30.5% | +5.47% | $+55 |
+| v1 naive router (no gate) | 439 | 49.2% | +77.2% | -46.3% | +14.48% | $+145 |
+| **v2 router (confirm + event gate)** | 320 | 53.8% | +75.3% | -44.6% | +19.83% | $+198 |
+| put-credit-only | 439 | 55.6% | +34.7% | -32.9% | +4.68% | $+47 |
+| put-credit-only + event gate | 348 | 56.9% | +35.9% | -30.7% | +7.22% | $+72 |
 
-_v2 stood down on **1546** entries (no confirmed edge or an event in the window). v1 picks: call_debit=1405, put_credit=1108, call_credit=971, put_debit=768, calendar=753, iron_condor=597. v2 picks: call_debit=1159, iron_condor=875, put_credit=773, call_credit=643, put_debit=606._
+_v2 stood down on **119** entries (no confirmed edge or an event in the window). v1 picks: call_debit=114, put_credit=111, call_credit=69, calendar=59, put_debit=50, iron_condor=36. v2 picks: call_debit=99, put_credit=72, iron_condor=65, call_credit=46, put_debit=38._
 
 ## Method & caveats
 

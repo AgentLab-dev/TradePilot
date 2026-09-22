@@ -1,30 +1,56 @@
-# IBD Stock Lists — captured Wed Sep 9, 2026 ~11:30 AM PT
+# IBD + WSJ capture — 2026-09-17 16:35 PT
 
-Signed in (Playwright). WSJ account visible. IBD list pages opened (profile overlay present on Big Cap — **did not click Skip**). Tables as-of **9/8/2026** (last published screen; today is RTH Wed 9/9 after Labor Day). **HPE is not on IBD 50, Sector Leaders, or Big Cap 20.**
+_Cursor tab extract. Skill: `ibd-wsj-capture`._
 
-## IBD 50 (research.investors.com/stock-lists/ibd-50/)
-
-Screen results as of **9/8/2026**. **50** rows. Not empty.
-
-TVTX 1 · KNSA 2 · ETON 3 · ECO 4 · WT 5 · TGTX 6 · NTRA 7 · HNGE 8 · LIFE 9 · ERO 10 · HALO 11 · GKOS 12 · OSCR 13 · VIRT 14 · URGN 15 · VCTR 16 · ZETA 17 · SN 18 · AUGO 19 · ATI 20 · ATEYY 21 · FIVE 22 · KRYS 23 · MU 24 · **ANET 25** · TARS 26 · KSPI 27 · SLDE 28 · STT 29 · **SNOW 30** · **NEM 31** · LB 32 · **WPM 33** · RELY 34 · ARIS 35 · ASND 36 · LITE 37 · INSW 38 · ARGX 39 · SEIC 40 · EXEL 41 · APH 42 · NTAP 43 · MGNI 44 · RBRK 45 · AMD 46 · SCCO 47 · TNK 48 · ELF 49 · ESTC 50
-
-**NAVN**, **HPE**, and **IBKR** are **not** on the live 50.
-
-## Sector Leaders
-
-Opened. As-of **9/8**. Live table (7 names): **ANET 1 · ARIS 4 · ERO 4 · WPM 4 · APH 10 · PAYS 17 · WT 17**. **HPE not listed.** ANET leftover unused.
-
-## Big Cap 20
-
-Opened. As-of **9/8**. **DELL 1 · WPM 2 · CRM 3 · INCY 4 · CF 5 · VEEV 6 · ILMN 7 · MPC 8 · OKTA 9 · VLO 10 · DINO 11 · PSX 12 · TEAM 13 · NEM 14 · PLTR 15 · P 16 · RGA 17 · NTAP 18 · SCHW 19 · MSFT 20**. **ANET is not on this 20. HPE is not on this 20.**
-
-## Other lists opened (page required)
-
-- Stock Spotlight
-- New Highs
-- RS at New High
-- IPO Leaders
-- Funds Buying
-- MarketTrend
-
-MarketTrend **%** not captured (page opened).
+## IBD 50 (50)
+_Screen results as of 9/17/2026_
+- ECO|1|86.30|+1.84
+- KNSA|2|79.33|+2.20
+- ETON|3|57.07|+1.28
+- NTRA|4|366.31|+6.07
+- GH|5|183.20|+4.75
+- WT|6|22.24|+0.09
+- HNGE|7|94.72|+1.06
+- HALO|8|109.68|+1.14
+- TGTX|9|56.47|+1.11
+- RBRK|10|107.83|+2.71
+- AUGO|11|88.71|+3.20
+- LIFE|12|36.40|+5.58
+- URGN|13|43.95|+1.06
+- NET|14|333.94|+2.86
+- ZETA|15|30.37|+1.56
+- NTAP|16|196.92|+2.84
+- SLDE|17|25.00|+2.61
+- ANET|18|199.89|+1.19
+- SNOW|19|338.39|+2.23
+- OSCR|20|31.98|+1.11
+- NEM|21|124.39|+2.16
+- WPM|22|152.20|+3.73
+- FIVE|23|236.80|+0.37
+- LB|24|85.93|+3.91
+- INSW|25|110.53|+1.05
+- BE|26|279.55|+3.53
+- ERO|27|33.28|+3.10
+- AMD|28|545.49|+6.44
+- DXCM|29|87.93|+0.68
+- MGNI|30|25.63|+7.78
+- VIST|31|73.00|-1.70
+- EXEL|32|58.49|+3.01
+- TNK|33|100.82|+0.19
+- ARGX|34|995.77|+1.13
+- TARS|35|79.03|+1.79
+- MU|36|980.75|+5.85
+- SMCI|37|40.39|+9.61
+- PAYC|38|226.06|+0.67
+- ESTC|39|88.97|+4.63
+- KSPI|40|97.43|+0.33
+- PAY|41|36.13|+1.39
+- ARIS|42|18.95|+3.95
+- TEM|43|80.36|+14.85
+- FNV|44|266.60|+2.77
+- CAI|45|30.92|+9.61
+- CPAY|46|404.26|+0.49
+- SCCO|47|196.11|+3.28
+- VEEV|48|263.75|+0.43
+- LITE|49|896.25|-2.52
+- ONC|50|353.46|+1.55

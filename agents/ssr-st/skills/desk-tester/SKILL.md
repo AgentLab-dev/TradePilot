@@ -78,6 +78,10 @@ Print the top three. Say whether the ranked plan uses one of those three.
 | −2 | Capture ran and `business_tape` missing |
 | −2 | Proposed structure RoR is negative while v2 router is not |
 | −2 | STKK/STNOW ⚪ stale-cache treated as a pass |
+| −2 | Promoted structure fails the liquidity gate (thin OI / wide or negative natural) |
+| −1 | Cache stale but carried with a labeled live-price override (not treated as pass) |
+| −1 | Whale carried, not fresh (re-run failed), labeled as carry |
+| −1 | EM quoted from mixed methods (PPS vs whale) with no same-method recheck at open |
 | −2 | Backtest script could not run (no history) on a **new** structure |
 | −1 | Proposed structure is not in the top-3 RoR list for this universe |
 | −1 | FLAGS row missing a model |
