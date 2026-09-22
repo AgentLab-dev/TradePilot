@@ -1,4 +1,4 @@
-# News sweep — Fri 2026-09-18 14:05 PDT
+# News sweep — Tue 2026-09-22 10:16 PDT
 
 _Public RSS floor. Paywall body needs Cursor browser or Safari tail. Skill: `news-portals`._
 
@@ -23,14 +23,14 @@ _Public RSS floor. Paywall body needs Cursor browser or Safari tail. Skill: `new
 - [Financial Services Roundup: Market Talk](https://www.wsj.com/articles/financial-services-roundup-market-talk-fb36548b?mod=pls_whats_news_us_business_f) — Fri, 24 Jan 2025 12:25:00 -0500
 
 ## MarketWatch top
-- [Stocks are failing the ‘breadth’ test, but options traders still see reason to buy](https://www.marketwatch.com/story/stocks-are-failing-the-breadth-test-but-options-traders-still-see-reason-to-buy-ef78ef14?mod=mw_rss_topstories) — Fri, 18 Sep 2026 20:48:00 GMT
-- [Most of what you know about data centers is wrong](https://www.marketwatch.com/story/most-of-what-you-know-about-data-centers-is-wrong-e6e8936c?mod=mw_rss_topstories) — Fri, 18 Sep 2026 20:15:00 GMT
-- [My rental property is paid off, but I need cash. Is this a bad time to take out a $50,000 HELOC?](https://www.marketwatch.com/story/my-rental-property-is-paid-off-but-i-need-cash-is-this-a-bad-time-to-take-out-a-50-000-heloc-d094bbc5?mod=mw_rss_topstories) — Fri, 18 Sep 2026 20:01:00 GMT
-- [I have $125,000 in credit-card debt. Will $17,000 a month in income, including disability, affect my bankruptcy?](https://www.marketwatch.com/story/i-am-drowning-in-debt-i-have-125-000-in-credit-card-debt-will-9-000-in-disability-income-affect-my-bankruptcy-f897c131?mod=mw_rss_topstories) — Fri, 18 Sep 2026 19:30:00 GMT
-- [It’s almost impossible to sell a condo these days: ‘I feel trapped’](https://www.marketwatch.com/story/its-almost-impossible-to-sell-a-condo-these-days-i-feel-trapped-1f96ce37?mod=mw_rss_topstories) — Fri, 18 Sep 2026 19:11:00 GMT
-- [‘I’m burned out’: I’m constantly helping my cousin who is running out of money. Is it too much to expect his sister to help?](https://www.marketwatch.com/story/im-burned-out-im-constantly-helping-my-cousin-who-is-running-out-of-money-is-it-too-much-to-expect-his-sister-to-help-540def9a?mod=mw_rss_topstories) — Fri, 18 Sep 2026 19:00:00 GMT
-- [‘My total balance should be $20 million’: I invested $1.1 million in a crypto platform. Have I lost it all?](https://www.marketwatch.com/story/my-total-balance-should-be-worth-20-million-i-invested-1-1-million-in-a-crypto-platform-have-i-lost-it-all-d22da562?mod=mw_rss_topstories) — Fri, 18 Sep 2026 18:46:00 GMT
-- [I’m in my 50s. My mother died from Alzheimer’s. Do I need long-term-care insurance?](https://www.marketwatch.com/story/im-in-my-50s-my-mother-died-from-alzheimers-do-i-need-long-term-insurance-14d58069?mod=mw_rss_topstories) — Fri, 18 Sep 2026 18:30:00 GMT
+- [How to avoid the ‘widow tax’ and other financial headaches if your spouse dies](https://www.marketwatch.com/story/how-to-avoid-the-widow-tax-and-other-financial-headaches-if-your-spouse-dies-e51f2af6?mod=mw_rss_topstories) — Tue, 22 Sep 2026 17:09:00 GMT
+- [I have $125,000 in credit-card debt. Will $17,000 a month in income, including disability, affect my bankruptcy?](https://www.marketwatch.com/story/i-am-drowning-in-debt-i-have-125-000-in-credit-card-debt-will-9-000-in-disability-income-affect-my-bankruptcy-f897c131?mod=mw_rss_topstories) — Tue, 22 Sep 2026 17:00:00 GMT
+- [Want to retire with more money? Leave the country for work early in your career.](https://www.marketwatch.com/story/want-to-retire-with-more-money-leave-the-country-for-work-early-in-your-career-7e568d03?mod=mw_rss_topstories) — Tue, 22 Sep 2026 16:40:00 GMT
+- [Could Meta’s viral Muse app be the company’s ChatGPT moment?](https://www.marketwatch.com/story/could-metas-viral-muse-app-be-the-companys-chatgpt-moment-8e7075aa?mod=mw_rss_topstories) — Tue, 22 Sep 2026 16:24:00 GMT
+- [‘It doesn’t seem fair’: I’m retired and have plenty of money. Why can’t I qualify for a retail credit card?](https://www.marketwatch.com/story/it-doesnt-seem-fair-im-retired-and-have-plenty-of-money-why-cant-i-qualify-for-a-retail-credit-card-8a58eda3?mod=mw_rss_topstories) — Tue, 22 Sep 2026 16:15:00 GMT
+- [Sandisk’s stock is rising: Why one analyst says AI could help it reach new heights](https://www.marketwatch.com/story/sandisks-stock-is-rising-why-one-analyst-says-ai-could-help-it-reach-new-heights-5541ded8?mod=mw_rss_topstories) — Tue, 22 Sep 2026 15:48:00 GMT
+- [This GLP-1 drug helped people maintain their weight loss in a clinical trial — even for those taking it once a month](https://www.marketwatch.com/story/this-glp-1-drug-helped-people-maintain-their-weight-loss-in-a-clinical-trial-even-for-those-taking-it-once-a-month-f70929b5?mod=mw_rss_topstories) — Tue, 22 Sep 2026 15:46:00 GMT
+- [‘She gave a neighbor $2,000’: Social Security overpaid my mother, 82, by $20,000. What else is hiding in her finances?](https://www.marketwatch.com/story/she-gave-a-neighbor-2-000-social-security-overpaid-my-mother-82-by-20-000-what-else-is-hiding-in-her-finances-1b54977f?mod=mw_rss_topstories) — Tue, 22 Sep 2026 15:45:00 GMT
 
 ## MarketWatch pulse
 - [Jobless claims fall to lowest level since mid-May](https://www.marketwatch.com/story/jobless-claims-fall-to-lowest-level-since-mid-may-bda58e3b?mod=mw_rss_marketpulse) — Thu, 03 Jul 2025 12:36:00 GMT
@@ -43,11 +43,20 @@ _Public RSS floor. Paywall body needs Cursor browser or Safari tail. Skill: `new
 - [U.S. stock futures and bond yields drop on reports Putin has updated nuclear doctrine](https://www.marketwatch.com/story/u-s-stock-futures-and-bond-yields-drop-on-reports-putin-has-updated-nuclear-doctrine-4b9792c4?mod=mw_rss_marketpulse) — Tue, 19 Nov 2024 08:55:00 GMT
 
 ## Yahoo Finance
-- [SEG Solar begins production of HJT modules at new Tomball facility](https://finance.yahoo.com/energy/articles/seg-solar-begins-production-hjt-111125420.html) — 2026-09-17T11:11:25Z
-- [Estée Lauder (EL) Partners with University of Leeds to Address Shade-Matching Challenges](https://finance.yahoo.com/markets/stocks/articles/est-e-lauder-el-partners-111345922.html) — 2026-09-17T11:13:45Z
-- [4 Investors Own More Nvidia Stock Than Founder Jensen Huang](https://www.investors.com/etfs-and-funds/sectors/sp500-investors-own-more-nvidia-stock-than-its-founder-jen-hsun-huang/?src=A00220&yptr=yahoo) — 2026-09-17T11:12:54Z
-- [Mark Cuban says 'I've gotten beat' after investing $20M in 85 Shark Tank startups. What you can learn from his mistakes](https://finance.yahoo.com/small-business/articles/mark-cuban-says-ive-gotten-111500849.html) — 2026-09-17T11:15:00Z
-- [Iren Stock Has Dropped 12% in a Week. Why, and How to Play It Here.](https://finance.yahoo.com/technology/ai/articles/iren-stock-dropped-12-week-111020110.html) — 2026-09-17T11:10:20Z
-- [Dollarama raises fiscal 2027 guidance after Q2 sales growth](https://finance.yahoo.com/markets/stocks/articles/dollarama-raises-fiscal-2027-guidance-111243744.html) — 2026-09-17T11:12:43Z
-- [Oracle Is Slashing Payroll While Borrowing Billions for AI. What It Means for ORCL Stock.](https://finance.yahoo.com/markets/stocks/articles/oracle-slashing-payroll-while-borrowing-112001539.html) — 2026-09-17T11:20:01Z
-- [Jim Cramer Says He Can’t “Counsel Owning” Honeywell Aerospace (HONA)](https://finance.yahoo.com/markets/stocks/articles/jim-cramer-says-t-counsel-112244525.html) — 2026-09-17T11:22:44Z
+- [Bank of America says buy tumbling shares of aviation giant](https://finance.yahoo.com/markets/stocks/articles/bank-america-says-buy-tumbling-143700198.html) — 2026-09-21T14:37:00Z
+- [What is a good savings account interest rate in 2026?](https://finance.yahoo.com/personal-finance/banking/article/what-is-a-good-savings-account-interest-rate-173915779.html) — 2024-03-21T17:39:15Z
+- [Rocket Lab Stock Breaks Above Key Trendline](https://finance.yahoo.com/markets/stocks/articles/rocket-lab-stock-breaks-above-165728910.html) — 2026-09-22T16:57:28Z
+- [What credit score do you need for a balance transfer credit card?](https://finance.yahoo.com/personal-finance/credit-cards/article/credit-score-needed-for-balance-transfer-card-165714139.html) — 2026-09-22T16:57:14Z
+- [Think buying a car in cash is a flex? Why millions of boomers are quietly wasting thousands in savings](https://finance.yahoo.com/markets/articles/think-buying-car-cash-flex-165500324.html) — 2026-09-22T16:55:00Z
+- [Global diesel shortage from Iran, Ukraine wars to last into 2027](https://finance.yahoo.com/energy/articles/global-diesel-shortage-iran-ukraine-181721706.html) — 2026-09-21T18:17:21Z
+- [Fed's Barkin says economy may be firming, inflation not limited to energy, tariff shocks](https://finance.yahoo.com/economy/policy/articles/feds-barkin-says-economy-may-165255863.html) — 2026-09-22T16:52:55Z
+- [CME Group to Launch Bitcoin Cash and Uniswap Futures](https://finance.yahoo.com/markets/crypto/articles/cme-group-launch-bitcoin-cash-165200159.html) — 2026-09-22T16:52:00Z
+
+## Business tape
+Regime: Tue Sep 22 midday. Gold and chips bid, financials pay. VXX down.
+Story: AZO already beat this morning ($56.05 vs $54.10) and is +6.3%. KBH reports tonight (est $0.90). COST is Thu AMC (est $6.52).
+Payer vs paid: Payer = XLF −1.9% / IGV −0.7%. Paid = GDX +2.0%, SMH +1.4%, XLB +1.2%.
+Sleeve: Gold miners for the tape. The only name that clears flags is HOOD (fintech), not a gold ticker.
+Veto: No credit through KBH tonight or COST Thu. Do not chase AZO. Do not chase MU/AMD.
+Reddit: scan blocked (403) | Nominated: none
+IS vs CFS: AZO beat, raise not in the EPS print. KBH n/a until AMC.

@@ -3,9 +3,15 @@
 _The trading agent's running memory. **Read this first every session.** Append a dated
 lesson after any miss, win, rule change, or backtest result (newest first). Governed by
 the `trading-continuous-learning` skill._
-_Last updated: September 17, 2026 (desk-tester rubric patched)._
+_Last updated: September 22, 2026 (Tue FULL CHECK)._
 
 ---
+
+### 2026-09-22 — Tue FULL CHECK: HOOD is the only clear  [PROCESS]
+
+- **What happened:** Book flat, cash **$1,376.26**. AZO BMO beat $56.05 vs $54.10 and was already +6.3% after the first 30. Gold led (GDX +2.0%). HOOD cleared all-four, EM ±19%, and Oct 16 115/110 natural **$1.31** (OI 2,335 / 7,005). Agentic cannot sell that credit.
+- **Rule / fix:** Re-screen after the ban worked. The ticket is Wednesday first-30, Personal-sized, minimum credit $1.25. No credit through KBH tonight or COST Thu.
+- **Status:** Pack written. Tester **9/10**. **No go.**
 
 ### 2026-09-18 — HOOD +9.1% with no ticket; recycle ban became a blindfold  [MISS]
 
