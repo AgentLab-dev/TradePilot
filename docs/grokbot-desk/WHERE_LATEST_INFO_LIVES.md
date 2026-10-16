@@ -4,6 +4,7 @@
 - **Google Sheet TradePilot-26Q3**: https://docs.google.com/spreadsheets/d/1RkdF93AK7BWRf0SktGVrHehG0XU_nz21WCzSrAP68vQ/edit
   - Main tab `TradePilot-26Q3`: latest book (`is_latest=Y`), flags, EM, structure, clocks, comments
   - Tab `new-feature`: daily features (`date`, `new-feature`, `strategy`, `lesson`)
+- **Prediction ledger** when the Sheet cell-write is blocked (`SHEET STALE`): `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv` in this checkout, `/workspace/tradepilot-ledger.csv` on the Grok Bot box. Latest local `y_rows.csv` is the working book until a write succeeds. Do not re-probe a failed cell-write every run.
 - **Published simple view**: https://docs.google.com/spreadsheets/d/e/2PACX-1vQWnq16Jzrj91DqM1xlEukdqCpmI_3XnywQaQZ-l-tRN1-20pIsV38l3W7znjcOsSHuLJZyPzgFa7a-/pubhtml?gid=2024844456&single=true
 
 ## Playbook / code (GitHub)

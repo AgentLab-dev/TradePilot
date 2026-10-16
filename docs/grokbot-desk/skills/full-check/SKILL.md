@@ -30,6 +30,7 @@ Must load: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md
 [`../desk-tester/SKILL.md`](../desk-tester/SKILL.md).
 Pack command (unchanged): `agents/ssr-st/commands/FULLCHECK.md`.
 Machine order: graph `FULLCHECK` in `agents/ssr-st/orchestrate/desk.dag.yaml`. Health Check standalone is graph `FLAGS`, not this battery.
+Checks: `tradepilot.desk_process` (regime, checklist, ledger, scorecard). No orders.
 
 ## When
 
@@ -39,6 +40,14 @@ Machine order: graph `FULLCHECK` in `agents/ssr-st/orchestrate/desk.dag.yaml`. H
 
 Health Check standalone (4-model only) stays the pack skill. On this desk, **Health
 Check inside FULL CHECK** means the 12-step battery, not a mute 4-flag dump.
+
+## 0) Market-regime read (first, every run)
+
+Write this block before any ticker work, from live quotes. Label any input older than the last session `STALE`.
+
+`REGIME | trend: SPY vs 20d/50d MA = up/down/chop | VIX level + 5d change (<15 calm · 15–20 normal · 20–25 elevated · >25 stress) | 10Y level + 5d bp change | breadth: RSP vs SPY 5d, % of IBD/watch names above 50d | sector leader/laggard ETF 5d | verdict: RISK-ON / NEUTRAL / RISK-OFF`
+
+RISK-OFF halves bullish debit size and requires a bearish or defensive idea on the card list. RISK-ON means a bearish idea needs a named catalyst. VIX >20 prefers debit spreads over chasing long premium and widens stops to at least 1× the realized daily range. Step 2 still quotes SPY, QQQ, SMH, VXX, and the 10Y; the block is the verdict, not a replacement for that tape.
 
 ## 12-step battery (in order)
 
@@ -74,8 +83,36 @@ Check inside FULL CHECK** means the 12-step battery, not a mute 4-flag dump.
 11. **Sheet latest update** — Load `sheet-latest-update`. Tab `TradePilot-26Q3`
     only. **Full columns mandatory.** Flip prior `Y` → `N`. No skeleton rows.
 12. **Output + deliver** — Ranked 🟢 take / 🟡 arm / 🔴 stand-down with structure
-    and cap. Deliver Grok Bot chat + iMessage (recent sender) + Google Chat
+    and cap. Every TAKE / ARM / Soft-ARM passes the pre-trade checklist. Log the
+    top 3 paper picks. Deliver Grok Bot chat + iMessage (recent sender) + Google Chat
     TradePilot fallback (`imessage-desk-post`). **Wait for go.**
+
+## Pre-trade checklist (every TAKE / ARM / Soft-ARM and every paper pick)
+
+A card missing any line is `INCOMPLETE` and cannot rank above STAND.
+
+1. **Thesis** — one sentence, direction (bull/bear/neutral), and why now.
+2. **Catalyst + date** — or `none`. `none` is a trend or mean-reversion idea and must say so.
+3. **Levels** — underlying entry, stop (the price that kills the thesis), and target.
+4. **Risk:reward** — (target − entry) / (entry − stop) on the underlying, and max-gain / max-loss on the structure. Both **≥ 2:1**, or STAND / restructure. Bearish cards invert the distances.
+5. **Implied vs realized** — live EM% vs the last 4 print reactions, or 20-day realized vol scaled to the horizon. EM > 1.25× realized: avoid long premium, prefer spreads. EM < 0.8× realized: long premium is cheap.
+6. **Position size** — max loss ≤ 1% of the desk risk budget (≤ 0.5% in RISK-OFF or VIX >25), ≤ 3 open event tickets, no second ticket in the same theme.
+7. **Confidence** — `P(target before stop) = xx%` on a 5-point step. Expected value must be positive: P×gain − (1−P)×loss > 0.
+
+## Paper picks and prediction ledger
+
+Gates decide what is traded. They do not stop the desk from predicting. Every FULL CHECK logs the **top 3 directional calls** in the scored universe, including STAND names:
+
+`ticker | bull/bear | entry spot | stop | target | horizon (5 or 10 sessions) | P% | thesis`
+
+Append each TAKE / ARM / Soft-ARM and each paper pick to the ledger (create the header if the file is missing). Never edit past prediction cells. Outcomes land later in `outcome`, `underlying_return`, `spy_return`, and `scored_pt`.
+
+- This checkout: `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv`
+- Grok Bot box: `/workspace/tradepilot-ledger.csv`
+
+A run that ends "Hard5 0, nothing armed" with no paper picks is incomplete.
+
+`tradepilot.desk_process.log_run` appends those rows. It does not place orders.
 
 Required extra query inside desk sources / news: `"investor day" OR "analyst day" OR "capital markets day"`
 on book + SMH/memory/AI + READTHROUGH peers.
@@ -87,6 +124,9 @@ on book + SMH/memory/AI + READTHROUGH peers.
 
 Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 
+## REGIME
+REGIME | trend: … | VIX … | 10Y … | breadth: … | leaders: … | verdict: RISK-ON / NEUTRAL / RISK-OFF
+
 ## Tape / book
 ## EVENT-GATE TEST (every T+0/T+1 and elevated-IV name)
 ## Four-model table (STKK · STNOW · 3Good · Whale)
@@ -95,8 +135,10 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 ## Print read-through T+1 (required if any 0d AMC/BMO)
 ## Miss-catch sleeves (A/B/C/D — not hard-five padding)
 ## Ranked plan
-- 🟢 take / 🟡 arm / 🔴 stand-down + structure + cap + clock
-## Sheet latest (full columns written)
+- 🟢 take / 🟡 arm / 🔴 stand-down + structure + cap + clock + entry/stop/target + R:R + size + P%
+## Paper picks (top 3, even if nothing is armed)
+## Ledger (rows appended | path)
+## Sheet latest (full columns written | SHEET STALE last write YYYY-MM-DD)
 ## Wait for go
 ```
 
@@ -113,6 +155,11 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 8. Do not delete `agents/ssr-st/commands/FULLCHECK.md` or the rest of that folder.
 9. **Print read-through table on every daily publish** after a 0d AMC/BMO. Fail if missing.
 10. **Business tape on every daily publish** after capture. Fail if missing.
+11. **REGIME block before ticker work.** If the verdict is missing, deliver the note with `MISSING-FIELDS: regime`. Do not fail the role and do not halt the graph.
+12. **Checklist on every TAKE / ARM / Soft-ARM and every paper pick.** An incomplete card cannot rank above STAND. Missing entry, stop, or target is `MISSING-FIELDS: checklist levels` on the delivered note, not a graph halt.
+13. **Top 3 paper picks appended to the ledger** on every run, including a zero-arm run. If they are missing, deliver with `MISSING-FIELDS: paper picks`. Do not halt.
+14. **Hard five stays EM > 15% and all-four.** This update does not loosen it.
+15. **Gate line fields.** A tested name missing `EM vs realized`, `lean`, or `P%` is `MISSING-FIELDS: gate fields` on the delivered note. The run still delivers. A missing `EVENT-GATE TEST` line is still a fail.
 
 ## Delivery
 

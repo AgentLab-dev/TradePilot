@@ -22,7 +22,7 @@ Once per weekday, **after US after-hours fully closes (8 PM ET / ~5 PM PT)** —
 **6:00 PM PT**. Skip weekends/holidays. It's a *review + prep* run, **not** a trading run — the
 market is closed, so it places **no orders**; it produces analysis and stages tomorrow's plan.
 
-## The sweep (do all eight, in order)
+## The sweep (do all nine, in order)
 
 1. **Close + after-hours tape** — pull final closes for the book + the tape (SPX/QQQ/VIX proxies,
    10Y) and any notable after-hours movers among held/watch names. State % vs prior close.
@@ -61,7 +61,7 @@ market is closed, so it places **no orders**; it produces analysis and stages to
    2–3 mapped-peer if-then cards for **next RTH first-30**. Fail the wrap if that
    table is missing (ORCL 9/10 wrap ran, HPE/DELL card did not). SKIP rows count.
    Do not arm a peer already ≥ +7%.
-7. **Regime read** — one-line verdict: risk-[REDACTED] / risk-[REDACTED] / rotation, and what would flip it.
+7. **Regime read** — full `REGIME` block, not a one-liner: SPY vs 20d/50d, VIX level and 5d change (<15 calm, 15–20 normal, 20–25 elevated, >25 stress), 10Y and 5d bp, RSP vs SPY breadth, leader and laggard sector ETF, verdict `RISK-ON` / `NEUTRAL` / `RISK-OFF`. Say whether it changed versus the morning read. Label stale inputs `STALE`.
 8. **Oversold-bounce offense scan** — the counter to playing only defense into a washout (see
    `agent_learning_log.md` 2026-07-21). Whale watch catches *single-name* flow; it is blind to a
    *broad sector reversal*, which is macro/positioning-driven overnight. So run a separate offense
@@ -77,6 +77,7 @@ market is closed, so it places **no orders**; it produces analysis and stages to
      not hindsight.
    - Pair this with the defensive book check: every evening ask **both** "what breaks my book?"
      *and* "what's the contrarian oversold-bounce setup I should be armed for?"
+9. **Scorecard + post-mortem** — score prediction-ledger rows whose horizon ended or whose stop or target was touched (`HIT-TARGET`, `HIT-STOP`, `EXPIRED ±x%`) against the close and against SPY. Count STAND / veto names as `SAVE` or `MISSED-WINNER` by gate. One line of cause per loss or missed winner. Do not invent a veto here. Ledger: `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv`.
 
 ## Output — write `next_day_prep.md`
 
@@ -86,8 +87,9 @@ read). Structure:
 ```markdown
 # Next-Day Prep — <weekday, date>  (generated <time> PT)
 
-## TL;DR (3 lines)
-- Regime: <risk-[REDACTED]/off/rotation + one driver>
+## TL;DR
+- Regime: <REGIME verdict vs the morning read>
+- Scorecard: <real W-L · paper W-L · saves · missed winners>
 - Book status: <GOOGL + options positions, any action needed at open>
 - Tomorrow's #1 focus: <the one thing>
 

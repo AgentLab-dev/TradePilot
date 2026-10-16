@@ -16,6 +16,7 @@ a Reddit list. Not a "maybe later" watchlist.
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Pipeline: [`../../NEWS_DAY_PIPELINE.md`](../../NEWS_DAY_PIPELINE.md).
 Supervisor graph `NBT`: [`../desk-supervisor/SKILL.md`](../desk-supervisor/SKILL.md).
+Checks: `tradepilot.desk_process`. Hard five stays **EM > 15% + all-four**.
 Must load first: [`../desk-sources-capture/SKILL.md`](../desk-sources-capture/SKILL.md),
 [`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md),
 [`../print-readthrough-t1/SKILL.md`](../print-readthrough-t1/SKILL.md),
@@ -55,6 +56,7 @@ Nominated line is missing (write `none` if the scan was clean).
 
 ## Steps
 
+0. **Market-regime read** — same `REGIME` block as FULL CHECK step 0 (trend, VIX, 10Y, breadth, leaders → RISK-ON / NEUTRAL / RISK-OFF). Reuse the FULL CHECK block if it is less than 2 hours old. Label stale inputs `STALE`.
 1. Run `desk-sources-capture`. Refuse to rank without today's
    `/workspace/desk_sources_YYYY-MM-DD.md` and access line.
 2. Build the universe from **IBD** lists (50 / Sector Leaders / Big Cap / Spotlight).
@@ -64,9 +66,11 @@ Nominated line is missing (write `none` if the scan was clean).
 5a. **Business tape** — Load `business-tape-interpret`. Fail NBT if capture ran and `## Business tape` is missing.
 5b. **Print read-through T+1** — every 0d AMC/BMO gets a mapped-peer if-then table. Fail NBT if missing (ORCL 9/10 wrap → no HPE/DELL). Do not put a crushed printer in the hard five because peers ripped.
 6. Pick **five NEW** hard names. Different industries when the book is already stacked.
-7. Write Sheet latest — **full columns mandatory** (`is_latest=Y`, flags, EM,
+7. **Pre-trade checklist** on every surviving TAKE / ARM / Soft-ARM and every paper pick (thesis, catalyst, entry/stop/target, R:R ≥ 2:1 on the underlying and the structure, EM vs realized, size ≤ 1% or ≤ 0.5% in RISK-OFF / VIX >25, P% on a 5-point step, positive EV). An incomplete card cannot rank above STAND.
+8. **Paper picks** — log the top 3 directional calls, including STAND names, even when hard five is empty. Append TAKE / ARM / Soft-ARM as `real` and the three picks as `paper` to `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv` (Grok Bot box: `/workspace/tradepilot-ledger.csv`). A "Hard5 0, nothing armed" close with no paper picks is incomplete.
+9. Write Sheet latest — **full columns mandatory** (`is_latest=Y`, flags, EM,
    structure, clocks, comments) on tab `TradePilot-26Q3`.
-8. Deliver and **wait for go**.
+10. Deliver and **wait for go**.
 
 ## Output
 
@@ -74,6 +78,9 @@ Nominated line is missing (write `none` if the scan was clean).
 # Five new NBT — <weekday, date>
 
 Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
+
+## REGIME
+REGIME | trend: … | VIX … | 10Y … | breadth: … | leaders: … | verdict: …
 
 ## Hard five (NEW · all-four · EM>15%)
 | # | Ticker | STKK | STNOW | 3Good | Whale | EM | Structure | Clock | Gate |
@@ -89,7 +96,8 @@ Regime: … | Story: … | Payer vs paid: … | Reddit: … | Nominated: …
 | Printer | Result / AH | Peer | Peer % | Verdict | Structure | Clock |
 
 ## Miss-catch D (Reddit nominated — not a lone TAKE)
-## Sheet latest (full columns written)
+## Paper picks (top 3) and ledger rows
+## Sheet latest (full columns written | SHEET STALE)
 ## Wait for go
 ```
 
@@ -112,3 +120,4 @@ Partial Sheet updates are a miss.
 7. Do not open NBT into a known macro print (Warsh / CPI / FOMC) as credit.
 8. CREDITS rates sleeve is not an NBT slot.
 9. Do not delete `agents/ssr-st/commands/*`.
+10. **REGIME block, checklist, and 3 paper-pick ledger rows** on every NBT run. Hard five is still EM > 15% + all-four. If regime, gate fields, checklist levels, or paper picks are missing, deliver the note with a `MISSING-FIELDS:` line from `publish_desk_note`. Do not fail the role and do not halt the graph.

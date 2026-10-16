@@ -3,7 +3,8 @@ name: evening-wrap
 description: >-
   Post-close TradePilot evening wrap. Sweep close + AH, run desk-sources-capture,
   event-gate every T+1 print, write catalyst cards / next-day prep, and update
-  Sheet latest only if the book changed (full columns). No orders. Deliver Grok
+  Sheet latest on every wrap, including an unchanged book (full columns, or
+  SHEET STALE plus the ledger if the cell-write is blocked). No orders. Deliver Grok
   Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback. Use at
   ~6 PM PT, on "evening wrap", EOD, or "prepare for next day."
 ---
@@ -27,6 +28,7 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 ## Sweep (in order)
 
 1. **Close + AH tape** — book + SPY/QQQ/SMH/VXX/10Y + notable AH movers. State % vs prior close.
+   Then the full `REGIME` block (trend vs 20d/50d, VIX band and 5d change, 10Y and 5d bp, RSP vs SPY breadth, leader/laggard ETF) and whether the verdict changed versus the morning read.
 2. **Desk sources capture** — IBD → WSJ → MW → Barron's → Yahoo `https://finance.yahoo.com/` → `whale_check.py` → Reddit SOCIAL-ONLY.
    Write `desk_sources_YYYY-MM-DD.md`. Print the access line.
 3. **Event gate on T+1 prints** — Load `event-gate-test` for every T+1 earnings,
@@ -42,11 +44,23 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
    **Print read-through** — Load `print-readthrough-t1`. Every 0d AMC/BMO gets a
    mapped-peer if-then table for next RTH first-30. Fail the wrap if the table is
    missing (ORCL 9/10 18:30 write had no HPE/DELL). Best unripped peer may be iMessage `#1`.
-5. **Sheet latest** — Write tab `TradePilot-26Q3` **only if the book changed**. If you
-   write, fill the **full** column set (`is_latest=Y`, flags, EM, structure, clocks,
-   comments). Also write `new-feature` if a lesson landed (`daily-new-feature`).
+5. **Sheet latest** — Write tab `TradePilot-26Q3` on every wrap, including when the
+   book is unchanged, so the ledger has no gap. Fill the **full** column set
+   (`is_latest=Y`, flags, EM, structure, clocks, comments). `execution_date` is the
+   trade session. The write clock is `written_at`, not `execution_date`. If the
+   cell-write is blocked, write paste-ready `y_rows`, append the ledger, tag
+   `SHEET STALE (last write YYYY-MM-DD)`, and do not re-probe. Also write
+   `new-feature` if a lesson landed (`daily-new-feature`).
 6. **Next-day prep** — Regime, book status, tomorrow's #1 focus, levels, offense + defense.
-7. **Deliver** — Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback.
+7. **Scorecard + post-mortem** — from the prediction ledger
+   (`agents/ssr-st/workspace/Documents/tradepilot-ledger.csv`, or
+   `/workspace/tradepilot-ledger.csv` on the Grok Bot box) and actual closes.
+   Do not invent fills.
+   - Score every real ticket and paper pick whose horizon ended or whose stop or target was touched: `HIT-TARGET | HIT-STOP | EXPIRED +x% | EXPIRED −x%`, underlying return, and SPY over the same window.
+   - Score today's STAND / veto names: `SAVE` (called direction fell or lagged SPY) or `MISSED-WINNER` (more than +5% and beat SPY in the called direction). Count both by the gate that blocked the name.
+   - One line per loss and per missed winner: thesis, timing, gate, sizing, or stale data.
+   - Hand the lines to daily desk lessons. Do not invent a new veto here.
+8. **Deliver** — Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback. Same channels as before.
 
 ## Output
 
@@ -54,7 +68,8 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 # Evening wrap — <weekday, date>  (<time> PT)
 
 ## TL;DR
-- Regime / book / tomorrow's #1
+- REGIME verdict vs the morning read / book / tomorrow's #1
+- Scorecard: real W-L · paper W-L · saves · missed winners
 
 ## Close + AH
 ## Desk sources
@@ -65,8 +80,9 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 
 ## Catalyst cards (structure + first-30 + same-day exit)
 ## Print read-through T+1 (required after any 0d AMC/BMO)
-## Sheet latest (written | skipped — no book change)
+## Sheet latest (written | SHEET STALE — ledger appended)
 ## Next-day prep
+## Scorecard + post-mortem
 ```
 
 Also overwrite pack files when this checkout is the runtime: `catalyst_cards.md`,
@@ -76,8 +92,9 @@ Also overwrite pack files when this checkout is the runtime: `catalyst_cards.md`
 
 1. **No orders.** Wait for **go** tomorrow, before 9:30 ET on first-30 cards.
 2. **Event gate every T+1 print.** Beat ≠ green. No credit into an untested print.
-3. **Sheet only if the book changed**, and then **full columns**.
+3. **Sheet on every wrap**, full columns, including an unchanged book. Blocked cell-write uses `SHEET STALE` and still appends the ledger.
 4. **Offense and defense.** What breaks the book, and what Soft-EM / washout is armed.
 5. CREDITS rates sleeve stays separate.
 6. Do not delete `agents/ssr-st/commands/EVENING_WRAP.md`.
 7. **Print read-through table required** after any 0d AMC/BMO. Fail the wrap if it is missing.
+8. **REGIME block and the scorecard line** are required. Fail the wrap if either is missing. Do not add a veto from this pass.

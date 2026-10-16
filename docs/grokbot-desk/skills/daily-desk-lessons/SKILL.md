@@ -30,8 +30,27 @@ Companion skill: [`../daily-new-feature/SKILL.md`](../daily-new-feature/SKILL.md
 
 Skip weekends/holidays unless a print or Sheet change happened.
 
-## Sweep (do all six, in order)
+## Scorecard + calibration (first)
 
+Using the prediction ledger and real closes. Do not invent fills. Helper: `tradepilot.desk_process.build_scorecard`.
+
+1. Rolling 20-session table, real tickets and paper picks **separately**: N, hit rate, average underlying return, the same-window SPY return, and the excess. Option return only where the exit fill is known.
+2. Gate audit: STAND / veto names as `SAVE` vs `MISSED-WINNER` (> +5% and beat SPY in the called direction), split by the gate that blocked the trade (EM>15%, all-four, AH veto, and any other logged gate).
+3. Calibration: buckets ≤40, 45–55, 60–70, ≥75. Hit rate per bucket and the Brier score. If a bucket is off by more than 15 percentage points with N ≥ 8, publish the shrink factor for rank-next-best. Gaps between those buckets stay unbucketed.
+4. Regime split: results by the REGIME verdict at entry.
+
+Write `agents/ssr-st/workspace/Documents/scorecard_YYYY-MM-DD.md` and put the one-line scorecard in the desk note (`real W-L · paper W-L · saves · missed winners`).
+
+## Feedback into gates (evidence rule)
+
+- A gate change needs N ≥ 8 relevant cases over at least 10 sessions. One anchor trade is a note, not a rule. `evaluate_gate_change`.
+- A gate whose missed-winner count exceeds its save count over 20 sessions is flagged `LOOSEN?` and goes to the user. Do not loosen EM>15% + all-four without the user's OK.
+- A gate whose blocked names lagged (saves ≥ 2× misses) stays.
+- **Rule budget:** every new veto or sub-rule added to event-gate or miss-catch retires or merges one existing rule. Anchors stay in the dated lesson, not as a new skill veto.
+
+## Sweep (scorecard first, then the six)
+
+0. Scorecard, calibration, and the `REGIME` block.
 1. **Harvest lessons** — Read today's `desk_sources_YYYY-MM-DD.md`, catalyst cards, Sheet
    latest (`is_latest=Y`), and the agent learning log. Pull every miss, win, veto, and
    process break. Newest first. One lesson = one durable rule or confirmed non-change.
@@ -42,12 +61,16 @@ Skip weekends/holidays unless a print or Sheet change happened.
    print (T+0 / T+1 earnings, investor / analyst / capital-markets day, CPI/PPI/PCE/FOMC)
    gets a NEWS + 4Q + 10w line **and** the live AH ≤ −5% first-30 veto. No credit into an
    untested print. Beat ≠ green.
-4. **Sheet latest update (full columns)** — If the book, flags, EM, structure, clocks, or
-   comments changed, write the **full** latest row on tab `TradePilot-26Q3`
+4. **Sheet latest update (full columns)** — Write the **full** latest row on tab
+   `TradePilot-26Q3` every lesson, including when the book did not change
    (`is_latest=Y`, flags, EM, structure, clocks, comments). Partial rows are a miss.
+   `execution_date` is the trade session. `written_at` is the write time. If the
+   cell-write is blocked, use `SHEET STALE` and still append the ledger.
 5. **Next-best picks** — Surface the current NBT / first-30 / stand-down list from
    Five-new NBT + overnight cards. Hard NBT still requires all-four + EM > 15%. Label
-   🟢 take / 🟡 arm / 🔴 stand-down. Not an order.
+   🟢 take / 🟡 arm / 🔴 stand-down. Each armed card and each paper pick carries the
+   pre-trade checklist (thesis, catalyst, levels, R:R ≥ 2:1, size, P%). Append them
+   to the ledger. Not an order. Tie each lesson to a scorecard count, not to one anecdote.
 5a. **Business tape** — Load `business-tape-interpret`. Fail the lesson if capture ran and `## Business tape` is missing. Reddit nominates; never Reddit-alone TAKE.
 5b. **Print read-through T+1** — Load `print-readthrough-t1`. If any 0d AMC/BMO is live,
     emit the mapped-peer table. Fail the lesson publish if it is missing (ORCL 9/10 →
@@ -60,6 +83,12 @@ Skip weekends/holidays unless a print or Sheet change happened.
 ```markdown
 # Daily desk lessons — <weekday, date>  (<time> PT)
 
+## Scorecard (20 sessions)
+real W-L · paper W-L · hit rate · excess vs SPY
+Gate audit: <gate> SAVE n / MISSED-WINNER n
+Calibration: bucket hit rates · Brier · shrink factor
+REGIME | …
+
 ## Lessons harvested
 - YYYY-MM-DD — <title>  [MISS | WIN | RULE]
   - What happened / rule / status
@@ -71,7 +100,7 @@ Skip weekends/holidays unless a print or Sheet change happened.
 - EVENT-GATE TEST <TICKER>: NEWS=… | 4Q=… | 10w=… | AH=… | VERDICT=STAND|ARM|RE-ARM T+1
 
 ## Sheet latest
-- full-columns written | skipped (no book change)
+- full-columns written | SHEET STALE (ledger appended)
 
 ## Next-best picks
 - 🟢 / 🟡 / 🔴 + structure + clock + wait for go
@@ -95,6 +124,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP (if a capture ran this session
 6. **Never force a trade to make a lesson look complete.** A logged stand-down counts.
 7. **Print read-through on every daily publish** after a 0d AMC/BMO. Fail if the mapped-peer table is missing.
 8. **Business tape on every daily publish** after capture. Fail if missing. Reddit nominates; never Reddit-alone TAKE.
+9. **Scorecard before anecdotes.** Fail the lesson if the 20-session line is missing. Do not add a veto from a single anchor, and do not loosen EM>15% + all-four without the user.
 
 ## Sheet
 

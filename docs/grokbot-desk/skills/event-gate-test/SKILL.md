@@ -14,6 +14,12 @@ description: >-
 The #1 edge is not selling premium through an untested print. This skill is the test
 you run **before** a name stays on the board as a take or first-30 arm.
 
+## Rule budget + evidence (read first)
+
+From 2026-10-16: a new sub-rule needs the daily-desk-lessons scorecard (N ≥ 8 cases, saves and missed winners counted, over at least 10 sessions). Adding one rule retires or merges one. One anchor trade stays in the dated lesson. Tags are log-only unless that scorecard shows they saved money. The verdict line carries a directional lean and `P%` so a STAND can be scored. EM>15% + all-four is not loosened here.
+
+The one-anchor veto catalog (KNIFE, TROUGH-SKIP, HOLIDAY-WARM, REHEAT, and the rest of that list) is not part of this skill. Do not import it. The output line stays ticker-first.
+
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Complement: Soft-EM AH ≥ +5% **arms** a defined-risk debit — it does not sell credit.
 Overnight cards: pack `catalyst-overnight-plan` (structure still required; this skill
@@ -62,15 +68,15 @@ is allowed only after the print is tested (range holds) or the name is not an ev
 Every tested name prints exactly one line:
 
 ```
-EVENT-GATE TEST <TICKER>: NEWS=<event+when> | 4Q=<pay|dump|mixed> | 10w=<hold|broke> | AH=<pct or n/a> | VERDICT=STAND|ARM|RE-ARM T+1
+EVENT-GATE TEST <TICKER>: NEWS=<event+when> | 4Q=<pay|dump|mixed> | 10w=<hold|broke> | AH=<pct or n/a> | EM vs realized=<x> | lean=bull/bear/flat P=<xx>% | VERDICT=STAND|ARM|RE-ARM T+1
 ```
 
 Examples:
 
 ```
-EVENT-GATE TEST INTU: NEWS=AMC FY+guide | 4Q=dump | 10w=broke | AH=-10% | VERDICT=STAND
-EVENT-GATE TEST NVDA: NEWS=AMC beat | 4Q=pay | 10w=hold | AH=+4.4% | VERDICT=ARM
-EVENT-GATE TEST WMT: NEWS=printed T-1 dump | 4Q=dump | 10w=broke | AH=RTH held dump | VERDICT=RE-ARM T+1
+EVENT-GATE TEST INTU: NEWS=AMC FY+guide | 4Q=dump | 10w=broke | AH=-10% | EM vs realized=1.4x | lean=bear P=60% | VERDICT=STAND
+EVENT-GATE TEST NVDA: NEWS=AMC beat | 4Q=pay | 10w=hold | AH=+4.4% | EM vs realized=0.9x | lean=bull P=55% | VERDICT=ARM
+EVENT-GATE TEST WMT: NEWS=printed T-1 dump | 4Q=dump | 10w=broke | AH=RTH held dump | EM vs realized=1.1x | lean=flat P=40% | VERDICT=RE-ARM T+1
 ```
 
 Fail the parent run if a named print has no `EVENT-GATE TEST` line.
@@ -84,3 +90,4 @@ Fail the parent run if a named print has no `EVENT-GATE TEST` line.
 5. Leftover short premium into the print: **close T−1**.
 6. This skill does not place. Wait for **go**.
 7. CREDITS rates sleeve uses its own calendar. Do not import equity first-30 exceptions into CREDITS.
+8. **No new veto without N ≥ 8 and a retired rule.** EM vs realized and `lean` / `P%` are required on the line. They do not by themselves change the verdict.

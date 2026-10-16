@@ -19,15 +19,14 @@ Source map: [`../../WHERE_LATEST_INFO_LIVES.md`](../../WHERE_LATEST_INFO_LIVES.m
 
 ## When (mandatory)
 
-After every run that has picks:
+After every run below. Wrap and lessons write even when the book is unchanged:
 
 - FULL CHECK / Health Check battery
 - Five-new NBT
-- Evening wrap **if the book changed** (new clock, kill, flatten, or NBT rotation)
-- Daily desk lessons **if picks moved**
+- Evening wrap on every run, including when the book is unchanged
+- Daily desk lessons on every run, including when picks did not move
 
-Skip only when the parent skill says the book did not change (evening wrap / lessons
-with zero pick movement). "Forgot" is not a skip.
+An unchanged book is not a skip for wrap or lessons. The ledger needs a row for that session. "Forgot" is not a skip. If the cell-write is blocked, follow the blocked path below and still append the ledger.
 
 ## Where
 
@@ -45,7 +44,7 @@ Every new latest row must fill **all** of these columns:
 | Column | What |
 |---|---|
 | `date` | Session date `YYYY-MM-DD` |
-| `execution_date` | When the ticket is meant to fire (session or T+1 date) |
+| `execution_date` | Trade session the ticket is for (`YYYY-MM-DD`, often T+1). Not the clock time of the write. The write time is `written_at` in `create_daily_top5.py`. Leave that script as it is. |
 | `ticker` | Symbol |
 | `rank` | 1…n among current latest |
 | `latest_flag` | Latest marker used by the Sheet views |
@@ -108,9 +107,19 @@ Forbidden:
 
 If you cannot fill the row, do not write it. Fix the battery first.
 
+## When the cell-write is blocked
+
+If no Sheets cell-write path works, do this once and move on:
+
+1. Write a paste-ready `y_rows.csv` (and `.tsv` if the parent run already emits one) with the full column set.
+2. Append the same TAKE / ARM / Soft-ARM rows and the top 3 paper picks to the prediction ledger.
+3. Mark the desk output `SHEET STALE (last write YYYY-MM-DD)`.
+
+Later runs read the ledger and the latest local `y_rows` until a write succeeds. Do not re-probe a path that failed on the previous run. This does not cancel a BigQuery `daily_top5` load when that path is up, and it does not change `create_daily_top5.py`. Wrap and lessons still append the ledger when the cell-write is blocked, including when the book is unchanged. `execution_date` stays the trade session. `written_at` stays the write time.
+
 ## Hard rules
 
-1. **Mandatory** after FULL CHECK / NBT / wrap / lessons **with picks**.
+1. **Mandatory** after FULL CHECK / NBT, and after every evening wrap and daily lesson, including when the book is unchanged.
 2. **Tab `TradePilot-26Q3` only.**
 3. **ALL columns** in the table above.
 4. **Flip prior Y → N. Sort Y on top.**
@@ -119,3 +128,4 @@ If you cannot fill the row, do not write it. Fix the battery first.
 7. CREDITS rows stay `sleeves=CREDITS` and do not overwrite equity NBT `Y` rows
    unless the equity clock is actually dead.
 8. This write is not an order. Wait for **go**.
+9. **Blocked cell-write:** paste-ready `y_rows`, ledger append, `SHEET STALE`, and no re-probe. Do not skip a write that the path can still complete.

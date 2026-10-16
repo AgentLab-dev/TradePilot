@@ -62,6 +62,8 @@ Not a feature:
 
 If the only honest feature is a stand-down, write the stand-down.
 
+A feature that only adds a veto needs scorecard evidence (N ≥ 8 cases over ≥ 10 sessions) and must retire or merge an older rule. Do not add another veto every day. Features that improve measurement, calibration, sizing, or the regime read count fully and still retire a rule when they are themselves a new veto. The user-mandated hard five (EM > 15% and all-four) is not loosened from this tab.
+
 ## Steps
 
 1. Read today's capture, cards, and latest Sheet row.

@@ -16,11 +16,17 @@ If a ticket is live, status may be `needs_input` (wait for **go**). Do not place
 ## Payload
 
 ```text
-ranked_plan: [{ verdict, ticker, structure, cap, clock, gate, why }]
+ranked_plan: [{ verdict, ticker, structure, cap, clock, gate, entry, stop, target, rr, size, p_pct, why }]
 ```
+
+Incomplete cards rank below STAND. Complete cards rank by expected value per dollar risked, with the RISK-OFF bullish haircut and the lessons shrink factor. Event gate still kills a take first. Do not place orders.
 
 ## Fail
 
 - Ranked row omits STKK · STNOW · 3Good · Whale
 - `#1` is Reddit-only
 - Credit through a print / CPI / PCE / FOMC
+
+## Missing checklist levels
+
+A TAKE / ARM missing entry, stop, target, R:R, size, or P% still delivers. Status stays `ok`. Print `MISSING-FIELDS: checklist levels`. Do not halt the graph. An incomplete card still ranks below STAND.
