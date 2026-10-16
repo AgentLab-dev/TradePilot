@@ -85,6 +85,9 @@ Print the top three. Say whether the ranked plan uses one of those three.
 | −2 | Backtest script could not run (no history) on a **new** structure |
 | −1 | Proposed structure is not in the top-3 RoR list for this universe |
 | −1 | FLAGS row missing a model |
+| −2 | FULLCHECK or NBT with no REGIME verdict |
+| −2 | TAKE / ARM / Soft-ARM missing a checklist field or with risk-reward below 2:1 |
+| −2 | FULLCHECK or NBT with no paper picks and no checklist shortfall |
 
 Floor is 1. Do not invent a 10 when any deduct fired.
 

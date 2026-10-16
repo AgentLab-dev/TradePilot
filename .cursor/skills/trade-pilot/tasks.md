@@ -25,6 +25,9 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 
 ```
 - [ ] Load `desk-supervisor` and run graph `FULLCHECK` (`agents/ssr-st/orchestrate/desk.dag.yaml`). Roles never call each other. `desk-tester` must score ≥6 before publish. Human checklist: agents/ssr-st/commands/FULLCHECK.md
+- [ ] REGIME block first (trend, VIX, 10Y, breadth, leaders → RISK-ON / NEUTRAL / RISK-OFF). Fail if missing
+- [ ] Pre-trade checklist on every TAKE / ARM / Soft-ARM and every paper pick (thesis, catalyst, entry/stop/target, R:R ≥ 2:1, EM vs realized, size, P%). Incomplete cannot rank above STAND
+- [ ] Append armed cards and the top 3 paper picks to `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv` even when nothing is armed. Hard five stays EM > 15% + all-four
 - [ ] Step 8: `ibd-wsj-capture` live IBD lists (no paste); SelfIDB50 FFTY only if Sign In still blocks after Take Control
 - [ ] Step 9 news: load `news-portals` + `ibd-wsj-capture` + `business-tape-interpret`. **SSO (confirmed 2026-09-09):** Log in **once at WSJ** (`https://www.wsj.com/`). Then open **IBD from the WSJ header**. That autologins IBD + MarketWatch + Barron's. Do **not** start at `https://www.investors.com/?ibdsilentlogin=true` unless the WSJ header IBD link is missing. Playwright MCP is valid; RSS is the floor, not a substitute. Then Reddit (required input): open + scan r/algotrading, r/Quant, r/stocks, r/investing, r/StockMarket, r/wallstreetbets, r/options, r/semiconductors. Write `## Business tape` (regime, payer vs paid, Nominated). Never Reddit-alone TAKE.
 - [ ] Fail if IBD 50 is not live today (as-of not today / empty tables) unless Sign In blocked after Take Control; fail if Sector Leaders / Big Cap 20 / Spotlight / New Highs / RS / IPO / Funds URLs were not opened; fail if the agent asked for a paste
@@ -62,6 +65,8 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 
 ```
 - [ ] After close. No orders.
+- [ ] REGIME block versus the morning read
+- [ ] Score the prediction ledger: real W-L, paper W-L, SAVE vs MISSED-WINNER by gate. Do not add a veto from this pass
 - [ ] Catalyst cards + next_day_prep.md
 - [ ] `business-tape-interpret` `## Business tape` after capture. Fail if missing.
 - [ ] `print-readthrough-t1` table after every 0d AMC/BMO (TICKET or SKIP per peer). Fail if missing.
@@ -77,6 +82,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 - [ ] TICKET / SKIP / HOLE (`list-to-ticket`)
 - [ ] One next-pick strategy that shares the cause — not the already-ripped name
 - [ ] Write `agents/ssr-st/workspace/Documents/daily_lessons/YYYY-MM-DD.md`
+- [ ] 20-session scorecard (real vs paper, gate audit, calibration). A gate change needs N ≥ 8 and retires one rule. Do not loosen EM > 15% + all-four without the user
 - [ ] Wait for go
 ```
 

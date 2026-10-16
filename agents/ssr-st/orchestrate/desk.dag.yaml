@@ -37,6 +37,8 @@ orchestration:
     list_tickets: payload.list_tickets
     nbt_five: payload.nbt_five
     ranked_plan: payload.ranked_plan
+    regime: payload.regime
+    paper_picks: payload.paper_picks
     strategy_test: payload.strategy_test
 
   on_fail:

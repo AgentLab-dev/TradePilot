@@ -19,22 +19,22 @@ stay where they are.
 
 | Skill | Role |
 |---|---|
-| [`skills/daily-desk-lessons/`](skills/daily-desk-lessons/SKILL.md) | Harvest lessons, ≥1 new-feature row, gate print picks, print-readthrough T+1, Sheet, next-best, deliver |
-| [`skills/daily-new-feature/`](skills/daily-new-feature/SKILL.md) | ≥1 row/day on Sheet tab `new-feature` (`date \| new-feature \| strategy \| lesson`) |
+| [`skills/daily-desk-lessons/`](skills/daily-desk-lessons/SKILL.md) | 20-session scorecard, calibration, N≥8 gate rule, then lessons, new-feature, gate, Sheet, next-best |
+| [`skills/daily-new-feature/`](skills/daily-new-feature/SKILL.md) | ≥1 row/day on Sheet tab `new-feature`; a new veto needs N≥8 and retires a rule |
 | [`skills/desk-sources-capture/`](skills/desk-sources-capture/SKILL.md) | IBD → WSJ → MW → Whale → Reddit SOCIAL-ONLY; access line; never Reddit-alone TAKE |
-| [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; event-gate T+1 prints; print-readthrough-t1 peer table; Sheet if book changed; deliver |
+| [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; REGIME vs morning; score ledger picks; event-gate; print-readthrough; Sheet if book changed |
 | [`skills/print-readthrough-t1/`](skills/print-readthrough-t1/SKILL.md) | After 0d AMC/BMO, if-then first-30 on unripped sleeve peers (ORCL→HPE miss) |
 | [`skills/business-tape-interpret/`](skills/business-tape-interpret/SKILL.md) | After capture, APPLY block: regime, payer vs paid, Reddit nominated (never alone TAKE) |
-| [`skills/event-gate-test/`](skills/event-gate-test/SKILL.md) | NEWS+4Q+10w; AH≤−5% first-30 veto; Soft-EM complement; `EVENT-GATE TEST` line |
-| [`skills/five-new-nbt/`](skills/five-new-nbt/SKILL.md) | 5 NEW all-four + EM>15%; print-readthrough T+1; sources; gate; miss-catch; Sheet; wait for go |
+| [`skills/event-gate-test/`](skills/event-gate-test/SKILL.md) | NEWS+4Q+10w; AH≤−5% veto; EM vs realized; lean and P%; new veto only with N≥8 and a retirement |
+| [`skills/five-new-nbt/`](skills/five-new-nbt/SKILL.md) | 5 NEW all-four + EM>15%; regime; checklist; top 3 paper picks; print-readthrough; Sheet; wait for go |
 | [`skills/desk-supervisor/`](skills/desk-supervisor/SKILL.md) | FULLCHECK / FLAGS / NBT DAG; roles never call each other; wait for go |
 | [`skills/desk-tester/`](skills/desk-tester/SKILL.md) | Backtest + strategy score 1–10 before publish; recross once; second fail publishes score for review |
-| [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK battery (human checklist); load desk-supervisor graph FULLCHECK |
+| [`skills/full-check/`](skills/full-check/SKILL.md) | 12-step FULL CHECK; regime first; checklist; paper-pick ledger; graph FULLCHECK |
 | [`skills/imessage-desk-post/`](skills/imessage-desk-post/SKILL.md) | Short iMessage to most recent sender; GChat TradePilot fallback as `hr@solutionlabs.ai` |
-| [`skills/miss-catch-sleeves/`](skills/miss-catch-sleeves/SKILL.md) | Sleeves A Soft-EM 10–15% / B T+1 clock / C MANAGE flatten / D known-catalyst |
-| [`skills/rank-next-best/`](skills/rank-next-best/SKILL.md) | Rank take/arm/stand-down; gate first; EM; Three Good ≠ call-debit veto; one-name; go |
+| [`skills/miss-catch-sleeves/`](skills/miss-catch-sleeves/SKILL.md) | Sleeves A/B/C/D; checklist and paper log on candidates; no new sub-rule without N≥8 |
+| [`skills/rank-next-best/`](skills/rank-next-best/SKILL.md) | Gate first; incomplete ranks below STAND; EV per dollar, regime haircut, calibration shrink |
 | [`skills/reconnect-dow-jones-desk-portals/`](skills/reconnect-dow-jones-desk-portals/SKILL.md) | Box Chrome Dow Jones SSO (`hr@solutionlabs.ai`); never store passwords; then recapture |
-| [`skills/sheet-latest-update/`](skills/sheet-latest-update/SKILL.md) | Tab `TradePilot-26Q3` full columns; flip Y→N; sort Y on top; why comments; no skeletons |
+| [`skills/sheet-latest-update/`](skills/sheet-latest-update/SKILL.md) | Tab `TradePilot-26Q3` full columns; flip Y→N; if the cell-write is blocked, `y_rows` + ledger + `SHEET STALE` |
 
 ## Delivery
 

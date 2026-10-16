@@ -27,6 +27,7 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 ## Sweep (in order)
 
 1. **Close + AH tape** — book + SPY/QQQ/SMH/VXX/10Y + notable AH movers. State % vs prior close.
+   Then the full `REGIME` block (trend vs 20d/50d, VIX band and 5d change, 10Y and 5d bp, RSP vs SPY breadth, leader/laggard ETF) and whether the verdict changed versus the morning read.
 2. **Desk sources capture** — IBD → WSJ → MW → Barron's → Yahoo `https://finance.yahoo.com/` → `whale_check.py` → Reddit SOCIAL-ONLY.
    Write `desk_sources_YYYY-MM-DD.md`. Print the access line.
 3. **Event gate on T+1 prints** — Load `event-gate-test` for every T+1 earnings,
@@ -46,7 +47,15 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
    write, fill the **full** column set (`is_latest=Y`, flags, EM, structure, clocks,
    comments). Also write `new-feature` if a lesson landed (`daily-new-feature`).
 6. **Next-day prep** — Regime, book status, tomorrow's #1 focus, levels, offense + defense.
-7. **Deliver** — Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback.
+7. **Scorecard + post-mortem** — from the prediction ledger
+   (`agents/ssr-st/workspace/Documents/tradepilot-ledger.csv`, or
+   `/workspace/tradepilot-ledger.csv` on the Grok Bot box) and actual closes.
+   Do not invent fills.
+   - Score every real ticket and paper pick whose horizon ended or whose stop or target was touched: `HIT-TARGET | HIT-STOP | EXPIRED +x% | EXPIRED −x%`, underlying return, and SPY over the same window.
+   - Score today's STAND / veto names: `SAVE` (called direction fell or lagged SPY) or `MISSED-WINNER` (more than +5% and beat SPY in the called direction). Count both by the gate that blocked the name.
+   - One line per loss and per missed winner: thesis, timing, gate, sizing, or stale data.
+   - Hand the lines to daily desk lessons. Do not invent a new veto here.
+8. **Deliver** — Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback. Same channels as before.
 
 ## Output
 
@@ -54,7 +63,8 @@ unless an AMC print just landed. User triggers: evening wrap / EOD / prepare for
 # Evening wrap — <weekday, date>  (<time> PT)
 
 ## TL;DR
-- Regime / book / tomorrow's #1
+- REGIME verdict vs the morning read / book / tomorrow's #1
+- Scorecard: real W-L · paper W-L · saves · missed winners
 
 ## Close + AH
 ## Desk sources
@@ -67,6 +77,7 @@ Access: IBD|WSJ|MW|Whale|Reddit|ApeWisdom OK/SKIP
 ## Print read-through T+1 (required after any 0d AMC/BMO)
 ## Sheet latest (written | skipped — no book change)
 ## Next-day prep
+## Scorecard + post-mortem
 ```
 
 Also overwrite pack files when this checkout is the runtime: `catalyst_cards.md`,
@@ -81,3 +92,4 @@ Also overwrite pack files when this checkout is the runtime: `catalyst_cards.md`
 5. CREDITS rates sleeve stays separate.
 6. Do not delete `agents/ssr-st/commands/EVENING_WRAP.md`.
 7. **Print read-through table required** after any 0d AMC/BMO. Fail the wrap if it is missing.
+8. **REGIME block and the scorecard line** are required. Fail the wrap if either is missing. Do not add a veto from this pass.

@@ -18,7 +18,8 @@ only"), then write the **next-pick strategy** from that cause.
 Public practice (unusual-volume / journal reviews): scan **at fixed clocks**,
 do not rank on % alone, require a catalyst + liquidity, do not chase a stale
 gap, write **one lesson per day**, change at most one process rule from the
-consolidated note.
+consolidated note. That change needs N ≥ 8 cases over ≥ 10 sessions and retires
+one existing rule. Do not loosen EM > 15% + all-four without the user.
 
 ## Clocks (America/Los_Angeles)
 
@@ -77,7 +78,8 @@ Reddit SOCIAL-ONLY, `ibd_stock_lists.md`. % alone is not a lesson.
 6. **Next-pick strategy** — one TICKET that **shares the cause** (next analog
    in the same industry or next print with the same setup), with structure,
    cap, clock. Not the already-ripped name. Not a recycled leftover.
-7. **Skill delta** — one line if a rule must change. Else "none".
+7. **Skill delta** — one line if a rule must change, with the scorecard count (N ≥ 8) and the rule it retires. Else "none".
+8. **Scorecard** — 20-session line from the prediction ledger: real and paper hit rate and excess vs SPY, SAVE vs MISSED-WINNER by gate, calibration buckets and Brier. Write `agents/ssr-st/workspace/Documents/scorecard_YYYY-MM-DD.md` when the consolidated lesson runs. Playbook: `docs/grokbot-desk/skills/daily-desk-lessons/SKILL.md`.
 
 ## Fail the run if
 
@@ -88,5 +90,6 @@ Reddit SOCIAL-ONLY, `ibd_stock_lists.md`. % alone is not a lesson.
 - A HOLE row is not copied into `agent_learning_log.md` the same day.
 - A 0d AMC/BMO is live and the publish has no `print-readthrough-t1` mapped-peer table.
 - Capture ran and the publish has no `## Business tape` block (`business-tape-interpret`).
+- The 10:00, 15:00, or consolidated lesson has no scorecard line (N=0 is a valid line when the ledger is empty).
 
 No orders. Wait for **go** on any TICKET.

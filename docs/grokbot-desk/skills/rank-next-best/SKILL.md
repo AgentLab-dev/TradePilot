@@ -52,6 +52,14 @@ Refuse to rank if today's desk-sources access line is missing.
 7. **Clocks** — First-30 is 9:30–10:00 ET. No go before 9:30 = miss (DE/WMT/INTU).
    Same-session flatten on catalyst debits. Do not rank a first-30 ticket after
    the clock is dead.
+8. **Pre-trade checklist** — a card without thesis, catalyst, entry/stop/target,
+   R:R ≥ 2:1 on the underlying and the structure, size, and P% is `INCOMPLETE`
+   and ranks below every STAND. `tradepilot.desk_process.rank_cards`.
+9. **Expected value** — among complete cards, rank by P×gain − (1−P)×loss per
+   dollar risked. RISK-OFF halves bullish EV. Shrink P by the lessons
+   calibration factor when a bucket with N ≥ 8 is over-confident by more than
+   15 percentage points (`shrink_factor`). Sheet plan still breaks ties and
+   still forbids a new structure that fights the live row.
 
 ## Output (every ranked row)
 
@@ -64,14 +72,16 @@ Each row is **take / arm / stand-down** and must include:
 | Structure | debit/credit, strikes, expiry, **cap** |
 | Clock | first-30 / T+1 / MANAGE / none |
 | Gate | `EVENT-GATE TEST` verdict or `clean` |
-| Why | one line (Sheet plan / EM / STNOW+whale / clock) |
+| Levels | entry, stop, target, R:R |
+| Size / P% | max loss vs the 1% / 0.5% cap, and `P=xx%` |
+| Why | one line (Sheet plan / EM / STNOW+whale / clock / EV) |
 
 **"No credit sell" is not a row.** If you stand down, still show the structure you
 would have used if the trigger printed.
 
 ```markdown
 ## Ranked plan
-1. 🟢 take  <TICKER>  <structure>  cap <$>  clock <…>  gate <…>
+1. 🟢 take  <TICKER>  <structure>  cap <$>  clock <…>  gate <…>  entry/stop/target  R:R  size  P%
 2. 🟡 arm   …
 3. 🔴 stand-down …
 WAIT FOR GO
@@ -87,3 +97,4 @@ WAIT FOR GO
 6. **Wait for go.** This skill never places.
 7. CREDITS rates sleeve ranks in its own block, never as equity `#1`.
 8. Reddit / miss-catch D cannot become `#1` without all-four + EM > 15%.
+9. **Incomplete cards rank last.** Event gate still kills a take before EV is considered.

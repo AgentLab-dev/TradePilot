@@ -108,6 +108,16 @@ Forbidden:
 
 If you cannot fill the row, do not write it. Fix the battery first.
 
+## When the cell-write is blocked
+
+If no Sheets cell-write path works, do this once and move on:
+
+1. Write a paste-ready `y_rows.csv` (and `.tsv` if the parent run already emits one) with the full column set.
+2. Append the same TAKE / ARM / Soft-ARM rows and the top 3 paper picks to the prediction ledger.
+3. Mark the desk output `SHEET STALE (last write YYYY-MM-DD)`.
+
+Later runs read the ledger and the latest local `y_rows` until a write succeeds. Do not re-probe a path that failed on the previous run. This does not cancel a BigQuery `daily_top5` load when that path is up, and it does not change `create_daily_top5.py`. Evening wrap and lessons still skip the Sheet when the book did not change.
+
 ## Hard rules
 
 1. **Mandatory** after FULL CHECK / NBT / wrap / lessons **with picks**.
@@ -119,3 +129,4 @@ If you cannot fill the row, do not write it. Fix the battery first.
 7. CREDITS rows stay `sleeves=CREDITS` and do not overwrite equity NBT `Y` rows
    unless the equity clock is actually dead.
 8. This write is not an order. Wait for **go**.
+9. **Blocked cell-write:** paste-ready `y_rows`, ledger append, `SHEET STALE`, and no re-probe. Do not skip a write that the path can still complete.

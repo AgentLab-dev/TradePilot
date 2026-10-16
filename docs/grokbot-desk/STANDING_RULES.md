@@ -58,6 +58,22 @@ FULL CHECK, NBT, and tickets are **read-only until the user says go**. Surface t
 
 News-portal skills (**Reconnect Dow Jones desk portals**, **Desk sources capture**) are shared for every assistant — any agent may use the Dow Jones / IBD / WSJ / MW / Reddit capture path on the shared box Chrome session.
 
+## Market regime (every FULL CHECK, NBT, wrap, and lesson)
+
+First block, before ticker work: trend vs the 20-day and 50-day averages, VIX level and 5-day change, 10Y level and 5-day bp change, breadth (RSP vs SPY and the share of watch names above the 50-day), and the leading and lagging sector ETFs. Verdict is `RISK-ON`, `NEUTRAL`, or `RISK-OFF`. Stale inputs are labeled `STALE`. RISK-OFF halves bullish size. VIX >20 prefers spreads and wider stops.
+
+## Pre-trade checklist
+
+Every TAKE / ARM / Soft-ARM and every paper pick has a thesis, catalyst, entry/stop/target, at least 2:1 risk-reward on the underlying and the structure, implied versus realized move, size (≤1% of risk, ≤0.5% in RISK-OFF or VIX >25), and a logged probability on a 5-point step with positive expected value. An incomplete card cannot rank above STAND.
+
+## Prediction ledger
+
+Every FULL CHECK and NBT appends armed cards and the top 3 directional paper picks, including a run that arms nothing. Checkout path: `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv`. Grok Bot box path: `/workspace/tradepilot-ledger.csv`. Do not edit past prediction cells. Evening wrap and lessons score them.
+
+## Gate changes
+
+A gate changes only with at least 8 cases over at least 10 sessions. Adding a rule retires one. Flag `LOOSEN?` when misses exceed saves over 20 sessions, and leave the change to the user. Saves at least twice misses means the gate stays. **EM > 15% and all-four is not loosened without an explicit user OK.** In `tradepilot.desk_process` that rule id is `em_gt_15_all_four`.
+
 ## Delivery
 
 Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback.

@@ -11,3 +11,5 @@ Business tape: `agents/ssr-st/skills/business-tape-interpret/SKILL.md` (required
 - Evening wrap always writes `## Consolidated`.
 
 Write `agents/ssr-st/workspace/Documents/daily_lessons/YYYY-MM-DD.md`. For **known list names and their industries**, record what went up or down, **what exactly helped the move**, and the next-pick strategy that shares that cause. Also log ≥20% / ≤−20% anywhere (penny spikes are a footnote). Append HOLE rows to `agent_learning_log.md`. No orders. Wait for **go**.
+
+The consolidated lesson also carries the 20-session scorecard from `docs/grokbot-desk/skills/daily-desk-lessons/SKILL.md` (real and paper separate, gate SAVE vs MISSED-WINNER, calibration). A process-rule change needs N ≥ 8 and retires one existing rule. Do not loosen EM > 15% + all-four without the user.
