@@ -61,9 +61,11 @@ Write `agents/ssr-st/workspace/Documents/scorecard_YYYY-MM-DD.md` and put the on
    print (T+0 / T+1 earnings, investor / analyst / capital-markets day, CPI/PPI/PCE/FOMC)
    gets a NEWS + 4Q + 10w line **and** the live AH ≤ −5% first-30 veto. No credit into an
    untested print. Beat ≠ green.
-4. **Sheet latest update (full columns)** — If the book, flags, EM, structure, clocks, or
-   comments changed, write the **full** latest row on tab `TradePilot-26Q3`
+4. **Sheet latest update (full columns)** — Write the **full** latest row on tab
+   `TradePilot-26Q3` every lesson, including when the book did not change
    (`is_latest=Y`, flags, EM, structure, clocks, comments). Partial rows are a miss.
+   `execution_date` is the trade session. `written_at` is the write time. If the
+   cell-write is blocked, use `SHEET STALE` and still append the ledger.
 5. **Next-best picks** — Surface the current NBT / first-30 / stand-down list from
    Five-new NBT + overnight cards. Hard NBT still requires all-four + EM > 15%. Label
    🟢 take / 🟡 arm / 🔴 stand-down. Each armed card and each paper pick carries the
@@ -98,7 +100,7 @@ REGIME | …
 - EVENT-GATE TEST <TICKER>: NEWS=… | 4Q=… | 10w=… | AH=… | VERDICT=STAND|ARM|RE-ARM T+1
 
 ## Sheet latest
-- full-columns written | skipped (no book change)
+- full-columns written | SHEET STALE (ledger appended)
 
 ## Next-best picks
 - 🟢 / 🟡 / 🔴 + structure + clock + wait for go

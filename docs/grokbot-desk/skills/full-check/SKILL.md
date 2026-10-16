@@ -155,10 +155,11 @@ REGIME | trend: … | VIX … | 10Y … | breadth: … | leaders: … | verdict:
 8. Do not delete `agents/ssr-st/commands/FULLCHECK.md` or the rest of that folder.
 9. **Print read-through table on every daily publish** after a 0d AMC/BMO. Fail if missing.
 10. **Business tape on every daily publish** after capture. Fail if missing.
-11. **REGIME block before ticker work.** Fail the run if the verdict is missing.
-12. **Checklist on every TAKE / ARM / Soft-ARM and every paper pick.** An incomplete card cannot rank above STAND.
-13. **Top 3 paper picks appended to the ledger** on every run, including a zero-arm run.
+11. **REGIME block before ticker work.** If the verdict is missing, deliver the note with `MISSING-FIELDS: regime`. Do not fail the role and do not halt the graph.
+12. **Checklist on every TAKE / ARM / Soft-ARM and every paper pick.** An incomplete card cannot rank above STAND. Missing entry, stop, or target is `MISSING-FIELDS: checklist levels` on the delivered note, not a graph halt.
+13. **Top 3 paper picks appended to the ledger** on every run, including a zero-arm run. If they are missing, deliver with `MISSING-FIELDS: paper picks`. Do not halt.
 14. **Hard five stays EM > 15% and all-four.** This update does not loosen it.
+15. **Gate line fields.** A tested name missing `EM vs realized`, `lean`, or `P%` is `MISSING-FIELDS: gate fields` on the delivered note. The run still delivers. A missing `EVENT-GATE TEST` line is still a fail.
 
 ## Delivery
 

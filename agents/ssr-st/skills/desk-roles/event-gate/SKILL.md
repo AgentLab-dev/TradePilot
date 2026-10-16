@@ -24,4 +24,7 @@ The line keeps the ticker-first form and adds `EM vs realized` and `lean` / `P%`
 - Named T+0/T+1 or elevated-IV name has no `EVENT-GATE TEST` line
 - Credit routed through an untested print
 - AH ≤ −5% and first-30 still armed
-- Tested name missing `EM vs realized` or `lean` / `P%`
+
+## Missing gate fields
+
+A tested name missing `EM vs realized`, `lean`, or `P%` still delivers. Status stays `ok`. Print `MISSING-FIELDS: gate fields`. Do not halt the graph. Do not import the one-anchor veto catalog.

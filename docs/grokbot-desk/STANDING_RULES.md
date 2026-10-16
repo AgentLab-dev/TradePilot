@@ -74,6 +74,14 @@ Every FULL CHECK and NBT appends armed cards and the top 3 directional paper pic
 
 A gate changes only with at least 8 cases over at least 10 sessions. Adding a rule retires one. Flag `LOOSEN?` when misses exceed saves over 20 sessions, and leave the change to the user. Saves at least twice misses means the gate stays. **EM > 15% and all-four is not loosened without an explicit user OK.** In `tradepilot.desk_process` that rule id is `em_gt_15_all_four`.
 
+## Sheet on wrap and lessons
+
+Evening wrap and daily desk lessons write TradePilot-26Q3 on every run, including when the book is unchanged, so the ledger has no gap. `execution_date` is the trade session (`YYYY-MM-DD`). The write time is `written_at` in `create_daily_top5.py`. Leave that script as it is. If the cell-write is blocked, tag `SHEET STALE` and still append the ledger. Do not re-probe a failed cell-write.
+
+## Missing fields on FULL CHECK and NBT
+
+A missing regime, gate fields (`EM vs realized`, lean, P%), checklist levels, or paper picks still delivers the note. The line is `MISSING-FIELDS:` plus those names. The role stays `ok`. The desk graph does not halt. Do not import the one-anchor event-gate catalog or Miss-catch Sleeve A sub-rules 4–11.
+
 ## Delivery
 
 Grok Bot chat + iMessage (recent sender) + Google Chat TradePilot fallback.

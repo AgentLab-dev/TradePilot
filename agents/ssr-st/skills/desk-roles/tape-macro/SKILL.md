@@ -21,4 +21,7 @@ tape_macro: { spy, qqq, smh, vxx, ten_year, mangos, gics, sleeves: [GDX, IGV, SM
 
 - MANGOS omitted or n/a with no live-quote fallback
 - Only the 11 GICS ETFs ranked (need GDX · IGV · SMH · XOP · KRE)
-- FULLCHECK publish with no `regime` verdict
+
+## Missing regime
+
+A FULL CHECK or NBT with no regime verdict still delivers. Status stays `ok`. Print `MISSING-FIELDS: regime`. Do not halt the graph.

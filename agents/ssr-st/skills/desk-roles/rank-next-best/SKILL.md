@@ -26,4 +26,7 @@ Incomplete cards rank below STAND. Complete cards rank by expected value per dol
 - Ranked row omits STKK · STNOW · 3Good · Whale
 - `#1` is Reddit-only
 - Credit through a print / CPI / PCE / FOMC
-- TAKE / ARM missing entry, stop, target, R:R, size, or P%
+
+## Missing checklist levels
+
+A TAKE / ARM missing entry, stop, target, R:R, size, or P% still delivers. Status stays `ok`. Print `MISSING-FIELDS: checklist levels`. Do not halt the graph. An incomplete card still ranks below STAND.

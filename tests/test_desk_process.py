@@ -6,6 +6,7 @@ import pytest
 
 from tradepilot.desk_process import (
     HARD_FIVE_RULE,
+    NON_HALTING_FIELDS,
     LEDGER_COLUMNS,
     PREDICTION_COLUMNS,
     TradeCard,
@@ -24,6 +25,8 @@ from tradepilot.desk_process import (
     is_hit,
     log_run,
     loosen_flag,
+    publish_desk_note,
+    sheet_write_plan,
     rank_cards,
     read_regime,
     resolve_outcome,
@@ -460,6 +463,33 @@ def test_scorecard_keeps_real_and_paper_separate():
     assert line == "real 1-1 · paper 1-0 · saves 1 · missed winners 1"
     assert card["saves"] == 1
     assert card["real"]["n"] != card["paper"]["n"]
+
+
+def test_missing_fields_still_deliver_and_do_not_halt():
+    assert NON_HALTING_FIELDS == ("regime", "gate_fields", "checklist_levels", "paper_picks")
+    clear = publish_desk_note([])
+    assert clear == {"deliver": True, "halt": False, "status": "ok", "warning": ""}
+    noted = publish_desk_note(["paper_picks", "regime", "checklist_levels", "gate_fields"])
+    assert noted["deliver"] is True
+    assert noted["halt"] is False
+    assert noted["status"] == "ok"
+    assert noted["warning"] == "MISSING-FIELDS: regime, gate fields, checklist levels, paper picks"
+    with pytest.raises(ValueError):
+        publish_desk_note(["business_tape"])
+
+
+def test_wrap_and_lessons_write_sheet_when_the_book_is_unchanged():
+    for run in ("evening-wrap", "daily-desk-lessons"):
+        unchanged = sheet_write_plan(run=run, book_changed=False, cell_write_blocked=False)
+        assert unchanged["write_sheet"] is True
+        assert unchanged["append_ledger"] is True
+        assert unchanged["tag"] == ""
+        blocked = sheet_write_plan(run=run, book_changed=False, cell_write_blocked=True)
+        assert blocked["write_sheet"] is False
+        assert blocked["append_ledger"] is True
+        assert blocked["tag"] == "SHEET STALE"
+    with pytest.raises(ValueError):
+        sheet_write_plan(run="full-check", book_changed=True, cell_write_blocked=False)
 
 
 def test_default_ledger_path_stays_in_the_documents_folder(monkeypatch):

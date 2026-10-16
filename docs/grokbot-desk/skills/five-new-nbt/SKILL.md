@@ -120,4 +120,4 @@ Partial Sheet updates are a miss.
 7. Do not open NBT into a known macro print (Warsh / CPI / FOMC) as credit.
 8. CREDITS rates sleeve is not an NBT slot.
 9. Do not delete `agents/ssr-st/commands/*`.
-10. **REGIME block, checklist, and 3 paper-pick ledger rows** on every NBT run. Hard five is still EM > 15% + all-four.
+10. **REGIME block, checklist, and 3 paper-pick ledger rows** on every NBT run. Hard five is still EM > 15% + all-four. If regime, gate fields, checklist levels, or paper picks are missing, deliver the note with a `MISSING-FIELDS:` line from `publish_desk_note`. Do not fail the role and do not halt the graph.

@@ -910,6 +910,61 @@ def build_scorecard(rows: list[dict[str, str]]) -> dict:
     }
 
 
+NON_HALTING_FIELDS = ("regime", "gate_fields", "checklist_levels", "paper_picks")
+
+_FIELD_LABELS = {
+    "regime": "regime",
+    "gate_fields": "gate fields",
+    "checklist_levels": "checklist levels",
+    "paper_picks": "paper picks",
+}
+
+# Wrap and lessons record a sheet row on every run, including an unchanged book.
+SHEET_ALWAYS_RUNS = frozenset({"evening-wrap", "daily-desk-lessons"})
+
+
+def publish_desk_note(missing: list[str] | tuple[str, ...] = ()) -> dict[str, object]:
+    """FULL CHECK and NBT still deliver when regime, gate, checklist, or picks are absent.
+
+    ``halt`` is always false and ``status`` stays ``ok``, so the desk graph
+    does not fail. The warning is empty when nothing is missing. Other standing
+    fails (credit through a print, a missing EVENT-GATE TEST line, Reddit-alone
+    TAKE) are outside this function.
+    """
+    unknown = [name for name in missing if name not in NON_HALTING_FIELDS]
+    if unknown:
+        raise ValueError(f"unknown desk field {unknown[0]}")
+    ordered = [name for name in NON_HALTING_FIELDS if name in set(missing)]
+    warning = ""
+    if ordered:
+        warning = "MISSING-FIELDS: " + ", ".join(_FIELD_LABELS[name] for name in ordered)
+    return {"deliver": True, "halt": False, "status": "ok", "warning": warning}
+
+
+def sheet_write_plan(*, run: str, book_changed: bool, cell_write_blocked: bool) -> dict[str, object]:
+    """Wrap and lessons always write, even when the book is unchanged.
+
+    A blocked cell-write does not skip the run: append the ledger and tag
+    ``SHEET STALE``. ``execution_date`` stays the trade session; this plan
+    does not set it. ``written_at`` in ``create_daily_top5.py`` is the write time.
+    """
+    if run not in SHEET_ALWAYS_RUNS:
+        raise ValueError(f"sheet_write_plan is for wrap and lessons, not {run}")
+    if cell_write_blocked:
+        return {
+            "write_sheet": False,
+            "append_ledger": True,
+            "tag": "SHEET STALE",
+            "book_changed": book_changed,
+        }
+    return {
+        "write_sheet": True,
+        "append_ledger": True,
+        "tag": "",
+        "book_changed": book_changed,
+    }
+
+
 def format_scorecard_line(scorecard: dict) -> str:
     real = scorecard["real"]
     paper = scorecard["paper"]

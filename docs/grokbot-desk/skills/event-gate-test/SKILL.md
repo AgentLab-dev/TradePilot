@@ -18,6 +18,8 @@ you run **before** a name stays on the board as a take or first-30 arm.
 
 From 2026-10-16: a new sub-rule needs the daily-desk-lessons scorecard (N ≥ 8 cases, saves and missed winners counted, over at least 10 sessions). Adding one rule retires or merges one. One anchor trade stays in the dated lesson. Tags are log-only unless that scorecard shows they saved money. The verdict line carries a directional lean and `P%` so a STAND can be scored. EM>15% + all-four is not loosened here.
 
+The one-anchor veto catalog (KNIFE, TROUGH-SKIP, HOLIDAY-WARM, REHEAT, and the rest of that list) is not part of this skill. Do not import it. The output line stays ticker-first.
+
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Complement: Soft-EM AH ≥ +5% **arms** a defined-risk debit — it does not sell credit.
 Overnight cards: pack `catalyst-overnight-plan` (structure still required; this skill

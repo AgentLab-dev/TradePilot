@@ -67,6 +67,10 @@ RoleResult { role, status: ok|warn|fail|needs_input|skipped, summary, payload, a
    - `fail` → **halt**, except `desk-tester` (see Recross below). Print the failing role + summary. Do not rank.
    - `needs_input` → only for **go** on `rank-next-best` / `desk-publish` when a ticket is live. Surface the ticket. Stop. Wait for the user to say **go**.
 
+## Missing regime, gate fields, checklist levels, or paper picks
+
+On FULL CHECK and NBT these four gaps are not `fail`. The role stays `ok`. The delivered note includes `MISSING-FIELDS:` naming `regime`, `gate fields`, `checklist levels`, and/or `paper picks` (`tradepilot.desk_process.publish_desk_note`, `halt` is false). Do not halt the graph. Credit through a print, a missing `EVENT-GATE TEST` line, and Reddit-alone TAKE stay `fail`.
+
 ## Recross (`desk-tester` fail only)
 
 `desk-tester` is the only role that may fail without an immediate halt.

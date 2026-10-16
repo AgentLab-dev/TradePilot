@@ -22,7 +22,7 @@ stay where they are.
 | [`skills/daily-desk-lessons/`](skills/daily-desk-lessons/SKILL.md) | 20-session scorecard, calibration, N≥8 gate rule, then lessons, new-feature, gate, Sheet, next-best |
 | [`skills/daily-new-feature/`](skills/daily-new-feature/SKILL.md) | ≥1 row/day on Sheet tab `new-feature`; a new veto needs N≥8 and retires a rule |
 | [`skills/desk-sources-capture/`](skills/desk-sources-capture/SKILL.md) | IBD → WSJ → MW → Whale → Reddit SOCIAL-ONLY; access line; never Reddit-alone TAKE |
-| [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; REGIME vs morning; score ledger picks; event-gate; print-readthrough; Sheet if book changed |
+| [`skills/evening-wrap/`](skills/evening-wrap/SKILL.md) | Post-close wrap; REGIME vs morning; score ledger picks; event-gate; print-readthrough; Sheet every run, or SHEET STALE |
 | [`skills/print-readthrough-t1/`](skills/print-readthrough-t1/SKILL.md) | After 0d AMC/BMO, if-then first-30 on unripped sleeve peers (ORCL→HPE miss) |
 | [`skills/business-tape-interpret/`](skills/business-tape-interpret/SKILL.md) | After capture, APPLY block: regime, payer vs paid, Reddit nominated (never alone TAKE) |
 | [`skills/event-gate-test/`](skills/event-gate-test/SKILL.md) | NEWS+4Q+10w; AH≤−5% veto; EM vs realized; lean and P%; new veto only with N≥8 and a retirement |

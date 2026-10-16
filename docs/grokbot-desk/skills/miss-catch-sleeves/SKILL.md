@@ -18,6 +18,8 @@ hard NBT slots.
 
 Each sleeve candidate carries the pre-trade checklist (thesis, levels, R:R ≥ 2:1, P%) and is logged to the prediction ledger as `paper` when it is not traded, so the evening wrap and lessons can count SAVE vs MISSED-WINNER for that sleeve. Do not add a sub-rule without that evidence (N ≥ 8, and adding one retires one). See daily desk lessons.
 
+Sleeve A sub-rules 4–11 from the 2026-10-16 pack (mid-band Soft-watch, EM-crush, weekend index-add, crypto-beta, and the rest) are not part of this skill. Do not import them.
+
 Standing rules: [`../../STANDING_RULES.md`](../../STANDING_RULES.md).
 Companions: [`../five-new-nbt/SKILL.md`](../five-new-nbt/SKILL.md),
 [`../event-gate-test/SKILL.md`](../event-gate-test/SKILL.md),

@@ -29,5 +29,7 @@ Hard five stays EM > 15% + all-four. Log `paper_picks` (top 3, including STAND n
 - Reddit-alone TAKE
 - Mix: all five are prints + book manage (FULLCHECK graph)
 - Recycled leftover five with no live unique-sleeve win
-- No REGIME verdict
-- No paper picks and no explicit shortfall when every card failed the checklist
+
+## Missing regime or paper picks
+
+No REGIME verdict, or no paper picks, still delivers. Status stays `ok`. Print `MISSING-FIELDS:` with `regime` and/or `paper picks`. Do not halt the graph. Use `publish_desk_note`.

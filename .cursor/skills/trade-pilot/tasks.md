@@ -25,7 +25,7 @@ Copy the matching checklist into the turn and tick it. Do not start a domain tas
 
 ```
 - [ ] Load `desk-supervisor` and run graph `FULLCHECK` (`agents/ssr-st/orchestrate/desk.dag.yaml`). Roles never call each other. `desk-tester` must score ≥6 before publish. Human checklist: agents/ssr-st/commands/FULLCHECK.md
-- [ ] REGIME block first (trend, VIX, 10Y, breadth, leaders → RISK-ON / NEUTRAL / RISK-OFF). Fail if missing
+- [ ] REGIME block first (trend, VIX, 10Y, breadth, leaders → RISK-ON / NEUTRAL / RISK-OFF). If regime, gate fields, checklist levels, or paper picks are missing, deliver with `MISSING-FIELDS:` and do not halt the graph
 - [ ] Pre-trade checklist on every TAKE / ARM / Soft-ARM and every paper pick (thesis, catalyst, entry/stop/target, R:R ≥ 2:1, EM vs realized, size, P%). Incomplete cannot rank above STAND
 - [ ] Append armed cards and the top 3 paper picks to `agents/ssr-st/workspace/Documents/tradepilot-ledger.csv` even when nothing is armed. Hard five stays EM > 15% + all-four
 - [ ] Step 8: `ibd-wsj-capture` live IBD lists (no paste); SelfIDB50 FFTY only if Sign In still blocks after Take Control
